@@ -3,10 +3,8 @@
 \usepackage[utf8]{inputenc}
 \usepackage[pdftex]{graphicx}
 \DeclareGraphicsExtensions{.png,.pdf}
+\graphicspath{{plots/}}
 \usepackage{hyperref}
-\usepackage{color}
-\definecolor{slateblue}{rgb}{0.07,0.07,0.488}
-\hypersetup{colorlinks=true,linkcolor=slateblue,anchorcolor=slateblue,citecolor=slateblue,filecolor=slateblue,urlcolor=slateblue,bookmarksnumbered=true,pdfview=FitB}
 \usepackage{url}
 \usepackage[round,sectionbib]{natbib}
 \bibliographystyle{abbrvnat}
@@ -14,12 +12,10 @@
 \usepackage[small]{titlesec}
 \renewcommand\familydefault{bch}
 
-
 \title{Product graphics}
 \author{Heike Hofmann and Hadley Wickham}
 \begin{document}
 \maketitle
-  
   
 \section{Introduction}
 
@@ -177,17 +173,12 @@ Basic principle of all area plots is area should be proportional to probability.
 \subsection{Plot templates}
 
 \begin{itemize}
-  \item {\bf Barchart}: (bars, v/h, width)
-  \item {\bf Histogram}: (bars, v/h, 0)
-  \item {\bf Stacked} barchart + (bars, h/v, zero)
-  \item {\bf Side by side}: (bins, v/h, zero) + barchart  (or possibly spines with width prop to number of bars inside) - that would  give different scales, or use nesting operator with standard barchart
-  \item {\bf Spineplot}: (spines, v/h, width)
-  \item {\bf Stacked} spineplot: spineplot + (bars, h/v, 0)
-  \item {\bf Spinogram}: (spines, v/h, 0)
-  \item {\bf Fluctuation} diagram: (flucts, both, total)
-  \item {\bf Stacked} fluctuation diagram: fluctuation + (spines, v/h, zero)
-  \item {\bf Mosaic} plots: (spines, v/h, width) + (bar, h/v, width) + ... (alternating)
-  \item {\bf Double-decker} plot: 
+  \item {\bf Stacked} barchart: 1 bar + $n-1$ spines in opposite direction.
+  \item {\bf Nested} barchart: $n$ bars.
+  \item {\bf Mosaic} plot: spines in alternating directions.  The 1d case has a special name, the spineplot.
+  \item {\bf Double-decker} plot: $n-1$ spines + 1 spine in opposite direction.
+  
+  \item {\bf Fluctuation} diagram: 
 \end{itemize}
 
 
@@ -201,7 +192,28 @@ The cascaded treemaps of \citet{lu:2008} is an idea that illustrates how the vio
 
 \subsubsection{Non-rectangular partitions}
 
-Pie charts fall out naturally, as bars in polar coordinates, with angle and radius instead of height and width. Corrections to calculation of area.  .  This is related to the infoslices of \citet{andrews:1998}, which only use half of the disk.  Figure~\ref{fig:polar} shows some examples of product plots in polar coordinates.
+Pie charts fall out naturally, as bars in polar coordinates, with angle and radius instead of height and width. And to ensure that counts stay proportional to areas, the square-root is taken of the y-axis. This is related to the infoslices of \citet{andrews:1998}, which only use half of the disk. Figure~\ref{fig:polar} shows some examples of product plots in polar coordinates.
+
+\begin{itemize}
+  \item Pie charts
+  \item Fourfold displays \citep{friendly:1995}
+  \item Bullseye chart
+\end{itemize}
+
+\begin{figure}[htbp]
+  \centering
+    \includegraphics[width=0.25\linewidth]{hb-vb-cartesian}%
+    \includegraphics[width=0.25\linewidth]{hb-vs-cartesian}%
+    \includegraphics[width=0.25\linewidth]{hs-hs-cartesian}%
+    \includegraphics[width=0.25\linewidth]{hs-vs-cartesian}
+
+    \includegraphics[width=0.25\linewidth]{hb-vb-polar}%
+    \includegraphics[width=0.25\linewidth]{hb-vs-polar}%
+    \includegraphics[width=0.25\linewidth]{hs-hs-polar}%
+    \includegraphics[width=0.25\linewidth]{hs-vs-polar}
+  \caption{}
+  \label{fig:polar}
+\end{figure}
 
 Circular treemaps of \citet{wetzel:2008} which use circles instead of rectangles, but is not space filling because you can not tile a circular region with circles. The radial displays of \citet{stasko:2000} deliberately keep the radius constant in order to relatively highlight the lower levels.  Similarly so does the fanlens of \citet{lou:2007}
 
@@ -223,15 +235,17 @@ $log(d(i,j)) = 1 + d_{\cdot j} + d_{i|j}$
 \section{Labelling}
 \label{sec:legends}
 
+Labelling these plots is particularly challenging.
+
 \begin{itemize}
   \item Additional info 
-  \begin{itemise}
+  \begin{itemize}
     \item colour (map of the market)
     \item texture (sieve plots)
     \item embedded plots (time series in lab escape)
     \item photographs
     \item text (tables)
-  \end{itemise}
+  \end{itemize}
   
   \item Display of hierarchy
   \begin{itemize}
