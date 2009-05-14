@@ -1,7 +1,6 @@
 # Polar coordinates
 
-h <- read.csv("../happy.csv")
-setwd("../code"); source("divide.r"); setwd("../paper")
+source("../load.r")
 
 shade <- list(
   aes(fill = sex),

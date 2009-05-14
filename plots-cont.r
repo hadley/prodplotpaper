@@ -1,5 +1,4 @@
-h <- read.csv("../happy.csv")
-setwd("../code"); source("divide.r"); setwd("../paper")
+source("../load.r")
 
 qplot(age, year, data = h)
 ggsave("plots/age-year.pdf", width = 4, height = 4)
