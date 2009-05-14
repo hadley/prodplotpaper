@@ -114,14 +114,15 @@ Binning.
 
 Convention when using binned continuous data is to remove the gap between regions.
 
+Give a few examples of non-traditional continuous-categorical plots.  Fluctuation diagram for exploring joint 2d distribution.  Mosaic for conditional.  Age and year distribution.  
+
+Cat + continuous.
+
 \subsection{Nested data}
 \label{sub:nested_data}
 
 \section{Display}
 \label{sec:display}
-
-
-The three plots above are special cases of $a(i, j) = w(i, j)^x * h(i, j)^y$.  $x + y = 1$.
 
 Perceptual constraints.  Best at comparing area when:
 
@@ -133,7 +134,7 @@ Perceptual constraints.  Best at comparing area when:
   \item One border is constant.
 \end{itemize}
 
-Impossible to simultaneously satisfy all constraints.  Every product plot requires the creator to trade off between these.
+Impossible to simultaneously satisfy all constraints.  Every product plot requires the creator to trade off between these.  We will focus our attention on rectangular partitions.  Special cases of $a(i, j) = w(i, j)^x * h(i, j)^y$,   $x + y = 1$.
 
 Restrictions on partitioning
 
@@ -221,16 +222,7 @@ Other non-rectangular treemaps have been proposed, such as the space-filling cur
 
 
 \section{Connection with log-linear models}
-\label{sec:models}
 
-
-
-which imply the obvious mapping between d(i, j) and a(i, j).  For >2d,
-the definitions generalise in the obvious, but the constraints become
-more complicated.
-
-$log(d(i,j)) = 1 + d_{i \cdot} + d_{j|i}$
-$log(d(i,j)) = 1 + d_{\cdot j} + d_{i|j}$
 
 \section{Labelling}
 \label{sec:legends}
