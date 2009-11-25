@@ -19,6 +19,9 @@
   
 \section{Introduction}
 
+% JASA methods
+% 
+
 
 The Grammar of Graphics [reference] is a grammar describing the components of statistical graphics and how they can be combined together.  These components are very flexible and can be used to describe any type of plot.  However, the book (Grammar with a capital G) does not present many examples of graphics for categorical data, and in those examples the use of the grammar gives little insight into plot.  This paper describes common categorical plots, and presents a specialisation of the Grammar of Graphics specifically designed to describe these types of plots and give insight into the types of relationships that they can show.  
 
@@ -134,15 +137,14 @@ Perceptual constraints.  Best at comparing area when:
   \item One border is constant.
 \end{itemize}
 
-Impossible to simultaneously satisfy all constraints.  Every product plot requires the creator to trade off between these.  We will focus our attention on rectangular partitions.  Special cases of $a(i, j) = w(i, j)^x * h(i, j)^y$,   $x + y = 1$.
+Impossible to simultaneously satisfy all constraints.  Every product plot requires the creator to trade off between these.  We will focus our attention on rectangular partitions.  Special cases of $h(i, j) = c(i, j)^x$ $w(i, j) = c(i, j)^y$,   $x + y = 1$.
 
 Restrictions on partitioning
 
 \begin{itemize}
   \item Area should be proportional to weight
-  \item Containment
+  \item Containment / Non-overlapping
   \item Rectangular
-  \item Non-overlapping
 \end{itemize}
 
 Pseudo 2d, where you take a long 1d structure and wrap it into 2d.
@@ -198,7 +200,7 @@ Pie charts fall out naturally, as bars in polar coordinates, with angle and radi
 \begin{itemize}
   \item Pie charts
   \item Fourfold displays \citep{friendly:1995}
-  \item Bullseye chart
+  \item Bullseye chart 
 \end{itemize}
 
 \begin{figure}[htbp]
@@ -234,9 +236,9 @@ Labelling these plots is particularly challenging.
   \begin{itemize}
     \item colour (map of the market)
     \item texture (sieve plots)
-    \item embedded plots (time series in lab escape)
     \item photographs
     \item text (tables)
+    \item embedded plots (time series in lab escape)
   \end{itemize}
   
   \item Display of hierarchy

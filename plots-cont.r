@@ -10,4 +10,9 @@ prodplot(h, ~ year_b + age_b) + aes(fill = age_b)
 prodplot(h, ~  age_b, ~ year_b) + aes(fill = age_b)
 prodplot(h, ~  age_b, ~ year_b, divider = list(hspline, vbar)) + aes(fill = age_b)
 
+
+prodplot(h, ~ year_b + age_b, divider = list(fluct))
+prodplot(h, ~ age_b, ~ year_b, divider = list(fluct))
+prodplot(h, ~ year_b, ~ age_b, divider = list(fluct))
+
 prodplot(h, ~  age_b, divider = list(vbar)) + aes(fill = age_b)
