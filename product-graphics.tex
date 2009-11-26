@@ -23,9 +23,17 @@
 % 
 
 
-The Grammar of Graphics [reference] is a grammar describing the components of statistical graphics and how they can be combined together.  These components are very flexible and can be used to describe any type of plot.  However, the book (Grammar with a capital G) does not present many examples of graphics for categorical data, and in those examples the use of the grammar gives little insight into plot.  This paper describes common categorical plots, and presents a specialisation of the Grammar of Graphics specifically designed to describe these types of plots and give insight into the types of relationships that they can show.  
+% The Grammar of Graphics [reference] describes the independent components of
+% statistical graphics and how they can be combined together. These components
+% are very flexible and can be used to describe any type of plot. However, the
+% book (Grammar with a capital G) does not present many examples of graphics
+% for categorical data, and in those examples the use of the grammar gives
+% little insight into plot. This paper describes common categorical plots, and
+% presents a specialisation of the Grammar of Graphics specifically designed
+% to describe these types of plots and give insight into the types of
+% relationships that they can show.
 
-Area plots [reference] display categorical data with a rectangle for each combination of the factors of interest, with the area of the rectangle proportional to the number of observations in that combination.  The layout of the rectangles give rise to the difference categorical plots that we are familiar with: bar charts, spine charts, mosaic plots, equal-bin-size plots, and fluctuation diagrams.  Trellis graphics are another type of display that uses categorical variables to create small multiples for different subsets of the data.  Visually, trellis graphics look like equal-bin-size plots with another plot drawn inside each bin.  Figure \ref{fig:cat-examples} illustrates some of these plots.
+Area plots [reference] display categorical data with a rectangle for each combination of the factors of interest, with the area of the rectangle proportional to the number of observations in that combination. The layout of the rectangles give rise to the difference categorical plots that we are familiar with: bar charts, spine charts, mosaic plots, equal-bin-size plots, and fluctuation diagrams. Trellis graphics are another type of display that uses categorical variables to create small multiples for different subsets of the data. Visually, trellis graphics look like equal-bin-size plots with another plot drawn inside each bin. Figure \ref{fig:cat-examples} illustrates some of these plots.
 
 \begin{figure}[htbp]
   \begin{center}
@@ -35,41 +43,6 @@ Area plots [reference] display categorical data with a rectangle for each combin
   \label{fig:cat-examples}
 \end{figure}
 
-Area plots are the graphical equivalent to contingency tables.  And like contingency tables, they can be used to display raw counts, or to display proportions or percentages.  Similarly, it may be useful to augment area plots with marginal displays as we augment contingency tables with marginal sums.
-
-Area plots different to other types of graphics, because must be able to flexible change level of aggregation.  Values are typically counts, but can also be sums of observation level weights.
-
-These techniques can also be used with continuous data, if the data is binned to create a categorical variable.  This gives rise to the histogram and spinogram, analogues of the bar chart and spine chart respectively.  A long standing tradition is that no gaps are displayed between adjacent rectangles when used for originally continuous data.  Two examples are shown in Figure \ref{fig:cont-examples}.
-
-\begin{figure}[htbp]
-  \begin{center}
-  \end{center}
-  \caption{Area plots of originally continuous data}
-  \label{fig:cont-examples}
-\end{figure}
-
-These techniques are also closely related to TreeMaps and dimensional stacking \citep{leblanc:1990}
-
-What are the common components of all these plots, and how can be describe them in a succinct way that also allows us to describe what tasks each display is good for?  We propose that there is one key feature that makes these plots special.  That is there their coordinate system, which is hierarchical.  
-
-In most coordinate systems that we are used to, such as Cartesian or polar coordinates, are symmetric in the sense that you can locate a point by starting from either dimension.  For example, in Cartesian coordinates you can identify either the x- or y-coordinate first, and the other next.  This also implies a distance symmetry when projected onto 2D Euclidean geometry. When you vary one coordinate by a small amount (holding all others constant) points in the projective geometry will be close.
-
-Neither of these properties hold for hierarchical coordinate systems. 
-
-We will discuss hierachical coordinate systems in general, and then present a specific hierachical coordinate system which gives rise to the area plots described previously.  We also present an R implementation, in the R package {\tt ggplot}.
-
-Related work:
-
-\citep{vliegen:2006}
-\citep{ahlberg:1996}
-
-
-\citep{hartigan:1984,hartigan:1981}
-\citep{friendly:1999,friendly:1994}
-\citep{theus:1999}
-\citep{hofmann:2000,hofmann:2001,hofmann:2003}
-
-Goals:
 
 \begin{itemize}
   \item Put all area plots (bar charts, spine plots, mosaic plots, fluctuation diagrams) on a common footing
@@ -85,13 +58,7 @@ Basic idea is factorising table of probabilities:
   \item as sums of parameters in log-linear models
 \end{itemize}
 
-
-\section{Data}
-\label{sec:data}
-
-To illustrate the techniques in this paper, we'll use a small sample from the general social survey ({\sc gss}) focussing on happiness.  51\,020 observations from a yearly survey from 1972 to 2006.  Happy, age, sex, marital status, terminal education level, relative financial status and health.  Also contains a weighting variable wtssall, which is a probability weight from the survey.
-
-\subsection{Factorising probabilities}
+Area plots are the graphical equivalent of contingency tables. Like contingency tables, they can be used to display raw counts, or conditioned and marginal breakdowns. Similarly, it may be useful to augment area plots with marginal displays as we augment contingency tables with marginal sums.  We can decompose these graphics in a similar way to the way we decompose products of probabilities.
 
 Let $f(x, y, z)$ be the 2d pmf function generated.  Can write this pmf as product of marginals and conditionals
 
@@ -101,28 +68,40 @@ Let $f(x, y, z)$ be the 2d pmf function generated.  Can write this pmf as produc
   \item $f(x, y, z) = f(x | y, z) f(y | z) f(z)$
 \end{itemize}
 
-Compare to area of mosaic plot.
+These techniques are also closely related to dimensional stacking \citep{leblanc:1990}
 
-One other special 2d case is the equal bin size plot - which all 1d x 1d primitive plots collapse down to when counts are equal.  The important difference is the formatting - a grid rather than nested boxes.
+Generalised treemaps: \citep{vliegen:2006}
+Cocktailmaps: \citep{ahlberg:1996}
+Mosaic plots: \citep{hartigan:1984,hartigan:1981,friendly:1994,hofmann:2003}
+Extension to mosaic: \citep{friendly:1999,hofmann:2000}
+Connection to models: \citep{theus:1999,hofmann:2001}
 
-\subsection{Weighting}
-\label{sub:weighting}
 
-We have assumed the probabilities represent counts, but WLOG we can use any set of non-negative additive weights instead.  Some of the applications of such weighted plots are described in \citet{unwin:2007}.
+% Hierarchical coordinate systems 
+%
+% What are the common components of all these plots, and how can be describe
+% them in a succinct way that also allows us to describe what tasks each
+% display is good for?  We propose that there is one key feature that makes
+% these plots special.  That is there their coordinate system, which is
+% hierarchical.  
+%
+% In most coordinate systems that we are used to, such as Cartesian or polar
+% coordinates, are symmetric in the sense that you can locate a point by
+% starting from either dimension.  For example, in Cartesian coordinates you
+% can identify either the x- or y-coordinate first, and the other next.  This
+% also implies a distance symmetry when projected onto 2D Euclidean geometry.
+% When you vary one coordinate by a small amount (holding all others constant)
+% points in the projective geometry will be close.
+%
+% Neither of these properties hold for hierarchical coordinate systems. 
+%
+% We will discuss hierachical coordinate systems in general, and then present
+% a specific hierachical coordinate system which gives rise to the area plots
+% described previously.  We also present an R implementation, in the R package
+% {\tt ggplot}.
 
-\subsection{Continuous data}
-\label{sub:continuous_data}
+To illustrate the techniques in this paper, we'll use a small sample from the general social survey ({\sc gss}) focussing on happiness. 51\,020 observations from a yearly survey from 1972 to 2006.  Happy, age, sex, marital status, terminal education level, relative financial status and health.  Also contains a weighting variable wtssall, which is a probability weight from the survey.
 
-Binning. 
-
-Convention when using binned continuous data is to remove the gap between regions.
-
-Give a few examples of non-traditional continuous-categorical plots.  Fluctuation diagram for exploring joint 2d distribution.  Mosaic for conditional.  Age and year distribution.  
-
-Cat + continuous.
-
-\subsection{Nested data}
-\label{sub:nested_data}
 
 \section{Display}
 \label{sec:display}
@@ -137,43 +116,52 @@ Perceptual constraints.  Best at comparing area when:
   \item One border is constant.
 \end{itemize}
 
-Impossible to simultaneously satisfy all constraints.  Every product plot requires the creator to trade off between these.  We will focus our attention on rectangular partitions.  Special cases of $h(i, j) = c(i, j)^x$ $w(i, j) = c(i, j)^y$,   $x + y = 1$.
+Impossible to simultaneously satisfy all constraints.  Every product plot requires the creator to trade off between these.  
 
-Restrictions on partitioning
+Constraints on partitioning
 
 \begin{itemize}
   \item Area should be proportional to weight
   \item Containment / Non-overlapping
-  \item Rectangular
 \end{itemize}
 
-Pseudo 2d, where you take a long 1d structure and wrap it into 2d.
+We will add one more constraint to reduce the space of possible
 
-Pseduo 1d, where you make a new variable from multiple variables.
+\begin{itemize}
+  \item Rectangular partitions
+\end{itemize}
+
+We will focus our attention on rectangular partitions.  In general,  $h(i, j) = c(i, j)^x$ $w(i, j) = c(i, j)^y$, $x + y = 1$.   Basic principle of all area plots is area should be proportional to probability. For the plots we are interested in, the shape used to represent the count is a rectangle, so that $a(i, j) = w(i, j) * h(i, j)$.
 
 \subsection{1d primitives}
 
 Space-filling vs. not space-filling.  Read length on common scale, vs. put more information in the display.
 
-Basic principle of all area plots is area should be proportional to probability. For the plots we are interested in, the shape used to represent the count is a rectangle, so that $a(i, j) = w(i, j) * h(i, j)$. Each plot type constrains this relationship in a different way:
+Each plot type constrains this relationship in a different way:
 
 \begin{itemize}
   \item {\bf bar}: height is proportional to value, width equally divides space. Bars allow comparison between absolute numbers.
 
   \item {\bf spine}: width is proportional to value, height equally divides space. Spines not useful at top level, but allow comparison of proportions at next level (ie. conditioned on top level values)
 
-  \item {\bf treemap}: no restrictions on height and width.
+  \item {\bf treemap}: no restrictions on height and width.   At first glance, it may seem strange to include the treemap as a 1d primitive, but it lays out a single variable in 2d dimensions, just like the other approaches.
 
 \end{itemize}
 
 \subsection{2d primitives}
 
+
 \begin{itemize}
-  \item {\bf fluct}: width and height proportional to square root of value. Flucts allow comparisons of (approximately) absolute numbers in two directions. 
+  \item {\bf fluct}: width and height proportional to square root of value. Flucts allow comparisons of absolute numbers in two directions. 
   
 \end{itemize}
 
+One special 2d case is the equal bin size plot - which all 1d x 1d primitives and the fluct collapse to when counts are equal. 
+
+
 \subsection{Plot templates}
+
+Plot templates combine the simple primitives into well-known graphics:
 
 \begin{itemize}
   \item {\bf Stacked} barchart: 1 bar + $n-1$ spines in opposite direction.
@@ -188,18 +176,29 @@ Basic principle of all area plots is area should be proportional to probability.
 
 \subsection{Violation of constraints}
 
-\subsubsection{Small values and zeros}
-\subsubsection{Cascading}
+\subsubsection{Area not proportional to weight}
+
+It can be useful to violate the constraint that area should be proportional to weight to distinguish between zeros and very small values.  A zero weight should have zero area, but giving it positive area can be useful so it's actually possible to see!  Similarly for very small values which would otherwise occupy less than a pixel, useful to constain to minimal perceptible size.
+
+Antony's zooming, where you also truncate the maximum size.
+
+Image.
+
+\subsubsection{Overlapping rectangles}
 
 The cascaded treemaps of \citet{lu:2008} is an idea that illustrates how the violation of containment can be productive.  In the cascaded treemap, each level is slightly offset from the one above to create a pseudo-3d perspective.
+
+Example
 
 \subsubsection{Non-rectangular partitions}
 
 Pie charts fall out naturally, as bars in polar coordinates, with angle and radius instead of height and width. And to ensure that counts stay proportional to areas, the square-root is taken of the y-axis. This is related to the infoslices of \citet{andrews:1998}, which only use half of the disk. Figure~\ref{fig:polar} shows some examples of product plots in polar coordinates.
 
+These displays generalise the fourfold displays of \citet{friendly:1995}. 
+
 \begin{itemize}
   \item Pie charts
-  \item Fourfold displays \citep{friendly:1995}
+  \item Nightingale
   \item Bullseye chart 
 \end{itemize}
 
@@ -222,14 +221,63 @@ Circular treemaps of \citet{wetzel:2008} which use circles instead of rectangles
 
 Other non-rectangular treemaps have been proposed, such as the space-filling curve approach of \citep{wattenberg:2005}, or the voronoi treemaps of \citep{wattenberg:2005}, but because of the perceptual difficultly of comparing areas of arbitrary polygons, these approaches tend to be attractive rather than useful.
 
+\section{Margining}
+\label{sec:margining}
+
+Mathematically defining margining operation.
+
 
 \section{Connection with log-linear models}
 
 
+\section{Variations}
+\label{sec:variations}
+
+% Pseudo 2d, where you take a long 1d structure and wrap it into 2d.
+% 
+% Pseduo 1d, where you make a new variable from multiple variables.
+
+
+\subsection{Weighting}
+\label{sub:weighting}
+
+We have assumed the probabilities represent counts, but without loss of generality we can use any set of non-negative, additive weights instead.  Some of the applications of such weighted plots are described in \citet{unwin:2007}.  Include a brief summary here.
+
+\subsection{Continuous data}
+\label{sub:continuous_data}
+
+These techniques can also be used with continuous data, if the data is binned to create a categorical variable. This gives rise to the histogram and spinogram, analogues of the bar chart and spine chart respectively. A long standing tradition is that no gaps are displayed between adjacent rectangles when used for originally continuous data. Two examples are shown in Figure \ref{fig:cont-examples}.
+
+\begin{figure}[htbp]
+  \begin{center}
+  \end{center}
+  \caption{Area plots of originally continuous data}
+  \label{fig:cont-examples}
+\end{figure}
+
+Give a few examples of non-traditional continuous-categorical plots.  Fluctuation diagram for exploring joint 2d distribution.  Mosaic for conditional.  Age and year distribution.  
+
+Cat + continuous.
+
+\subsection{Nested data}
+\label{sub:nested_data}
+
+We distinguish nested data from crossed data by the number of interactions with missing values.  Completely crossed data contains every combination of all variables.  Nested data contains 
+
+Aka sparse vs. dense.
+
+It is not always possible to determine nested data from inspection of the data alone, but may need knowledge of the data collection.  For example, if a survey of teachers within schools was performed, and each teacher was identified by a identifier unique within a school, it might look like the data was only missing a few combinations, when in fact it is meaningless.  
+
+Or when you have a hierarchy.
+
+Example dataset
+
+Possibilities: create new variable which is interaction of nested vars, or drop missings/zeros.  Treemaps deal almost exclusively with nested data.
+
 \section{Labelling}
 \label{sec:legends}
 
-Labelling these plots is particularly challenging.
+Labelling these plots is particularly challenging.  Future work!
 
 \begin{itemize}
   \item Additional info 
@@ -249,6 +297,11 @@ Labelling these plots is particularly challenging.
     \item Labelling
   \end{itemize}
 \end{itemize}
+
+\section{Conclusions} % (fold)
+\label{sec:conclusions}
+
+% section conclusions (end)
 
 % bibtool -x product-graphics -o references.bib
 \bibliography{references}
