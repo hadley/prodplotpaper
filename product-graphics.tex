@@ -13,27 +13,30 @@
 \renewcommand\familydefault{bch}
 
 \title{Product graphics}
-\author{Heike Hofmann and Hadley Wickham}
+\author{Hadley Wickham and Heike Hofmann}
 \begin{document}
 \maketitle
   
 \section{Introduction}
 
 % JASA methods
+% Infovis?
+
+% Aims of this paper:
+%
+%  * emphasise the connection between area products and factorising 
+%    probabilities
 % 
+%  * pull all area plots on a common footing - provide a grammar for 
+%    categorical graphics
 
+Area plots are the graphical equivalent of contingency tables, displaying how a total is broken down into components.  
 
-% The Grammar of Graphics [reference] describes the independent components of
-% statistical graphics and how they can be combined together. These components
-% are very flexible and can be used to describe any type of plot. However, the
-% book (Grammar with a capital G) does not present many examples of graphics
-% for categorical data, and in those examples the use of the grammar gives
-% little insight into plot. This paper describes common categorical plots, and
-% presents a specialisation of the Grammar of Graphics specifically designed
-% to describe these types of plots and give insight into the types of
-% relationships that they can show.
+display categorical data with a rectangle for each combination of the factors of interest, with the area of the rectangle proportional to the number of observations in that combination. 
 
-Area plots [reference] display categorical data with a rectangle for each combination of the factors of interest, with the area of the rectangle proportional to the number of observations in that combination. The layout of the rectangles give rise to the difference categorical plots that we are familiar with: bar charts, spine charts, mosaic plots, equal-bin-size plots, and fluctuation diagrams. Trellis graphics are another type of display that uses categorical variables to create small multiples for different subsets of the data. Visually, trellis graphics look like equal-bin-size plots with another plot drawn inside each bin. Figure \ref{fig:cat-examples} illustrates some of these plots.
+The layout of the rectangles give rise to the difference categorical plots that we are familiar with: bar charts, spine charts, mosaic plots \citep{hartigan:1984,hartigan:1981,friendly:1994,hofmann:2003},  equal-bin-size plots, and fluctuation diagrams. Trellis graphics are another type of display that uses categorical variables to create small multiples for different subsets of the data. Visually, trellis graphics look like equal-bin-size plots with another plot drawn inside each bin. 
+
+Figure \ref{fig:cat-examples} illustrates some of these plots.
 
 \begin{figure}[htbp]
   \begin{center}
@@ -43,12 +46,7 @@ Area plots [reference] display categorical data with a rectangle for each combin
   \label{fig:cat-examples}
 \end{figure}
 
-
-\begin{itemize}
-  \item Put all area plots (bar charts, spine plots, mosaic plots, fluctuation diagrams) on a common footing
-  \item Continue to build link between graphics and log-linear models
-  \item Provide tools for ``residuals and re-iteration''
-\end{itemize}  
+Hierarchical partitioning of space.
 
 Basic idea is factorising table of probabilities:
 
@@ -58,9 +56,7 @@ Basic idea is factorising table of probabilities:
   \item as sums of parameters in log-linear models
 \end{itemize}
 
-Area plots are the graphical equivalent of contingency tables. Like contingency tables, they can be used to display raw counts, or conditioned and marginal breakdowns. Similarly, it may be useful to augment area plots with marginal displays as we augment contingency tables with marginal sums.  We can decompose these graphics in a similar way to the way we decompose products of probabilities.
-
-Let $f(x, y, z)$ be the 2d pmf function generated.  Can write this pmf as product of marginals and conditionals
+Let $f(x, y, z)$ be the 3d pmf function.  We can can write this pmf as product of marginals and conditionals in many different ways.  We can decompose product graphics in a similar way.
 
 \begin{itemize}
   \item $f(x, y, z) = f(x, y | z) f(z)$
@@ -70,11 +66,12 @@ Let $f(x, y, z)$ be the 2d pmf function generated.  Can write this pmf as produc
 
 These techniques are also closely related to dimensional stacking \citep{leblanc:1990}
 
-Generalised treemaps: \citep{vliegen:2006}
-Cocktailmaps: \citep{ahlberg:1996}
-Mosaic plots: \citep{hartigan:1984,hartigan:1981,friendly:1994,hofmann:2003}
-Extension to mosaic: \citep{friendly:1999,hofmann:2000}
-Connection to models: \citep{theus:1999,hofmann:2001}
+% Other papers to cite:
+% 
+% Generalised treemaps: \citep{vliegen:2006}
+% Cocktailmaps: \citep{ahlberg:1996}
+% Extension to mosaic: \citep{friendly:1999,hofmann:2000}
+% Connection to models: \citep{theus:1999,hofmann:2001}
 
 
 % Hierarchical coordinate systems 
@@ -97,10 +94,20 @@ Connection to models: \citep{theus:1999,hofmann:2001}
 %
 % We will discuss hierachical coordinate systems in general, and then present
 % a specific hierachical coordinate system which gives rise to the area plots
-% described previously.  We also present an R implementation, in the R package
-% {\tt ggplot}.
+% described previously. 
 
-To illustrate the techniques in this paper, we'll use a small sample from the general social survey ({\sc gss}) focussing on happiness. 51\,020 observations from a yearly survey from 1972 to 2006.  Happy, age, sex, marital status, terminal education level, relative financial status and health.  Also contains a weighting variable wtssall, which is a probability weight from the survey.
+To illustrate these ideas, we'll use a small sample from the general social survey ({\sc gss}) focussing on happiness. 51\,020 observations from cross-section survey given yearly from 1972 to 2006.
+
+\begin{itemize}
+  \item Happy.  Discrete: ``very happy'', ``pretty happy'', ``not too happy''
+  \item Age (in years), 18--89.
+  \item Sex: ``female'', ``male''
+  \item Degree: ``lt high school'', ``high school'', ``junior college'', ``bachelor'', ``gradudate''
+  \item Relative financial status {\sf finrela}: ``far above average'', ``above average'', ``average'', ``below average'', ``far below average''
+  \item Health: ``excellent'', ``good'', ``fair'', ``poor''
+  \item Year: 1972--2006.
+  \item Probability weight ({\sf wtsall}): 0.43--6.42.
+\end{itemize}
 
 
 \section{Display}
