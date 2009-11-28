@@ -24,7 +24,7 @@
 
 % Aims of this paper:
 %
-%  * emphasise the connection between area products and factorising 
+%  * emphasise the connection between area graphics and factorising 
 %    probabilities
 % 
 %  * pull all area plots on a common footing - provide a grammar for 
@@ -32,9 +32,7 @@
 
 Area plots are the graphical equivalent of contingency tables, displaying how a total is broken down into components.  
 
-display categorical data with a rectangle for each combination of the factors of interest, with the area of the rectangle proportional to the number of observations in that combination. 
-
-The layout of the rectangles give rise to the difference categorical plots that we are familiar with: bar charts, spine charts, mosaic plots \citep{hartigan:1984,hartigan:1981,friendly:1994,hofmann:2003},  equal-bin-size plots, and fluctuation diagrams. Trellis graphics are another type of display that uses categorical variables to create small multiples for different subsets of the data. Visually, trellis graphics look like equal-bin-size plots with another plot drawn inside each bin. 
+display categorical data with a polygon, typically a rectangle, for each combination of the factors of interest, with the area proportional to the number of observations in that combination.  Because the total area for a graphic is usually constrained, an area plot serves to partition up this total, displaying proportions rather than counts.
 
 Figure \ref{fig:cat-examples} illustrates some of these plots.
 
@@ -63,6 +61,12 @@ Let $f(x, y, z)$ be the 3d pmf function.  We can can write this pmf as product o
   \item $f(x, y, z) = f(x | y, z) f(y, z)$
   \item $f(x, y, z) = f(x | y, z) f(y | z) f(z)$
 \end{itemize}
+
+It can be useful to display partial decompositions, i.e. just $f(x, y | z)$, which is still a 3 variable pmf, but each category of z sums to one.
+
+Because of their hierarchical nature, an area plot of $f(x, y, z)$ also shows $f(y, z)$ and $f(z)$.  
+
+By convention we will write the top most level of the product plot on the left, and lower levels to the right.  While $f(x, y, z)$ and $f(z, y, z)$ display the same counts, their interpretation is different because of which marginal tables you see.
 
 These techniques are also closely related to dimensional stacking \citep{leblanc:1990}
 
@@ -96,7 +100,21 @@ These techniques are also closely related to dimensional stacking \citep{leblanc
 % a specific hierachical coordinate system which gives rise to the area plots
 % described previously. 
 
-To illustrate these ideas, we'll use a small sample from the general social survey ({\sc gss}) focussing on happiness. 51\,020 observations from cross-section survey given yearly from 1972 to 2006.
+\section{Data}
+\label{sec:data}
+
+Two ways of representing data:
+
+\begin{itemize}
+  \item Multi-dimensional contingency table
+  \item Data frame, with column of counts
+\end{itemize}
+
+The two are equivalent, but it's usually easier to work with the data frame version, because variables are explicit.  Also deals better with sparsity and is common input to modelling algorithms.
+
+Define the conditioning operator which makes the distribution uniform.  
+
+In this paper, we'll use a small sample from the general social survey ({\sc gss}) focussing on happiness. 51\,020 observations from cross-section survey given yearly from 1972 to 2006.
 
 \begin{itemize}
   \item Happy.  Discrete: ``very happy'', ``pretty happy'', ``not too happy''
@@ -123,19 +141,21 @@ Perceptual constraints.  Best at comparing area when:
   \item One border is constant.
 \end{itemize}
 
+For recursive layout, need to be able to tile plane with space, and tile shape with shape.  
+
 Impossible to simultaneously satisfy all constraints.  Every product plot requires the creator to trade off between these.  
 
-Constraints on partitioning
+To simplify the problem, we'll initially work with three constraints on partitioning:
 
 \begin{itemize}
   \item Area should be proportional to weight
   \item Containment / Non-overlapping
+  \item Rectangular partitions
 \end{itemize}
 
-We will add one more constraint to reduce the space of possible
+Section~\ref{sec:relax} discusses what happens when some of these constraints are relaxed.
 
 \begin{itemize}
-  \item Rectangular partitions
 \end{itemize}
 
 We will focus our attention on rectangular partitions.  In general,  $h(i, j) = c(i, j)^x$ $w(i, j) = c(i, j)^y$, $x + y = 1$.   Basic principle of all area plots is area should be proportional to probability. For the plots we are interested in, the shape used to represent the count is a rectangle, so that $a(i, j) = w(i, j) * h(i, j)$.
@@ -146,8 +166,19 @@ Space-filling vs. not space-filling.  Read length on common scale, vs. put more 
 
 Each plot type constrains this relationship in a different way:
 
+\begin{figure}[htbp]
+  \centering
+    \includegraphics[width=0.25\linewidth]{part-vbar-vr}%
+    \includegraphics[width=0.25\linewidth]{part-hbar-vr}%
+    \includegraphics[width=0.25\linewidth]{part-vspline-vr}%
+    \includegraphics[width=0.25\linewidth]{part-hspline-vr}
+
+  \caption{1d partitions showing proportions 0.5, 0.2, 0.2 and 0.1. From left to right: vertical bars, horizontal bars, vertical splines and horizontal splines. }
+  \label{fig:part-1d}
+\end{figure}
+
 \begin{itemize}
-  \item {\bf bar}: height is proportional to value, width equally divides space. Bars allow comparison between absolute numbers.
+  \item {\bf bar}: height is proportional to value, width equally divides space. Bars allow comparison between absolute numbers, but are not space filling.  They occupy sum(values / max(values)) of the total area.
 
   \item {\bf spine}: width is proportional to value, height equally divides space. Spines not useful at top level, but allow comparison of proportions at next level (ie. conditioned on top level values)
 
@@ -157,7 +188,6 @@ Each plot type constrains this relationship in a different way:
 
 \subsection{2d primitives}
 
-
 \begin{itemize}
   \item {\bf fluct}: width and height proportional to square root of value. Flucts allow comparisons of absolute numbers in two directions. 
   
@@ -165,25 +195,26 @@ Each plot type constrains this relationship in a different way:
 
 One special 2d case is the equal bin size plot - which all 1d x 1d primitives and the fluct collapse to when counts are equal. 
 
-
 \subsection{Plot templates}
 
-Plot templates combine the simple primitives into well-known graphics:
+The sequence of partitioning choices defines the different named area plots:
 
 \begin{itemize}
   \item {\bf Stacked} barchart: 1 bar + $n-1$ spines in opposite direction.
   \item {\bf Nested} barchart: $n$ bars.
-  \item {\bf Mosaic} plot: spines in alternating directions.  The 1d case has a special name, the spineplot.
+  \item {\bf Mosaic} plot: spines in alternating directions.  The 1d case has a special name, the spineplot. \citep{hartigan:1984,hartigan:1981,friendly:1994,hofmann:2003}
   \item {\bf Double-decker} plot: $n-1$ spines + 1 spine in opposite direction.
   
-  \item {\bf Fluctuation} diagram: 
+  \item {\bf Fluctuation} diagram: fluct, then spline. 
+  \item {\bf Equal bin size} plot: a fluctuation diagram, when the 2 variables have uniform distribution.
 \end{itemize}
 
+Trellis graphics are another type of display that uses categorical variables to create small multiples for different subsets of the data. Visually, trellis graphics look like equal-bin-size plots with another plot drawn inside each bin. 
 
+\section{Relaxing constraints}
+\label{sec:relax}
 
-\subsection{Violation of constraints}
-
-\subsubsection{Area not proportional to weight}
+\subsection{Area not proportional to weight}
 
 It can be useful to violate the constraint that area should be proportional to weight to distinguish between zeros and very small values.  A zero weight should have zero area, but giving it positive area can be useful so it's actually possible to see!  Similarly for very small values which would otherwise occupy less than a pixel, useful to constain to minimal perceptible size.
 
@@ -191,15 +222,16 @@ Antony's zooming, where you also truncate the maximum size.
 
 Image.
 
-\subsubsection{Overlapping rectangles}
+\subsection{Overlapping rectangles}
 
 The cascaded treemaps of \citet{lu:2008} is an idea that illustrates how the violation of containment can be productive.  In the cascaded treemap, each level is slightly offset from the one above to create a pseudo-3d perspective.
+This makes it easier to see all the levels of the hierarchy, not just the lowest level.
 
-Example
+Example.
 
-\subsubsection{Non-rectangular partitions}
+\subsection{Non-rectangular partitions}
 
-Pie charts fall out naturally, as bars in polar coordinates, with angle and radius instead of height and width. And to ensure that counts stay proportional to areas, the square-root is taken of the y-axis. This is related to the infoslices of \citet{andrews:1998}, which only use half of the disk. Figure~\ref{fig:polar} shows some examples of product plots in polar coordinates.
+Pie charts fall out naturally, as bars in polar coordinates, with angle and radius instead of height and width. And to ensure that counts stay proportional to areas, the square-root is taken of the y-axis. This is related to the infoslices of \citet{andrews:1998}, which only use half of the disk. Figure~\ref{fig:polar} illustrates a few product plots in polar coordinates.  Variables are happiness (top level in four categories) and sex (nested, two levels).
 
 These displays generalise the fourfold displays of \citet{friendly:1995}. 
 
@@ -220,7 +252,7 @@ These displays generalise the fourfold displays of \citet{friendly:1995}.
     \includegraphics[width=0.25\linewidth]{hb-vs-polar}%
     \includegraphics[width=0.25\linewidth]{hs-hs-polar}%
     \includegraphics[width=0.25\linewidth]{hs-vs-polar}
-  \caption{}
+  \caption{(Top) Area graphics in Cartesian coordinates.  (Bottom) Area graphics in polar coordinates.  From left to right: horizontal bar nested inside horizontal bar, vertical spline nested inside horizontal bar (stacked bar chart), horizontal spline nested in horizontal spline, horizontal spline nested in vertical spline (mosaic plot).}
   \label{fig:polar}
 \end{figure}
 
@@ -228,13 +260,8 @@ Circular treemaps of \citet{wetzel:2008} which use circles instead of rectangles
 
 Other non-rectangular treemaps have been proposed, such as the space-filling curve approach of \citep{wattenberg:2005}, or the voronoi treemaps of \citep{wattenberg:2005}, but because of the perceptual difficultly of comparing areas of arbitrary polygons, these approaches tend to be attractive rather than useful.
 
-\section{Margining}
-\label{sec:margining}
 
-Mathematically defining margining operation.
-
-
-\section{Connection with log-linear models}
+% \section{Connection with log-linear models}
 
 
 \section{Variations}
@@ -277,9 +304,14 @@ It is not always possible to determine nested data from inspection of the data a
 
 Or when you have a hierarchy.
 
-Example dataset
+Example dataset - Doug Bates teachers/schools?
 
 Possibilities: create new variable which is interaction of nested vars, or drop missings/zeros.  Treemaps deal almost exclusively with nested data.
+
+\section{Data analysis} % (fold)
+\label{sec:data_analysis}
+
+% section data_analysis (end)
 
 \section{Labelling}
 \label{sec:legends}
