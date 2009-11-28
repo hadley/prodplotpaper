@@ -46,6 +46,8 @@ Figure \ref{fig:cat-examples} illustrates some of these plots.
 
 Hierarchical partitioning of space.
 
+\section{Factorising}
+
 Basic idea is factorising table of probabilities:
 
 \begin{itemize}
@@ -54,7 +56,7 @@ Basic idea is factorising table of probabilities:
   \item as sums of parameters in log-linear models
 \end{itemize}
 
-Let $f(x, y, z)$ be the 3d pmf function.  We can can write this pmf as product of marginals and conditionals in many different ways.  We can decompose product graphics in a similar way.
+Let $f(x, y, z)$ be the 3d pmf function. We can can write this pmf as product of marginals and conditionals in many different ways.  We can decompose product graphics in a similar way.
 
 \begin{itemize}
   \item $f(x, y, z) = f(x, y | z) f(z)$
@@ -66,7 +68,34 @@ It can be useful to display partial decompositions, i.e. just $f(x, y | z)$, whi
 
 Because of their hierarchical nature, an area plot of $f(x, y, z)$ also shows $f(y, z)$ and $f(z)$.  
 
-By convention we will write the top most level of the product plot on the left, and lower levels to the right.  While $f(x, y, z)$ and $f(z, y, z)$ display the same counts, their interpretation is different because of which marginal tables you see.
+Based on the modelling specification of \citep{wilkinson:1973} we define an algebra for describing these tables.  
+
+\begin{itemize}
+  \item \verb|~ a| represents $f(a)$,
+  \item \verb|~ a + b| represents $f(a, b)$
+  \item \verb!~ a | b! represents $f(a | b)$ which is equivalent to $f(a, b)$ but with the constraint that $\forall b \sum_a f(a | b) = 1$.
+\end{itemize}
+
+By convention we will write the top most level of the product plot on the left, and lower levels to the right.  While $f(x, y, z)$ and $f(z, y, x)$ display the same counts, their interpretation is different because of which marginal tables you see.
+
+Figure~\ref{fig:fact-simple} illustrates these ideas with the distribution of happiness and sex. We start with a plot where area broken down by happiness. We can then continue to factor this plot to also display sex - the area of each rectangle is proportional to the number of people who are happy with that sex, and the construction allows us to see the conditional distribution of sex within happy. In this case the breaks line up, suggesting that there is no difference in sex, given happiness.  This could be followed up by a formula hypothesis test.
+
+Removing the marginal effect of happiness, as in the column on the far right, makes each of the top-level categories the same size, and makes it easier to compare the conditional distributions.  It's not that important in this case, but in the bar chart below, it allows us to see the conditional distribution, and in the case when there are many levels with very different probabilities it can make the plot much easier to read.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.33\linewidth]{fact-happy}%
+  \includegraphics[width=0.33\linewidth]{fact-happy-sex}%
+  \includegraphics[width=0.33\linewidth]{fact-happy|sex}
+
+  \includegraphics[width=0.33\linewidth]{fact-happy-2}%
+  \includegraphics[width=0.33\linewidth]{fact-happy-sex-2}%
+  \includegraphics[width=0.33\linewidth]{fact-happy|sex-2}
+
+  \caption{Plots of the distribution of happiness and sex.}
+  \label{fig:fact-simple}
+\end{figure}
+
 
 These techniques are also closely related to dimensional stacking \citep{leblanc:1990}
 
@@ -110,7 +139,7 @@ Two ways of representing data:
   \item Data frame, with column of counts
 \end{itemize}
 
-The two are equivalent, but it's usually easier to work with the data frame version, because variables are explicit.  Also deals better with sparsity and is common input to modelling algorithms.
+The two are equivalent, but it's usually computational easier to work with the data frame version, because variables are explicit, and mathematically easier to work with the multidimensional array because multiplication is nicely defined.  Also deals better with sparsity and is common input to modelling algorithms.
 
 Define the conditioning operator which makes the distribution uniform.  
 
@@ -131,60 +160,48 @@ In this paper, we'll use a small sample from the general social survey ({\sc gss
 \section{Display}
 \label{sec:display}
 
-Perceptual constraints.  Best at comparing area when:
+Once we have made the decision to map area to proportion, then we need to impose some constraints on the set of possible tilings of the plane.  Some constraints are implied by our perceptual capabilities and others by simple geometry. (In general, we could also think of partitions of higher-dimensional spaces (e.g. 3d or 4d), but we will need to project these down to two for viewing anyway, so we might as well work directly in the final space.)
 
 \begin{itemize}
-  \item Simple shape (i.e. square vs polygon)
-  \item Aspect ratios similar
-  \item Areas are large
-  \item Areas are close
-  \item One border is constant.
+  \item Area should be proportional to weight.  Imposed by problem statement.
+
+  \item Rectangular partitions. It is easier to compare the areas of simple shape (i.e. rectangle vs polygon), and even better when one the length of one border is fixed, so we only need compare the length of the other \citep{cleveland:1984}.  Rectangular partitions are also recursive - a rectangular partition of a rectangular area produces rectangles.  There are a limited number of shapes that do this - triangles yes, circles, no.
+
+  \item Containment / Non-overlapping.  To be able to see the complete area of each rectangle they must be non-overlapping, and each split must be nested within the shapes of the previous level.
+  
 \end{itemize}
 
-For recursive layout, need to be able to tile plane with space, and tile shape with shape.  
+Note, however, that each of these constraints can be profitably relaxed.  See Section~\ref{sec:relax} for details.
 
-Impossible to simultaneously satisfy all constraints.  Every product plot requires the creator to trade off between these.  
+Let $a(i)$ give the area assigned to category $i$, which has proportion $f(i)$.  $a(i) \propto f(i)$ or $a(i) = k \dot a(i)$, and $a(i) = w(i) \times h(i)$ where $w$ and $h$ represent width and height respectively.  Most of the the partitions described below use additional constraints: $h(i) = \sqrt{k} f(i)^x$ and $w(i) = \sqrt{k} f(i)^y$ where $x + y = 1$.  This ensures that it is only necessary to inspect one border to compare magnitudes.
 
-To simplify the problem, we'll initially work with three constraints on partitioning:
+The other chief difference between different tiling methods is whether or not they are space filling.  Space filling methods will ensure that areas are larger, but typically make it harder to compare magnitudes because scales no longer align.
 
-\begin{itemize}
-  \item Area should be proportional to weight
-  \item Containment / Non-overlapping
-  \item Rectangular partitions
-\end{itemize}
-
-Section~\ref{sec:relax} discusses what happens when some of these constraints are relaxed.
-
-\begin{itemize}
-\end{itemize}
-
-We will focus our attention on rectangular partitions.  In general,  $h(i, j) = c(i, j)^x$ $w(i, j) = c(i, j)^y$, $x + y = 1$.   Basic principle of all area plots is area should be proportional to probability. For the plots we are interested in, the shape used to represent the count is a rectangle, so that $a(i, j) = w(i, j) * h(i, j)$.
+The following two sections discuss particular partitions of the plane based on either a 1d or 2d pmf.  Displays of higher dimensional pmfs must be made by recursive combinations of these.  
 
 \subsection{1d primitives}
 
-Space-filling vs. not space-filling.  Read length on common scale, vs. put more information in the display.
+There are three 1d primitives, as displayed in Figure~\ref{fig:part-1d}:
 
-Each plot type constrains this relationship in a different way:
+\begin{itemize}
+  \item {\bf bar}: height is proportional to value, width equally divides space. Bars allow comparison between absolute numbers, but are not space filling.  They occupy sum(values / max(values)) of the total area.  Bars can be arranged horizontally (``hbar'') or vertically (``vbar'').
+
+  \item {\bf spine}: width is proportional to value, height equally divides space. Splines are space filling, but make it more difficult to compare absolute counts.  Splines can be arranged horizontally (``hspline'') or vertically (``vspline'').
+
+  \item {\bf treemap}: no restrictions on height and width. Comparing the areas is the most difficult perceptually, and are most useful when there are a large number of categories.  There are a many variations of the treemap; this paper uses the squarified treemap \citep{bruls:1999}.
+
+\end{itemize}
 
 \begin{figure}[htbp]
   \centering
-    \includegraphics[width=0.25\linewidth]{part-vbar-vr}%
-    \includegraphics[width=0.25\linewidth]{part-hbar-vr}%
-    \includegraphics[width=0.25\linewidth]{part-vspline-vr}%
-    \includegraphics[width=0.25\linewidth]{part-hspline-vr}
+    \includegraphics[width=0.33\linewidth]{part-hbar-vr}%
+    \includegraphics[width=0.33\linewidth]{part-hspline-vr}
+    % \includegraphics[width=0.25\linewidth]{part-hspline-vr}
 
   \caption{1d partitions showing proportions 0.5, 0.2, 0.2 and 0.1. From left to right: vertical bars, horizontal bars, vertical splines and horizontal splines. }
   \label{fig:part-1d}
 \end{figure}
 
-\begin{itemize}
-  \item {\bf bar}: height is proportional to value, width equally divides space. Bars allow comparison between absolute numbers, but are not space filling.  They occupy sum(values / max(values)) of the total area.
-
-  \item {\bf spine}: width is proportional to value, height equally divides space. Spines not useful at top level, but allow comparison of proportions at next level (ie. conditioned on top level values)
-
-  \item {\bf treemap}: no restrictions on height and width.   At first glance, it may seem strange to include the treemap as a 1d primitive, but it lays out a single variable in 2d dimensions, just like the other approaches.
-
-\end{itemize}
 
 \subsection{2d primitives}
 
@@ -222,7 +239,7 @@ Antony's zooming, where you also truncate the maximum size.
 
 Image.
 
-\subsection{Overlapping rectangles}
+\subsection{Levels not contained}
 
 The cascaded treemaps of \citet{lu:2008} is an idea that illustrates how the violation of containment can be productive.  In the cascaded treemap, each level is slightly offset from the one above to create a pseudo-3d perspective.
 This makes it easier to see all the levels of the hierarchy, not just the lowest level.
