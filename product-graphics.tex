@@ -186,7 +186,7 @@ There are three 1d primitives, as displayed in Figure~\ref{fig:part-1d}:
 \begin{itemize}
   \item {\bf bar}: height is proportional to value, width equally divides space. Bars allow comparison between absolute numbers, but are not space filling.  They occupy sum(values / max(values)) of the total area.  Bars can be arranged horizontally (``hbar'') or vertically (``vbar'').
 
-  \item {\bf spine}: width is proportional to value, height equally divides space. Splines are space filling, but make it more difficult to compare absolute counts.  Splines can be arranged horizontally (``hspline''),  vertically (``vspline''), or can automatically pick their orientation (``spline'').
+  \item {\bf spine}: width is proportional to value, height equally divides space. Splines are space filling, but make it more difficult to compare absolute counts.  Splines can be arranged horizontally (``hspine''),  vertically (``vspine''), or can automatically pick their orientation (``spine'').
 
   \item {\bf treemap}: no restrictions on height and width. Comparing the areas is the most difficult perceptually, and are most useful when there are a large number of categories.  There are a many variations of the treemap; this paper uses the squarified treemap \citep{bruls:1999}.
 
@@ -195,10 +195,10 @@ There are three 1d primitives, as displayed in Figure~\ref{fig:part-1d}:
 \begin{figure}[htbp]
   \centering
     \includegraphics[width=0.33\linewidth]{part-hbar}%
-    \includegraphics[width=0.33\linewidth]{part-hspline}
+    \includegraphics[width=0.33\linewidth]{part-hspine}
     % \includegraphics[width=0.25\linewidth]{part-treemap}
 
-  \caption{1d partitions showing proportions 0.5, 0.2, 0.2 and 0.1. From left to right: horizontal bars, horizontal splines, and a treemap.}
+  \caption{1d partitions showing proportions 0.5, 0.2, 0.2 and 0.1. From left to right: horizontal bars, horizontal spines, and a treemap.}
   \label{fig:part-1d}
 \end{figure}
 
@@ -229,13 +229,13 @@ The sequence of partitioning choices defines different named area plots:
 \begin{itemize}
   \item {\bf Barchart} (1d). 1 hbar.
   \item {\bf Column chart} (1d). 1 vbar.
-  \item {\bf Spineplot} (1d). 1 vspline.
+  \item {\bf Spineplot} (1d). 1 vspine.
 
   \item {\bf Stacked} barchart (2d). 1 hbar and 1 vspine.
   \item {\bf Nested} barchart (2d).  2 hbars. \citep{peltier:2009}
   \item {\bf Fluctuation} diagram (2d): fluct. 
 
-  \item {\bf Equal bin size} plot (3d): fluct and vspline, provided the final two variables are uniform.
+  \item {\bf Equal bin size} plot (3d): fluct and vspine, provided the final two variables are uniform.
 
   \item {\bf Mosaic} plot (nd).  Alternating hspines and vspines.  \citep{hartigan:1984,hartigan:1981,friendly:1994,hofmann:2003}
   \item {\bf Double-decker} plot (nd).  $n-1$ hspines and 1 vspine. \citep{hofmann:2001}
@@ -245,10 +245,6 @@ The sequence of partitioning choices defines different named area plots:
 \end{itemize}
 
 % http://peltiertech.com/Utility/ClusterStackUtility.html
-
-\begin{itemize}
-  
-\end{itemize}
 
 Trellis graphics are another type of display that uses categorical variables to create small multiples for different subsets of the data. Visually, trellis graphics look like equal-bin-size plots with another plot drawn inside each bin. 
 
@@ -293,7 +289,7 @@ These displays generalise the fourfold displays of \citet{friendly:1995}.
     \includegraphics[width=0.25\linewidth]{hb-vs-polar}%
     \includegraphics[width=0.25\linewidth]{hs-hs-polar}%
     \includegraphics[width=0.25\linewidth]{hs-vs-polar}
-  \caption{(Top) Area graphics in Cartesian coordinates.  (Bottom) Area graphics in polar coordinates.  From left to right: horizontal bar nested inside horizontal bar, vertical spline nested inside horizontal bar (stacked bar chart), horizontal spline nested in horizontal spline, horizontal spline nested in vertical spline (mosaic plot).}
+  \caption{(Top) Area graphics in Cartesian coordinates.  (Bottom) Area graphics in polar coordinates.  From left to right: horizontal bar nested inside horizontal bar, vertical spine nested inside horizontal bar (stacked bar chart), horizontal spine nested in horizontal spine, horizontal spine nested in vertical spine (mosaic plot).}
   \label{fig:polar}
 \end{figure}
 
