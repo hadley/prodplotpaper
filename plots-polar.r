@@ -23,7 +23,7 @@ ggsave("plots/hb-vb-cartesian.pdf", width = 4, height = 4)
 last_plot() + coord_polar()
 ggsave("plots/hb-vb-polar.pdf", width = 4, height = 4)
 
-prodplot(h, ~ happy + sex, divider = list(hspline, hspline)) + shade
+prodplot(h, ~ happy + sex, divider = list(hspine, hspine)) + shade
 ggsave("plots/hs-hs-cartesian.pdf", width = 4, height = 4)
 last_plot() + coord_polar()
 ggsave("plots/hs-hs-polar.pdf", width = 4, height = 4)
