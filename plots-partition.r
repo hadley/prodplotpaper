@@ -32,6 +32,13 @@ ggsave("plots/part-fluct-cond.pdf", width = 6, height = 6)
 
 # nd partition
 
+prodplot(happy, ~ marital + decade, set_offset(c("vspine", "hspine"), c(0, 0.02)), na.rm = T) + aes(fill = marital)
+ggsave("plots/part-marital-1.pdf", width = 6, height = 6)
+
+prodplot(happy, ~ marital | decade, set_offset(c("vspine", "hspine"), c(0, 0.02)), na.rm = T) + aes(fill = marital)
+ggsave("plots/part-marital-2.pdf", width = 6, height = 6)
+
+
 prodplot(happy, ~ happy + finrela, c("vspine", "hspine")) + 
   aes(fill = finrela)
 prodplot(happy, ~ happy + health, c("vspine", "hspine")) + 

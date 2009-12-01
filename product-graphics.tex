@@ -225,12 +225,20 @@ One special case of the fluct is the equal bin size plot which occurs when the t
   \label{fig:fluct}
 \end{figure}
 
-
 \subsection{Combinations}
 \label{sub:part-nd}
 
 To visualise higher-dimensional pmfs, we partition recursively using the primitives described above.  That is, to display $f(x, y, z)$ we first create a partition based on $f(z)$ then partition each of those pieces based on $f(y | z)$ and again by $f(x | y, z)$.  Figure \ref{fig:recursive} illustrates this process.
 
+For example, instead of using flucts to explore the joint distribution of age and marital status, we could use vertical and horizontal splines, as shown in Figure~\ref{fig:marital}.  Th
+
+\begin{figure}[htbp]
+  \centering
+    \includegraphics[width=0.5\linewidth]{part-marital-1}%
+    \includegraphics[width=0.5\linewidth]{part-marital-2}
+  \caption{The joint distribution of marital status and age (in decades) with a vspine and hspine.  On the right, conditional distribution of age has been fixed.}
+  \label{fig:marital}
+\end{figure}
 
 Figure~\ref{fig:fluct} uses a fluct and a vspine to explore the relationship between happiness, health and financial status. On the left, a fluctuation diagram shows that most people are in good health and average financial standing, but it is difficult to see how happiness varies because the size of the squares is variable. Conditioning on financial status and health produces the equal bin size plot on the right and makes it easier to see the conditional distribution of happiness - people tend to be happier the healthier and richer they are.
 
