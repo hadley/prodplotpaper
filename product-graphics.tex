@@ -285,30 +285,46 @@ There are a number of cases in which it is useful to relax the constraints that 
 
 \subsection{Area not proportional to weight}
 
-It can be useful to violate the constraint that area should be proportional to weight to distinguish between zeros and very small values.  A zero weight should have zero area, but giving it positive area can be useful so it's actually possible to see!  Similarly for very small values which would otherwise occupy less than a pixel, useful to constrain to minimal perceptible size.
+It can be useful to violate the constraint that area should be proportional to weight to distinguish between zeros and very small values. A zero weight should have zero area, but giving it positive area can be useful, so you can actually see it! In general, it's useful to constrain all areas to be above a certain minimal perceptible size.  Areas which are constrained in such a way should have a visual flag (such as a difference colour) so ensure that the reader knows that the relationship between area and value has been violated.
 
-Antony's zooming, where you also truncate the maximum size.
+On the other end of the spectrum, it can be useful to constrain put a cap on the largest possible values \citetext{Antony Unwin, priv. comm.}. By controlling this cap it is possible to zoom in on the smallest values.
 
-Image.
+Other non-linear transformations may also be useful.  For example, we could display the square root of the weights, to stabilise the variance of the areas.  If values span multiple orders of magnitude it may be useful to map log value to area.
 
-\subsection{Levels not contained}
+\subsection{Non-disjoint partitions}
 
 The cascaded treemaps of \citet{lu:2008} is an idea that illustrates how the violation of containment can be productive.  In the cascaded treemap, each level is slightly offset from the one above to create a pseudo-3d perspective.
-This makes it easier to see all the levels of the hierarchy, not just the lowest level.
+This makes it easier to see all the levels of the hierarchy, not just the lowest level.  Figure~\ref{fig:cascade} shows an example of how cascading can help illuminate the structure of a complex mosaic plot.
 
-Example.
+\begin{figure}[htbp]
+  \centering
+    \includegraphics[width=0.5\linewidth]{sex-marital-happy}%
+    \includegraphics[width=0.5\linewidth]{cascade}
+  \caption{A mosaic plot of happiness by martial status and sex. (Left) Coloured by happiness.  (Right) A cascaded view helps show how the plot is built up.}
+  \label{fig:cascade}
+\end{figure}
 
 \subsection{Non-rectangular partitions}
 
-Pie charts fall out naturally, as bars in polar coordinates, with angle and radius instead of height and width. And to ensure that counts stay proportional to areas, the square-root is taken of the y-axis. This is related to the infoslices of \citet{andrews:1998}, which only use half of the disk. Figure~\ref{fig:polar} illustrates a few product plots in polar coordinates.  Variables are happiness (top level in four categories) and sex (nested, two levels).
-
-These displays generalise the fourfold displays of \citet{friendly:1995}. 
+A pie chart is a popular method of displaying proportions, but is not a rectangular partition. However, it turns out that there is a simple relationship between the bar charts and pie charts: an pie chart is an hspine drawn in polar coordinates with the x coordinate mapped to angle and the y coordinate to radius. Many other displays that use circulate arcs turn out to be special cases of product plots, drawn in polar coordinates:   
 
 \begin{itemize}
-  \item Pie charts
-  \item Nightingale
-  \item Bullseye chart 
+  \item Fourfold displays \citep{friendly:1995}, wind rose, sector graphic: hbar.
+
+  \item Bullseye chart, hspine.
+
+  \item Doughnut plot, vspine + hspine.
+
+  \item Circular bar chart or racetrack plot, vbar.
+
+  \item Infoslices \citep{andrews:1998}, nested vbar.  But only use half of the disk, and are specialised for highly nested data.
+
+  \item Nightingales's coxcomb, is very similar to vspine / hbar in polar coordinates, except that the pie slices are overlapping and so violates the constraint of disjoint area.
 \end{itemize}
+
+\noindent Eight variants are displayed Figure~\ref{fig:polar}.
+
+To make this work more generally, the y-variable (mapped to radius) should be square-root transformed to ensure that that counts stay proportional to areas. The radial displays of \citet{stasko:2000} and fanlens of \citet{lou:2007} deliberately choose not to do this to highlight the outer levels.
 
 \begin{figure}[htbp]
   \centering
@@ -321,17 +337,16 @@ These displays generalise the fourfold displays of \citet{friendly:1995}.
     \includegraphics[width=0.25\linewidth]{hb-vs-polar}%
     \includegraphics[width=0.25\linewidth]{hs-hs-polar}%
     \includegraphics[width=0.25\linewidth]{hs-vs-polar}
-  \caption{(Top) Area graphics in Cartesian coordinates.  (Bottom) Area graphics in polar coordinates.  From left to right: horizontal bar nested inside horizontal bar, vertical spine nested inside horizontal bar (stacked bar chart), horizontal spine nested in horizontal spine, horizontal spine nested in vertical spine (mosaic plot).}
+
+    \includegraphics[width=0.25\linewidth]{hb-vb-polar-2}%
+    \includegraphics[width=0.25\linewidth]{hb-vs-polar-2}%
+    \includegraphics[width=0.25\linewidth]{hs-hs-polar-2}%
+    \includegraphics[width=0.25\linewidth]{hs-vs-polar-2}
+  \caption{(Top) Area graphics in Cartesian coordinates.  (Mid) Area graphics in polar coordinates. (Bottom) Product graphics rotated 90 degrees before being converted to polar coordinates.  From left to right: hbar + hbar, , vspline + hbar, hspine + hspine, hspine + vspine.}
   \label{fig:polar}
 \end{figure}
 
-Circular treemaps of \citet{wetzel:2008} which use circles instead of rectangles, but is not space filling because you can not tile a circular region with circles. The radial displays of \citet{stasko:2000} deliberately keep the radius constant in order to relatively highlight the lower levels.  Similarly so does the fanlens of \citet{lou:2007}
-
-Other non-rectangular treemaps have been proposed, such as the space-filling curve approach of \citep{wattenberg:2005}, or the voronoi treemaps of \citep{wattenberg:2005}, but because of the perceptual difficultly of comparing areas of arbitrary polygons, these approaches tend to be attractive rather than useful.
-
-
-% \section{Connection with log-linear models}
-
+A number of non-rectangular treemaps have been proposed, such as the circular treemaps of \citet{wetzel:2008}, the space-filling curves of \citet{wattenberg:2005} and the voronoi treemaps of \citet{balzer:2005}.  However, because it is such much more difficult to compare the areas of arbitrary polygons, these approaches tend to be attractive rather than useful.
 
 \section{Variations}
 \label{sec:variations}

@@ -16,18 +16,30 @@ prodplot(happy, ~ sex + happy, set_offset(c("vspine", "hspine")), na.rm = T) + s
 ggsave("plots/hs-vs-cartesian.pdf", width = 4, height = 4)
 last_plot() + coord_polar()
 ggsave("plots/hs-vs-polar.pdf", width = 4, height = 4)
+last_plot() + coord_polar("y")
+ggsave("plots/hs-vs-polar-2.pdf", width = 4, height = 4)
+
+prodplot(happy, ~ sex + happy, set_offset(c("hspine", "vspine")), na.rm = T) + shade
+last_plot() + coord_polar()
+
 
 prodplot(happy, ~ sex + happy, set_offset(c("hbar", "hbar")), na.rm = T) + shade
 ggsave("plots/hb-vb-cartesian.pdf", width = 4, height = 4)
 last_plot() + coord_polar()
 ggsave("plots/hb-vb-polar.pdf", width = 4, height = 4)
+last_plot() + coord_polar("y")
+ggsave("plots/hb-vb-polar-2.pdf", width = 4, height = 4)
 
 prodplot(happy, ~ sex + happy, divider = set_offset(c("hspine", "hspine")), na.rm = T) + shade
 ggsave("plots/hs-hs-cartesian.pdf", width = 4, height = 4)
 last_plot() + coord_polar()
 ggsave("plots/hs-hs-polar.pdf", width = 4, height = 4)
+last_plot() + coord_polar("y")
+ggsave("plots/hs-hs-polar-2.pdf", width = 4, height = 4)
 
 prodplot(happy, ~ sex + happy, divider = set_offset(c("vspine", "hbar")), na.rm = T) + shade
 ggsave("plots/hb-vs-cartesian.pdf", width = 4, height = 4)
 last_plot() + coord_polar()
 ggsave("plots/hb-vs-polar.pdf", width = 4, height = 4)
+last_plot() + coord_polar("y")
+ggsave("plots/hb-vs-polar-2.pdf", width = 4, height = 4)
