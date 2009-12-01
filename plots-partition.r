@@ -1,10 +1,4 @@
 l(productplots)
-fill_happy <- list(
-  aes(fill = happy),
-  opts(legend.position = "none"),
-  scale_fill_manual(
-    values = c("not too happy" = "#FC8D59", "pretty happy" = "#FFFFBF", "very happy" = "#91CF60", "NA" = "grey50"))
-)
 
 prodplot(happy, ~ happy, "hbar", colour = "grey50", na.rm = TRUE) + fill_happy
 ggsave("plots/part-hbar.pdf", width = 4, height = 4)
