@@ -64,10 +64,10 @@ prodplot(happy, ~ happy + marital, c("vspine", "hspine")) +
   aes(fill = marital)
 
 # fluctuation & equal bin size
-prodplot(happy, ~ happy + finrela + health, c("vspine", "fluct"), 
-  colour = NA, na.rm = TRUE) + fill_happy
+prodplot(happy, ~ happy + finrela + health, na.rm = TRUE,
+  set_offset(c("vspine", "fluct"), c(0, 0.05))) + fill_happy
 ggsave("plots/part-fluctuation.pdf", width = 6, height = 6)
 
-prodplot(happy, ~ happy | finrela + health, c("vspine", "fluct"), 
-  colour = NA, na.rm = TRUE) + fill_happy
+prodplot(happy, ~ happy | finrela + health, na.rm = TRUE,
+  set_offset(c("vspine", "fluct"), c(0, 0.05))) + fill_happy
 ggsave("plots/part-equal-area.pdf", width = 6, height = 6)

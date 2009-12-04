@@ -56,6 +56,8 @@ Basic idea is factorising table of probabilities:
   \item as sums of parameters in log-linear models
 \end{itemize}
 
+Some notation: let capital letters refer to the sample space, and lower case particular values.
+
 Let $f(x, y, z)$ be the 3d pmf function. We can can write this pmf as product of marginals and conditionals in many different ways.  We can decompose product graphics in a similar way.
 
 \begin{itemize}
@@ -80,6 +82,7 @@ Based on the modelling specification of \citet{wilkinson:1973} we define an alge
   \item \verb|~ a| represents $f(a)$,
   \item \verb|~ a + b| represents $f(a, b)$
   \item \verb!~ a | b! represents $f(a | b)$
+  \item \verb!~ . | a! is a special case of $f(a) = \frac{1}{\#A}$. 
 \end{itemize}
 
 By convention we will write the top most level of the product plot on the left, and lower levels to the right.  While $f(x, y, z)$ and $f(z, y, x)$ display the same counts, their interpretation is different because of which marginal tables you see.
@@ -355,7 +358,9 @@ To make this work more generally, the y-variable (mapped to radius) should be sq
     \includegraphics[width=0.25\linewidth]{hb-vs-polar-2}%
     \includegraphics[width=0.25\linewidth]{hs-hs-polar-2}%
     \includegraphics[width=0.25\linewidth]{hs-vs-polar-2}
-  \caption{(Top) Area graphics in Cartesian coordinates.  (Mid) Area graphics in polar coordinates. (Bottom) Product graphics rotated 90 degrees before being converted to polar coordinates.  From left to right: hbar + hbar, , vspline + hbar, hspine + hspine, hspine + vspine.}
+
+  \caption{(Top) Area graphics in Cartesian coordinates. (Mid) Area graphics in polar coordinates. From left to right: hbar + hbar, vspline + hbar, hspine + hspine, hspine + vspine. (Bottom) Product graphics rotated 90 degrees before being converted to polar coordinates: vbar + vbar, hspline + vbar, vspine + vspine, vspine + hspine.}
+
   \label{fig:polar}
 \end{figure}
 
@@ -376,7 +381,17 @@ A number of non-rectangular treemaps have been proposed, such as the circular tr
 \subsection{Weighting}
 \label{sub:weighting}
 
-We have assumed the probabilities represent counts, but without loss of generality we can use any set of non-negative, additive weights instead.  Some of the applications of such weighted plots are described in \citet{unwin:2007}.  Include a brief summary here.
+We have assumed the probabilities represent counts, but without loss of generality we can use any set of non-negative, additive weights instead. Some of the applications of such weighted plots are described in \citet{unwin:2007}. In the happy dataset, the {\sf wtssall} variable gives analytic survey weights. Figure~\ref{fig:weighting} shows the difference between the weighted and unweighted distributions of age and sex. The distribution is subtly different.
+
+To express that we are displaying weights, rather than counts, we extend the formula syntax by putting the weighting variable on the left-hand side: $wtssall \sim sex + age$ vs. $ \sim sex + age$.
+
+\begin{figure}[htbp]
+  \centering
+    \includegraphics[width=0.5\linewidth]{wt-count}%
+    \includegraphics[width=0.5\linewidth]{wt-wtssall}%
+  \caption{(Left) Unweighted distribution (counts).  (Right) Weighted by probability weights.}
+  \label{fig:weighting}
+\end{figure}
 
 \subsection{Continuous data}
 \label{sub:continuous_data}
