@@ -1,8 +1,7 @@
 # Polar coordinates
 source("colour.r")
 
-shade <- list(
-  aes(fill = sex),
+shade <- c(fill_sex, list(
   opts(legend.position = "none", 
     axis.text.x = theme_blank(),
     axis.text.y = theme_blank()
@@ -10,7 +9,7 @@ shade <- list(
   xlab(NULL),
   ylab(NULL),
   scale_y_sqrt()
-)
+))
 
 prodplot(happy, ~ sex + happy, set_offset(c("vspine", "hspine")), na.rm = T) + shade
 ggsave("plots/hs-vs-cartesian.pdf", width = 4, height = 4)
