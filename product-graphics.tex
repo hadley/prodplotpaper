@@ -190,6 +190,7 @@ The following two sections describe the partitions currently used to produce are
 There are three 1d primitives, as shown in Figure~\ref{fig:part-1d}:
 
 \begin{itemize}
+
   \item {\bf bar}s: height is proportional to value, width equally divides space. Bars allow comparison between absolute numbers, but are not space filling.  They occupy sum(values / max(values)) of the total area.  Bars can be arranged horizontally (``hbar'') or vertically (``vbar'').  Not space filling.
 
   \item {\bf spine}s: width is proportional to value, height equally divides space. Splines are space filling, but make it more difficult to compare absolute counts.  Splines can be arranged horizontally (``hspine''),  vertically (``vspine''), or can automatically pick their orientation (``spine'').  Space filling.
@@ -228,26 +229,18 @@ One special case of the fluct is the equal bin size plot which occurs when the t
 \subsection{Combinations}
 \label{sub:part-nd}
 
-To visualise higher-dimensional pmfs, we partition recursively using the primitives described above.  That is, to display $f(x, y, z)$ we first create a partition based on $f(z)$ then partition each of those pieces based on $f(y | z)$ and again by $f(x | y, z)$.  Figure \ref{fig:recursive} illustrates this process.
+To visualise higher-dimensional pmfs, we recursively partition using the previously described primitives. That is, to display $f(x, y, z)$ we first create a partition based on $f(z)$ then partition each of those pieces based on $f(y | z)$ and again by $f(x | y, z)$. Figure \ref{fig:recursive} illustrates this process with a graphic that explores whether, conditional on marital status, there is a difference in happiness between men and women.  
 
-For example, instead of using flucts to explore the joint distribution of age and marital status, we could use vertical and horizontal splines, as shown in Figure~\ref{fig:marital}.  Th
-
-\begin{figure}[htbp]
-  \centering
-    \includegraphics[width=0.5\linewidth]{part-marital-1}%
-    \includegraphics[width=0.5\linewidth]{part-marital-2}
-  \caption{The joint distribution of marital status and age (in decades) with a vspine and hspine.  On the right, conditional distribution of age has been fixed.}
-  \label{fig:marital}
-\end{figure}
-
-Figure~\ref{fig:fluct} uses a fluct and a vspine to explore the relationship between happiness, health and financial status. On the left, a fluctuation diagram shows that most people are in good health and average financial standing, but it is difficult to see how happiness varies because the size of the squares is variable. Conditioning on financial status and health produces the equal bin size plot on the right and makes it easier to see the conditional distribution of happiness - people tend to be happier the healthier and richer they are.
+% Heike: may be this would be a good spot for some of your Kronecker
+% product theory?
 
 \begin{figure}[htbp]
   \centering
-    \includegraphics[width=0.5\linewidth]{part-nd}%
-    \includegraphics[width=0.5\linewidth]{part-nd-1}
-  \caption{caption}
-  \label{fig:part-nd}
+    \includegraphics[width=0.33\linewidth]{part-comb-1}%
+    \includegraphics[width=0.33\linewidth]{part-comb-2}%
+    \includegraphics[width=0.33\linewidth]{part-comb-3}
+  \caption{Conditional on marital status, are men or women happier?  This figure shows the construction of $\sim happy + sex + marital$ from (left to right) vspines by marital status, vspines by marital status and sex, and hspines by marital status, sex and happiness.  For all levels of marital status, men are slightly less happy.}
+  \label{fig:recursive}
 \end{figure}
 
 The sequence of partitioning choices defines different named area plots:
@@ -269,6 +262,26 @@ The sequence of partitioning choices defines different named area plots:
   \item {\bf Squarified treemap} (nd): n tiles. \citep{bruls:1999}
   
 \end{itemize}
+
+Different combinations of partitions reveal different features of the data. Take for example, the distribution of age and marital status, as shown in Figure~\ref{fig:fluct}. Instead of visualisation the joint distribution with a fluct, we could focus on the conditional distribution of marital status, given age, or vice versa. Figure~\ref{fig:marital} shows two ways to do this. The left plot shows $\sim marital + age$ with a vspine nested in a hspine, and the right plot $\sim age + martial$ with a hbar nested in a vspine. These displays show the same data but are arranged in such a way to make different comparisons easier.
+
+\begin{figure}[htbp]
+  \centering
+    \includegraphics[width=0.5\linewidth]{part-marital-1}%
+    \includegraphics[width=0.5\linewidth]{part-marital-2}
+  \caption{(Left) The joint distribution of marital status and age (in decades) partitioned by a vspine and hspine.  (Right) The joint distribution of age and marital status partitioned by a vspine and hbar.}
+  \label{fig:marital}
+\end{figure}
+
+Conditioning is also an important tool, because it allows one to remove relationships that are well-known or uninteresting. Figure~\ref{fig:part-cond} uses a fluct and a vspine to explore the relationship between happiness, health and financial status. The left plot displays raw proportions, showing that most people are in good health and average financial standing. However, it is difficult to see how happiness varies within these conditions because the perceptual task is comparing areas. Conditioning on financial status and health produces the plot on the right (known as an equal bin size plot) and makes it easier to see the conditional distribution of happiness, because the perceptual task is simpler: comparing length on a common non-aligned scales.  Here we can see people tend to be happier the healthier and richer they are.
+
+\begin{figure}[htbp]
+  \centering
+    \includegraphics[width=0.5\linewidth]{part-fluctuation}%
+    \includegraphics[width=0.5\linewidth]{part-equal-area}
+  \caption{Two displays of $\sim happy + health + finrela$.  (Left) Unconditional values partitioned with a vspine and fluct.  (Right) Same partitions, but health and relative financial status conditioned to uniform distribution.  We can no longer see the joint distribution of health and financial status, but it is much easier to see the conditional distribution of happiness: healthier and richer people are happier. (Maybe money does buy happiness?)}
+  \label{fig:part-cond}
+\end{figure}
 
 % http://peltiertech.com/Utility/ClusterStackUtility.html
 
