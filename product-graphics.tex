@@ -2,15 +2,25 @@
 \usepackage{fullpage}
 \usepackage[utf8]{inputenc}
 \usepackage[pdftex]{graphicx}
+\usepackage{tikz}
 \DeclareGraphicsExtensions{.png,.pdf}
 \graphicspath{{plots/}}
 \usepackage{hyperref}
 \usepackage{url}
 \usepackage[round,sectionbib]{natbib}
 \bibliographystyle{abbrvnat}
-\usepackage[small]{caption2}
+\usepackage[small]{caption}
 \usepackage[small]{titlesec}
 \renewcommand\familydefault{bch}
+
+\definecolor{female}{HTML}{EF8A62}
+\definecolor{male}{HTML}{67A9CF}
+\definecolor{not-too-happy}{HTML}{FC8D59}
+\definecolor{pretty-happy}{HTML}{FFFFBF}
+\definecolor{very-happy}{HTML}{91CF60}
+\definecolor{grey30}{HTML}{4D4D4D}
+\newcommand{\key}[1]
+  {\protect \tikz{\fill[#1] rectangle (1ex,1ex);}}
 
 \title{Product graphics}
 \author{Hadley Wickham and Heike Hofmann}
@@ -101,7 +111,7 @@ Removing the marginal effect of happiness, as in the column on the far right, ma
   \includegraphics[width=0.33\linewidth]{fact-happy-sex-2}%
   \includegraphics[width=0.33\linewidth]{fact-happy|sex-2}
 
-  \caption{Plots of the distribution of happiness and sex.}
+  \caption{Plots of the distribution of happiness and sex (\key{male} male, \key{female} female).}
   \label{fig:fact-simple}
 \end{figure}
 
@@ -282,7 +292,7 @@ Conditioning is also an important tool, because it allows one to remove relation
   \centering
     \includegraphics[width=0.5\linewidth]{part-fluctuation}%
     \includegraphics[width=0.5\linewidth]{part-equal-area}
-  \caption{Two displays of $\sim happy + health + finrela$.  (Left) Unconditional values partitioned with a vspine and fluct.  (Right) Same partitions, but health and relative financial status conditioned to uniform distribution.  We can no longer see the joint distribution of health and financial status, but it is much easier to see the conditional distribution of happiness: healthier and richer people are happier. (Maybe money does buy happiness?)}
+  \caption{Two displays of $\sim happy + health + finrela$.  (Left) Unconditional values partitioned with a vspine and fluct.  (Right) Same partitions, but health and relative financial status conditioned to uniform distribution.  We can no longer see the joint distribution of health and financial status, but it is much easier to see the conditional distribution of happiness: healthier and richer people are happier. (Maybe money does buy happiness?).  (\key{not-too-happy} Not too happy, \key{pretty-happy} pretty happy, \key{very-happy} very happy)}
   \label{fig:part-cond}
 \end{figure}
 
@@ -316,7 +326,7 @@ This makes it easier to see all the levels of the hierarchy, not just the lowest
   \centering
     \includegraphics[width=0.5\linewidth]{sex-marital-happy}%
     \includegraphics[width=0.5\linewidth]{cascade}
-  \caption{A mosaic plot of happiness by martial status and sex. (Left) Coloured by happiness.  (Right) A cascaded view helps show how the plot is built up.}
+  \caption{A mosaic plot of happiness by martial status and sex. (Left) Coloured by happiness (\key{not-too-happy} Not too happy, \key{pretty-happy} pretty happy, \key{very-happy} very happy).  (Right) A cascaded view helps show how the plot is built up.}
   \label{fig:cascade}
 \end{figure}
 
@@ -359,7 +369,7 @@ To make this work more generally, the y-variable (mapped to radius) should be sq
     \includegraphics[width=0.25\linewidth]{hs-hs-polar-2}%
     \includegraphics[width=0.25\linewidth]{hs-vs-polar-2}
 
-  \caption{(Top) Area graphics in Cartesian coordinates. (Mid) Area graphics in polar coordinates. From left to right: hbar + hbar, vspline + hbar, hspine + hspine, hspine + vspine. (Bottom) Product graphics rotated 90 degrees before being converted to polar coordinates: vbar + vbar, hspline + vbar, vspine + vspine, vspine + hspine.}
+  \caption{(Top) Area graphics in Cartesian coordinates. (Mid) Area graphics in polar coordinates. From left to right: hbar + hbar, vspline + hbar, hspine + hspine, hspine + vspine. (Bottom) Product graphics rotated 90 degrees before being converted to polar coordinates: vbar + vbar, hspline + vbar, vspine + vspine, vspine + hspine. (\key{male} male, \key{female} female)}
 
   \label{fig:polar}
 \end{figure}
