@@ -39,13 +39,13 @@ ggsave("plots/part-fluct-cond.pdf", width = 6, height = 6)
 df <- prodcalc(happy, ~ happy + sex + marital, na.rm = TRUE, 
   set_offset(c("vspine", "hspine", "hspine"), c(0, 0, 0.01)))
 
-draw(subset(df, level == 1)) + fill_marital
+draw(subset(df, level <= 1)) + fill_marital
 ggsave("plots/part-comb-1.pdf", width = 6, height = 6)
 
-draw(subset(df, level == 2)) + fill_sex
+draw(subset(df, level <= 2)) + fill_sex
 ggsave("plots/part-comb-2.pdf", width = 6, height = 6)
 
-draw(subset(df, level == 3)) + fill_happy
+draw(subset(df, level <= 3)) + fill_happy
 ggsave("plots/part-comb-3.pdf", width = 6, height = 6)
 
 

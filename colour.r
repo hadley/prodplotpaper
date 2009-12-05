@@ -9,6 +9,7 @@ fill_happy <- list(
 
 fill_sex <- list(
   aes(fill = sex),
+  opts(legend.position = "none"),
   scale_fill_manual(values = c(
     "male" = "#67A9CF", 
     "female" = "#EF8A62", 
@@ -16,6 +17,7 @@ fill_sex <- list(
 
 fill_marital <- list(
   aes(fill = marital),
+  opts(legend.position = "none"),
   scale_fill_manual(values = c(
     "married" = "#F1EEF6", 
     "never married" = "#BDC9E1", 
@@ -26,6 +28,7 @@ fill_marital <- list(
 
 fill_health <- list(
   aes(fill = health),
+  opts(legend.position = "none"),
   scale_fill_manual(
     values = c(
       "poor" = "#EDF8E9", 
