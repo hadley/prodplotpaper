@@ -396,7 +396,14 @@ To express that we are displaying weights, rather than counts, we extend the for
 \subsection{Continuous data}
 \label{sub:continuous_data}
 
-These techniques can also be used with continuous data, if the data is binned to create a categorical variable. This gives rise to the histogram and spinogram, analogues of the bar chart and spine chart respectively. A long standing tradition is that no gaps are displayed between adjacent rectangles when used for originally continuous data. Two examples are shown in Figure \ref{fig:cont-examples}.
+These techniques can also be used with continuous data, if the data is binned to create a categorical variable. There are many different possible choices of binning algorithms, but we will focus on two:
+
+\begin{itemize}
+  \item Intervals of equal width.
+  \item Intervals containing equal numbers of points.
+\end{itemize}
+
+This gives rise to the histogram and spinogram, analogues of the bar chart and spine chart respectively. A long standing tradition is that no gaps are displayed between adjacent rectangles when used for originally continuous data. Two examples are shown in Figure \ref{fig:cont-examples}.
 
 \begin{figure}[htbp]
   \begin{center}
@@ -411,25 +418,26 @@ Cat + continuous.
 
 An alternative approach is use density estimates (or conditional density estimates) and plot with continuous area plots.  As in: Hofmann, H., Theus, M. (2005), Interactive graphics for visualizing conditional distributions, Unpublished Manuscript.
 
-\subsection{Nested data}
-\label{sub:nested_data}
+% \subsection{Nested data}
+% \label{sub:nested_data}
+% 
+% Use space-filling!
+% 
+% We distinguish nested data from crossed data by the number of interactions with missing values.  Completely crossed data contains every combination of all variables.  Nested data contains 
+% 
+% 
+% Aka sparse vs. dense.
+% 
+% It is not always possible to determine nested data from inspection of the data alone, but may need knowledge of the data collection.  For example, if a survey of teachers within schools was performed, and each teacher was identified by a identifier unique within a school, it might look like the data was only missing a few combinations, when in fact it is meaningless.  
+% 
+% 
+% 
+% Or when you have a hierarchy.
+% 
+% Example dataset - Doug Bates teachers/schools?
+% 
+% Possibilities: create new variable which is interaction of nested vars, or drop missings/zeros.  Treemaps deal almost exclusively with nested data.
 
-We distinguish nested data from crossed data by the number of interactions with missing values.  Completely crossed data contains every combination of all variables.  Nested data contains 
-
-Aka sparse vs. dense.
-
-It is not always possible to determine nested data from inspection of the data alone, but may need knowledge of the data collection.  For example, if a survey of teachers within schools was performed, and each teacher was identified by a identifier unique within a school, it might look like the data was only missing a few combinations, when in fact it is meaningless.  
-
-Or when you have a hierarchy.
-
-Example dataset - Doug Bates teachers/schools?
-
-Possibilities: create new variable which is interaction of nested vars, or drop missings/zeros.  Treemaps deal almost exclusively with nested data.
-
-\section{Data analysis} % (fold)
-\label{sec:data_analysis}
-
-% section data_analysis (end)
 
 \section{Labelling}
 \label{sec:legends}
