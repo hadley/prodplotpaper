@@ -332,23 +332,23 @@ This makes it easier to see all the levels of the hierarchy, not just the lowest
 
 \subsection{Non-rectangular partitions}
 
-A pie chart is a popular method of displaying proportions, but is not a rectangular partition. However, it turns out that there is a simple relationship between the bar charts and pie charts: an pie chart is an hspine drawn in polar coordinates with the x coordinate mapped to angle and the y coordinate to radius. Many other displays that use circulate arcs turn out to be special cases of product plots, drawn in polar coordinates:   
+A pie chart is a popular method of displaying proportions, but is not a rectangular partition. However, it turns out that there is a simple relationship between product plots and pie charts: an pie chart is an hspine drawn in polar coordinates with the x coordinate mapped to angle and the y coordinate to radius. Many other displays that use circular arcs turn out to be special cases of product plots, drawn in polar coordinates:   
 
 \begin{itemize}
   \item Fourfold displays \citep{friendly:1995}, wind rose, sector graphic: hbar.
 
-  \item Bullseye chart, hspine.
+  \item Bullseye chart: hspine.
 
-  \item Doughnut plot, vspine + hspine.
+  \item Doughnut plot: vspine + hspine.
 
-  \item Circular bar chart or racetrack plot, vbar.
+  \item Circular bar chart or racetrack plot: vbar.
 
-  \item Infoslices \citep{andrews:1998}, nested vbar.  But only use half of the disk, and are specialised for highly nested data.
+  \item Infoslices \citep{andrews:1998}, nested vbar. But they only use half of the disk, and are specialised for highly nested data.
 
   \item Nightingales's coxcomb, is very similar to vspine / hbar in polar coordinates, except that the pie slices are overlapping and so violates the constraint of disjoint area.
 \end{itemize}
 
-\noindent Eight variants are displayed Figure~\ref{fig:polar}.
+\noindent Eight variants are displayed in Figure~\ref{fig:polar}.
 
 To make this work more generally, the y-variable (mapped to radius) should be square-root transformed to ensure that that counts stay proportional to areas. The radial displays of \citet{stasko:2000} and fanlens of \citet{lou:2007} deliberately choose not to do this to highlight the outer levels.
 
@@ -374,24 +374,22 @@ To make this work more generally, the y-variable (mapped to radius) should be sq
   \label{fig:polar}
 \end{figure}
 
-A number of non-rectangular treemaps have been proposed, such as the circular treemaps of \citet{wetzel:2008}, the space-filling curves of \citet{wattenberg:2005} and the voronoi treemaps of \citet{balzer:2005}.  However, because it is such much more difficult to compare the areas of arbitrary polygons, these approaches tend to be attractive rather than useful.
+A number of non-rectangular treemaps have been proposed, such as the circular treemaps of \citet{wetzel:2008}, the space-filling curves of \citet{wattenberg:2005} and the voronoi treemaps of \citet{balzer:2005}.  However, because it is so much more difficult to compare the areas of arbitrary polygons, these approaches tend to be attractive rather than useful.
 
 \section{Variations}
 \label{sec:variations}
 
-% Pseudo 2d, where you take a long 1d structure and wrap it into 2d.
-% 
-% Pseduo 1d, where you make a new variable from multiple variables.
-
+On top of this basic framework, there are a few variations designed for dealing with special types of data: missing data, weighted data, and continuous data.  These variations are described below.
 
 \subsection{Missing values}
 \label{sub:missing_values}
 
 
+
 \subsection{Weighting}
 \label{sub:weighting}
 
-We have assumed the probabilities represent counts, but without loss of generality we can use any set of non-negative, additive weights instead. Some of the applications of such weighted plots are described in \citet{unwin:2007}. In the happy dataset, the {\sf wtssall} variable gives analytic survey weights. Figure~\ref{fig:weighting} shows the difference between the weighted and unweighted distributions of age and sex. The distribution is subtly different.
+We have assumed that the probabilities represent counts, but without loss of generality, we can use any set of non-negative, additive weights. For example, in the happy dataset, the {\sf wtssall} variable gives analytic survey weights. Figure~\ref{fig:weighting} shows the difference between the weighted and unweighted distributions of age and sex. The distribution is subtly different. \citep{unwin:2007} describes the applications of weighted plots in more detail.
 
 To express that we are displaying weights, rather than counts, we extend the formula syntax by putting the weighting variable on the left-hand side: $wtssall \sim sex + age$ vs. $ \sim sex + age$.
 
@@ -399,7 +397,7 @@ To express that we are displaying weights, rather than counts, we extend the for
   \centering
     \includegraphics[width=0.5\linewidth]{wt-count}%
     \includegraphics[width=0.5\linewidth]{wt-wtssall}%
-  \caption{(Left) Unweighted distribution (counts).  (Right) Weighted by probability weights.}
+  \caption{Joint distribution of age and sex (\key{male} male, \key{female} female). (Left) counts and (right) probability weights.}
   \label{fig:weighting}
 \end{figure}
 
@@ -452,7 +450,9 @@ An alternative approach is use density estimates (or conditional density estimat
 \section{Labelling}
 \label{sec:legends}
 
-Due to the hierarchical nature of these plots, it's difficult to label them in an informative way.  We take a pragmatic approach, and label a single horizontal and single vertical split, where possible.  Understanding the composition of these plots is most easy when:
+Due to the hierarchical nature of these plots, it's difficult to label them in an informative way. We take a pragmatic approach, and label a single horizontal and single vertical split, where possible, using colour to identify a third variable, if necessary. 
+
+Understanding the composition of these plots is most easy when:
 
 \begin{itemize}
 
@@ -468,8 +468,8 @@ Apart from textual labels on the x-axis, other work has labelled individual cell
 
 \begin{itemize}
   \item colour (map of the market)
-  \item texture (sieve plots)
-  \item photographs
+  \item texture, such as in sieve plots \citep{friendly:2000}
+  \item photographs \citep{bederson:2001}
   \item text (tables)
   \item embedded plots (time series in lab escape)
 \end{itemize}
