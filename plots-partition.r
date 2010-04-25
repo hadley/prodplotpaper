@@ -9,7 +9,7 @@ ggsave("plots/part-hbar.pdf", width = 4, height = 4)
 prodplot(happy, ~ happy, "hspine", na.rm = TRUE) + fill_happy
 ggsave("plots/part-hspine.pdf", width = 4, height = 4)
 
-prodplot(happy, ~ happy, "treemap", na.rm = TRUE) + fill_happy
+prodplot(happy, ~ happy, "tile", na.rm = TRUE) + fill_happy
 ggsave("plots/part-treemap.pdf", width = 4, height = 4)
 
 # 2d partitions --------------------------------------------------------------

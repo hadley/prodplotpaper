@@ -1,0 +1,35 @@
+\section{Labelling}
+\label{sec:legends}
+
+Due to the hierarchical nature of these plots, it's difficult to label them in an informative way. We take a pragmatic approach, and label a single horizontal and single vertical split, where possible, using colour to identify a third variable, if necessary.
+
+Understanding the composition of these plots is most easy when:
+
+\begin{itemize}
+
+  \item Exploration: You have interactive control over the creation of the plot, and can interactively query regions of interest
+
+  \item Communication: The plot is built up step-by-step, and shows the minimum number of splits.  It may be easier to understand a single complex plot when factored into two or more simpler plots.
+
+\end{itemize}
+
+To create the labels in used in this paper, we inspect each level of the factorisation looking for the first level in which there are rows or columns.  We do this rather inspecting the partitions that make up the plot, because there are many possible combinations that create columns: hsplines, hbars, vsplines, vbars for uniform data, flucts, ... and then can occur at any level in the hierarchy depending on what's come before.
+
+Apart from textual labels on the x-axis, other work has labelled individual cells with attributes of the data:
+
+\begin{itemize}
+  \item colour (map of the market)
+  \item texture, such as in sieve plots \citep{friendly:2000}
+  \item photographs \citep{bederson:2001}
+  \item text (tables)
+  \item embedded plots (time series in lab escape)
+\end{itemize}
+
+Or attributes of the hierarchy:
+
+\begin{itemize}
+  \item Spacing / borders
+  \item Shading
+  \item Cascading
+  \item Labelling
+\end{itemize}
