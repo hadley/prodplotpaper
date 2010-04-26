@@ -41,26 +41,17 @@
 %  * pull all area plots on a common footing - provide a grammar for
 %    categorical graphics
 
-Area plots, like bar charts and mosaic plots, are the graphical equivalent of contingency tables, displaying how a total is broken down.
+Area plots, like bar charts, mosaic plots and treemaps, are the graphical equivalent of contingency tables, visualising a discrete distribution by mapping proportion to area. This paper presents a unifying framework for area plots, showing how many existing plots are interrelated, and developing a set of tools for creating new plots. In particular, we create a graphical factorisation of area plots by analogy to the mathematical factorisation of joint distributions into products of marginals and conditionals.
 
-Display of discrete distribution, pmf, contingency table.
+The paper proceeds as follows. Section~\ref{sec:primitives} described the simple one- and two-d graphical primitives that define all area plots. Section~\ref{sec:combination} provides a mathematical framework that shows how these simple primitives can be combined to display higher-d distributions. Section~\ref{sec:variations} extends these techniques for other types of data, and shows variations based on different low-d graphical primitives.
 
-This paper presents a unifying framework for area plots, showing how many existing plots are interrelated, and by drawing an
+To illustrate these ideas, we use the same data for all examples. It's a small sample of variables related to happiness from the general social survey ({\sc gss}). The {\sc gss} is a yearly cross-sectional survey of Americans, run from 1976. We combine data for 25 years to to give gives 51\,020 observations, and of the over 5\,000 variables, we select eight related to happiness, as described in Table~\ref{tbl:happy}. The data is included in the supplemental materials.
 
-The paper proceeds as follows. Section~\ref{sec:primitives} defines the simple one- and two-d primitives used for all more complicated graphics. Section~\ref{sec:combination} provides a mathematical framework that shows how these simple primitives can be combined to display higher-d tables. Section~\ref{sec:variations} shows how these plots can be adapted to deal with missing values, weights and continuous data.
-
-To illustrate these ideas, the same data for all examples. It's a small sample
-of variables related to happiness from the general social survey ({\sc gss}).
-The {\sc gss} is a yearly cross-sectional survey of Americans. Combining
-surveys from 1972 to 2006 gives 51\,020 observations. Of the over 5\,000
-variables, we select eight related to happiness, as described in
-Table~\ref{tbl:happy}. The data is included in the supplemental materials.
-
-\begin{table}
+\begin{table}[htb]
   \begin{center}
-  \begin{tabular}{llp{8cm}}
+  \begin{tabular}{llp{9cm}}
     \toprule
-    Variable name & Description & Values \\
+    Variable & Description & Values \\
     \midrule
     {\sf age} & age in years & 18--89 \\
     {\sf degree} & highest education & lt high school, high school, junior college, bachelor, graduate \\
@@ -71,24 +62,25 @@ Table~\ref{tbl:happy}. The data is included in the supplemental materials.
     {\sf wtsall} & probability weight & 0.43--6.42 \\
     {\sf year} & year of survey & 1972--2006 \\
     \bottomrule
-
   \end{tabular}
   \end{center}
-  \caption{Description of sample data.  Common plot colours are shown next to respective levels.}
+  \caption{Description of sample data. Common plot colours are shown next to respective levels.}
   \label{tbl:happy}
 \end{table}
 
 \section{Graphical primitives}
 \label{sec:primitives}
 
-Tilings of the plane. In general, we could also think of partitions of higher-dimensional spaces (e.g. 3d or 4d), but we will need to project these down to two for viewing anyway, so there is little disadvantage to working directly in 2d. To derive the graphical primitives we start with three constraints:
+All area plots correspond to tilings of the plane. We could also consider partitions of higher-d spaces (e.g. 3d or 4d), but given that we have to project these down to 2d for viewing, there is little disadvantage to working directly in 2d.
+
+To derive the graphical primitives we start with three constraints:
 
 \begin{itemize}
-  \item Area must be {\bf proportional} to value. Because the total area for a graphic is usually constrained, an area plot serves to partition up this total, displaying proportions rather than counts.
+  \item Area must be {\bf proportional} to value. Because the total area for a graphic is usually constrained, an area plot partitions this total, displaying proportions rather than counts.
 
-  \item Partitions must be {\bf rectangular}. It is easier to compare the areas of simple shape (i.e. rectangle vs polygon), and even better when one the length of one border is fixed, so we only need compare the length of the other \citep{cleveland:1984}. Rectangular partitions are also recursive in the sense that we can always tile a rectangle with smaller rectangles. This is not true for most shapes.
+  \item Partitions must be {\bf rectangular}. It is easier to compare the areas of simple shape (i.e. rectangle vs polygon), and even easier when the length of one border is fixed, so we only need compare the length of the other \citep{cleveland:1984}. Rectangular partitions are also recursive in the sense that we can always tile a rectangle with smaller rectangles. This is not true for most shapes.
 
-  \item Partitions must be {\bf disjoint}. To be able to see the complete area of each rectangle they must be non-overlapping, and each split must be nested within the shapes of the previous level. Note that we do not impose the constraint that the tiling be space-filling. Space filling methods use will ensure that areas are larger, but make it harder to compare magnitudes because scales no longer align.
+  \item Partitions must be {\bf disjoint}. To be able to see the complete area of each rectangle they must be non-overlapping. This does not imply that the tiling be space-filling: generally, space filling methods use space more efficiently, but make areas harder to compare.
 
 \end{itemize}
 
@@ -105,15 +97,15 @@ There are three 1d primitives, as shown in Figure~\ref{fig:part-1d}:
 
 \begin{itemize}
 
-  \item {\bf bar}s: height is proportional to value, width equally divides space. Bars allow comparison between absolute numbers, but are not space filling. Bars are not space filling, occupying $\sum(p_i / \max(p_i))$ of the total area. Bars can be arranged horizontally (``hbar'') or vertically (``vbar'').
+  \item {\bf bar}s: height is proportional to value, width equally divides space. Bars are not space filling, occupying $\mbox{mean}(x - \max(x))$ of the total area. Bars can be arranged horizontally (``hbar'') or vertically (``vbar'').
 
-  \item {\bf spine}s: width is proportional to value, height is fixed. Splines are space filling. Splines can be arranged horizontally (``hspine''), vertically (``vspine''), or can automatically pick their orientation (``spine'').
+  \item {\bf spine}s: width is proportional to value, height occupies full range. Splines are space filling. Splines can be arranged horizontally (``hspine''), vertically (``vspine''), or can automatically pick their orientation (``spine'') by splitting the largest dimension. The appearance of bars and splines is identical for uniformly distributed data.
 
-  \item {\bf tile}s: tile the plane with rectangles, trying to keep the aspect ratio of each rectangle close to 1. There are no restrictions on height or width, just the overall area. This is partitioning used by the squarified treemap \citep{bruls:1999}.
+  \item {\bf tile}s: no restrictions on height or width, just tile the plane with rectangles, trying to keep the aspect ratio of each rectangle close to 1. This is partitioning used by the squarified treemap \citep{bruls:1999}.
 
 \end{itemize}
 
-Each of these three displays has different strengths and weaknesses.  The perceptual task associated with bar charts is the simplest, but they do not occupy all the area. Spines and tiles are harder to read, but occupy the complete space and work better recursively \citep{heer:2010}.
+Each of these three displays has different strengths and weaknesses.  The perceptual task associated with bar charts is the simplest, but they do not occupy all the area. Spines and tiles are harder to read \citep{heer:2010}, but occupy the complete space and work better recursively.
 
 \begin{figure}[htbp]
   \centering
@@ -125,64 +117,43 @@ Each of these three displays has different strengths and weaknesses.  The percep
   \label{fig:part-1d}
 \end{figure}
 
-The appearance of bars and splines is identical for uniformly distributed data.
 
 \subsection{2d primitives}
 \label{sub:part-2d}
 
-We are currently aware of one 2d primitive, the {\bf fluct}, which has both height and width proportional to the square root of the proportion. Flucts allow comparisons of relative magnitudes in two directions. Each rectangle is arranged on a regular grid formed by the levels of the two variables, and so is not space filling.
-
-One special case of the fluct is the equal bin size plot which occurs when the two variables are jointly uniformly distributed, usually as a result of conditioning. The equal bin size plot is useful to visualise missing combinations, or when supplemented with a third variable, to visualise the distribution conditional on two other variables.
+We are currently aware of one 2d primitive, the {\bf fluct}, which has both height and width proportional to the square root of the proportion \citep{hofmann:2000}. Each rectangle is arranged on a regular grid formed by the levels of the two variables, allowing comparisons in two directions. A special case of the fluct is the equal bin size plot which occurs when the two variables are jointly uniformly distributed, usually as a result of the conditioning described in the next section. The equal bin size plot is useful to visualise missings.
 
 \begin{figure}[htbp]
   \centering
     \includegraphics[width=0.5\linewidth]{part-fluct}%
     \includegraphics[width=0.5\linewidth]{part-fluct-cond}
-  \caption{(Left) Distribution of age (in decades) and marital status. (Right) Equal bin-size plot showing health status and survey year. Health status was not recorded for three years.}
+  \caption{(Left) A fluct showing distribution of age (in decades) and marital status. (Right) Equal bin-size plot showing health status and survey year. Health status was not recorded for three years.}
   \label{fig:fluct}
 \end{figure}
 
 \section{Factorising area plots}
 \label{sec:combination}
 
-To construct plots for discrete pdfs with more than two dimensions, we need a mechanism to factorise them into low dimensional products. This factorisation has three roles:
+To construct plots for higher-dimensional tables, we need a way to decompose them into 1d and 2d components. To do we use some very basic properties of probability.  For example, let $f(x, y, z)$ be a 3d pmf. We can write this pmf as product of marginals and conditionals:
 
 \begin{itemize}
-  \item as products of marginal and conditional distributions
-  \item as areas in plots
-  \item as sums of parameters in log-linear models
+  \item $f(x, y, z) = f(z) f(x, y | z)$
+  \item $f(x, y, z) = f(y, z) f(x | y, z) $
+  \item $f(x, y, z) = f(z) f(y | z) f(x | y, z)$
 \end{itemize}
 
-Let $f(x, y, z)$ be the 3d pmf function. We can can write this pmf as product of marginals and conditionals in many different ways.  We can decompose product graphics in a similar way.
+\noindent Each of these decompositions is made up of products of one or two-d pmfs that can visualised used one of the graphical primitives described previously. Note that while $f(x, y, z)$ and $f(z, y, x)$ represent the same pmf, the factorisation will be different because you will get different marginal tables.
 
-\begin{itemize}
-  \item $f(x, y, z) = f(x, y | z) f(z)$
-  \item $f(x, y, z) = f(x | y, z) f(y, z)$
-  \item $f(x, y, z) = f(x | y, z) f(y | z) f(z)$
-\end{itemize}
-
-% It can be useful to display partial decompositions, i.e. just $f(x, y | z)$, which is still a 3 variable pmf, and is defined as
-%
-% \[ f(x, y | z) = \frac{f(x, y, z)}{f(z)} \]
-%
-% so that each category of z sums to one, and for any fixed value of z, $f(x, y | z)$ is a valid pmf.
-%
-% \[ \forall b \sum_a f(a | b) = 1 \]
-%
-% Because of their hierarchical nature, an area plot of $f(x, y, z)$ also shows $f(y, z)$ and $f(z)$.
-
-Based on the modelling specification of \citet{wilkinson:1973} we define an algebra for describing these tables.
+Writing the full pmf is tedious, so we define an algebra based on the modelling specification of \citet{wilkinson:1973}:
 
 \begin{itemize}
   \item \verb|~ a| represents $f(a)$,
   \item \verb|~ a + b| represents $f(a, b)$
   \item \verb!~ a | b! represents $f(a | b)$
-  \item \verb!~ . | a! is a special case of $f(a) = \frac{1}{\#A}$.
+  \item \verb!~ . | a! is a special case, $f(a) = \frac{1}{\#A}$.
 \end{itemize}
 
-By convention we will write the top most level of the product plot on the left, and lower levels to the right.  While $f(x, y, z)$ and $f(z, y, x)$ display the same counts, their interpretation is different because of which marginal tables you see.
-
-Figure~\ref{fig:fact-simple} uses the distribution of sex and happiness to illustrates these ideas. From left to right, we have plots of \verb|~ happy|, \verb!~ happy | sex! and their product \verb|~ happy + sex|.  Observe that the heights and widths of the rectangles are multiplied in the same way as the components of the pmf.
+Figure~\ref{fig:fact-simple} uses the distribution of sex and happiness to illustrate these ideas. From left to right, we have plots of \verb|~ happy|, \verb!~ happy | sex! and the product \verb|~ happy + sex|. Observe that the heights and widths of the rectangles are multiplied in the same way as the components of the pmf.
 
 \begin{figure}[htbp]
   \centering
@@ -199,6 +170,9 @@ Figure~\ref{fig:fact-simple} uses the distribution of sex and happiness to illus
 \end{figure}
 
 % To visualise higher-dimensional pmfs, we recursively partition using the previously described primitives. That is, to display $f(x, y, z)$ we first create a partition based on $f(z)$ then partition each of those pieces based on $f(y | z)$ and again by $f(x | y, z)$.
+
+\subsection{Examples}
+\label{sub:examples}
 
 Figure \ref{fig:recursive} illustrates this process with a graphic that explores whether, conditional on marital status, there is a difference in happiness between men and women.
 
@@ -227,41 +201,38 @@ Conditioning is also an important tool, because it allows one to remove relation
   \centering
     \includegraphics[width=0.5\linewidth]{part-fluctuation}%
     \includegraphics[width=0.5\linewidth]{part-equal-area}
-  \caption{Two displays of $\sim happy + health + finrela$.  (Left) Unconditional values partitioned with a vspine and fluct.  (Right) Same partitions, but health and relative financial status conditioned to uniform distribution.  We can no longer see the joint distribution of health and financial status, but it is much easier to see the conditional distribution of happiness: healthier and richer people are happier. (Maybe money does buy happiness?).  (\key{not-too-happy} Not too happy, \key{pretty-happy} pretty happy, \key{very-happy} very happy)}
+  \caption{(Left) $\sim happy + health + finrela$, partitioned with a vspine and fluct.  (Right) $\sim happy \,|\, health + finrela$. We can no longer see the joint distribution of health and financial status, but it is much easier to see the conditional distribution of happiness. Healthier and richer people are happier: maybe money does buy happiness? (\key{not-too-happy} Not too happy, \key{pretty-happy} pretty happy, \key{very-happy} very happy)}
   \label{fig:part-cond}
 \end{figure}
 
-% http://peltiertech.com/Utility/ClusterStackUtility.html
-
-
-
-
 \subsection{Existing plot types}
+
+You may have noticed that the previous plots resemble area plots that have previously be named. The one-d primitives already have their own names:
 
 % Other papers to cite:
 %
-% Generalised treemaps: \citep{vliegen:2006}
-% Cocktailmaps: \citep{ahlberg:1996}
-% Extension to mosaic: \citep{friendly:1999,hofmann:2000}
-% Connection to models: \citep{theus:1999,hofmann:2001}
-
-The sequence of partitioning choices defines different named area plots:
+%
 
 \begin{itemize}
-  \item {\bf Barchart} (1d). 1 hbar.
+  \item {\bf Bar chart} (1d). 1 hbar.
   \item {\bf Column chart} (1d). 1 vbar.
   \item {\bf Spineplot} (1d). 1 vspine.
-
-  \item {\bf Stacked} barchart (2d). 1 hbar and 1 vspine.
-  \item {\bf Nested} barchart (2d).  2 hbars. \citep{peltier:2009}
   \item {\bf Fluctuation} diagram (2d): fluct.
+\end{itemize}
 
-  \item {\bf Equal bin size} plot (3d): fluct and vspine, provided the first two variables are uniform.
+\noindent And many more plots correspond to higher order combinations:
+
+\begin{itemize}
+  \item {\bf Stacked} bar chart (2d). 1 hbar and 1 vspine.
+  \item {\bf Nested} bar chart (2d).  2 hbars. \citep{peltier:2009}
+
+  \item {\bf Equal bin size} plot (3d): fluct and vspine, conditioned on the first two variables \citep{hofmann:2000}.
 
   \item {\bf Mosaic} plot (nd).  Alternating hspines and vspines.  \citep{hartigan:1984,hartigan:1981,friendly:1994,hofmann:2003}
   \item {\bf Double-decker} plot (nd).  $n-1$ hspines and 1 vspine. \citep{hofmann:2001}
   \item {\bf Treemap} (nd): n spines. \citep{shneiderman:1992}
   \item {\bf Squarified treemap} (nd): n tiles. \citep{bruls:1999}
+  \item {\bf Generalised treemaps} (nd): any plot ending with a tile \citep{vliegen:2006}.
 
 \end{itemize}
 
@@ -271,11 +242,24 @@ variables to generate multiple panels, each containing a plot of the subset of
 the data. Trellised area plots also fall into our framework and can be
 created by conditioning on the trellising variables.
 
-These techniques are also closely related to dimensional stacking \citep{leblanc:1990}
-
 
 \section{Modelling}
 \label{sec:models}
+
+This framework leads to a combinatorial explosion of possibilities. A 4d pmf, f(a, b, c, d) can be factorised in five different ways:
+
+\begin{itemize}
+  \item $f(a, b, c, d) = f(a | b, c, d) f(b | c, d) f(c, d)$
+  \item $f(a, b, c, d) = f(a | b, c, d) f(b | c, d) f(c | d) f(d)$
+  \item $f(a, b, c, d) = f(a | b, c, d) f(b, c | d) f(d)$
+  \item $f(a, b, c, d) = f(a, b | c, d) f(c, d)$
+  \item $f(a, b, c, d) = f(a, b | c, d) f(c | d) f(d)$
+\end{itemize}
+
+\noindent There are 24 possible ways of ordering the variables in the pdf, and each 1d pmf can be displayed in five different ways. For a 4d problem this gives $5 * 24 * (5^3 + 5^4 + 5^2 + 1 + 5^2) = 96120$ plots!  How can we use statistical models to guide us towards an appropriate choice?
+
+% Connection to models: \citep{theus:1999,hofmann:2001}
+
 
 \section{Variations and extensions}
 \label{sec:variations}
@@ -283,9 +267,10 @@ These techniques are also closely related to dimensional stacking \citep{leblanc
 On top of this basic framework, it is useful to consider a few variations and extensions.  Three are based on variations of the underlying data (missing data, weighted data, and continuous data), and three are based on relaxing the display constraints (area not proportional to weight, non-disjoint partitions, non-rectangular partitions).
 
 
-\subsection{Missing values}
+\subsection{Missing values and zeros}
 \label{sub:missing_values}
 
+Crossed vs. nested
 
 \subsection{Weighting}
 \label{sub:weighting}
@@ -321,6 +306,9 @@ This gives rise to the histogram and spinogram, continuous analogues of the bar 
 \end{figure}
 
 Example exploring joint and conditional distributions of age and year.
+
+If an equal bin sized plot is used, and value is mapped to colour, then we get  dimensional stacking \citep{leblanc:1990}
+
 
 % An alternative approach is use density estimates (or conditional density estimates) and plot with continuous area plots.  As in: Hofmann, H., Theus, M. (2005), Interactive graphics for visualizing conditional distributions, Unpublished Manuscript.
 
