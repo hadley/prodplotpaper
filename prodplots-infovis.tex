@@ -1,17 +1,24 @@
-\documentclass[letterpaper,oneside]{scrartcl}
-\usepackage{fullpage}
-\usepackage[utf8]{inputenc}
-\usepackage[pdftex]{graphicx}
-\DeclareGraphicsExtensions{.png,.pdf}
+% zip -r graphical-inference.zip *.pdf *.tex images references.bib *.cls
+
+% 8 pages, including reference 
+% 
+% Frame as design paper:
+% 
+%   * explain the target problem
+%   * enough background that the reader can pass judgement about whether your
+%     solution is good
+%   * you should present results that back up the claim that your approach is
+%     better than others
+%
+% Supplemental material to create plots
+\documentclass[journal]{vgtc}
+\usepackage{mathptmx}
+\usepackage{graphicx}
 \graphicspath{{plots/}}
-\usepackage{hyperref}
+\usepackage{times}
 \usepackage{booktabs}
-\usepackage{url}
-\usepackage[round,sectionbib]{natbib}
-\bibliographystyle{abbrvnat}
-\usepackage[small]{caption}
-\usepackage[small]{titlesec}
-\renewcommand\familydefault{bch}
+\usepackage[utf8]{inputenc}
+\usepackage[square,sort&compress]{natbib}
 
 \usepackage{tikz}
 \definecolor{female}{HTML}{EF8A62}
@@ -23,35 +30,51 @@
 \newcommand{\key}[1]
   {\protect \tikz{\fill[#1] rectangle (1ex,1ex);}}
 
-\title{Product graphics}
-\author{Hadley Wickham and Heike Hofmann}
+
+\onlineid{0}
+\vgtccategory{Research}
+\vgtcinsertpkg
+
+\title{Product plots}
+\author{Hadley Wickham, and Heike Hofmann}
+\authorfooter{
+  \item Hadley Wickham is an Assistant Professor of Statistics at Rice University, Email: hadley@rice.edu.
+  \item Heike Hofmann is an Associate Professor of Statistics at Iowa State University.
+}
+\shortauthortitle{Wickham \MakeLowercase{\textit{et al.}}: Product plots}
+
+\abstract{
+
+}
+\keywords{Statistics, joint distribution, conditional distribution, treemap, bar chart, mosaic plot}
+\CCScatlist{ % not used in journal version
+  \category{H.5.2}{Information Interfaces and Presentation}{ User Interfaces --- Graphical user interfaces (GUI), Interaction styles, Screen design, Evaluation/methodology}
+  \CCScat{I.6.8}{Computing Methodologies}%
+  {Simulation and Modeling}{Visual Simulation};
+}
+
+% \teaser{
+% \centering
+% \includegraphics[width=16cm]{tx-cancer}
+% \caption{One of these plots doesn't belong. These six plots show choropleth maps of cancer deaths in Texas, where darker colors = more deaths. Can you spot which of the six plots is made from a real dataset and not simulated under the null hypothesis of spatial independence?  If so, you've provided formal statistical evidence that deaths from cancer have spatial dependence. See Section~\ref{sec:solutions} for the answer.}
+% \label{fig:teaser}
+% }
+
+\renewcommand{\manuscriptnotetxt}{\itshape Manuscript received 31 March 2011; accepted XX XXXX XXXX; posted online XX XXXX XXXX; mailed on XX XXXX XXXX. 
+
+For information on obtaining reprints of this article, please send email to: tvcg@computer.org.}
+
+
 \begin{document}
+\firstsection{Introduction}
 \maketitle
-
-\section{Introduction}
-
-% JASA methods
-% Infovis?
-
-% Aims of this paper:
-%
-%  * emphasise the connection between area graphics and factorising
-%    probabilities
-%
-%  * pull all area plots on a common footing - provide a grammar for
-%    categorical graphics
-
-% References to add:
-%  * Kong & Heer paper on treemap perception
-%  * Dykes on hiearchical layout language
-
 Area plots, like bar charts, mosaic plots and treemaps, are the graphical equivalent of contingency tables, visualising a discrete distribution by mapping proportion to area. This paper presents a unifying framework for area plots, showing how many existing plots are interrelated, and developing a set of tools for creating new plots. In particular, we create a graphical factorisation of area plots by analogy to the mathematical factorisation of joint distributions into products of marginals and conditionals.
 
 The paper proceeds as follows. Section~\ref{sec:primitives} described the simple one- and two-d graphical primitives that define all area plots. Section~\ref{sec:combination} provides a mathematical framework that shows how these simple primitives can be combined to display higher-d distributions. Section~\ref{sec:variations} extends these techniques for other types of data, and shows variations based on different low-d graphical primitives.
 
 To illustrate these ideas, we use the same data for all examples. It's a small sample of variables related to happiness from the general social survey ({\sc gss}). The {\sc gss} is a yearly cross-sectional survey of Americans, run from 1976. We combine data for 25 years to to give gives 51\,020 observations, and of the over 5\,000 variables, we select eight related to happiness, as described in Table~\ref{tbl:happy}. The data is included in the supplemental materials.
 
-\begin{table}[htb]
+\begin{table*}[htb]
   \begin{center}
   \begin{tabular}{llp{9cm}}
     \toprule
@@ -70,7 +93,7 @@ To illustrate these ideas, we use the same data for all examples. It's a small s
   \end{center}
   \caption{Description of sample data. Common plot colours are shown next to respective levels.}
   \label{tbl:happy}
-\end{table}
+\end{table*}
 
 \section{Graphical primitives}
 \label{sec:primitives}
@@ -242,23 +265,6 @@ You may have noticed that the previous plots resemble area plots that have previ
 
 Trellis graphics \citep{becker:1996}, also known as lattice, facetted and conditioned graphics, are another related display. They use categorical variables to generate multiple panels, each containing a plot of the subset of the data. Trellised area plots also fall into our framework and can be created by conditioning on the trellising variables.
 
-\section{Modelling}
-\label{sec:models}
-
-This framework leads to a combinatorial explosion of possibilities. A 4d pmf, f(a, b, c, d) can be factorised in five different ways:
-
-\begin{itemize}
-  \item $f(a, b, c, d) = f(a | b, c, d) f(b | c, d) f(c, d)$
-  \item $f(a, b, c, d) = f(a | b, c, d) f(b | c, d) f(c | d) f(d)$
-  \item $f(a, b, c, d) = f(a | b, c, d) f(b, c | d) f(d)$
-  \item $f(a, b, c, d) = f(a, b | c, d) f(c, d)$
-  \item $f(a, b, c, d) = f(a, b | c, d) f(c | d) f(d)$
-\end{itemize}
-
-\noindent There are 24 possible ways of ordering the variables in the pdf, and each 1d pmf can be displayed in five different ways. For a 4d problem this gives $5 * 24 * (5^3 + 5^4 + 5^2 + 1 + 5^2) = 96120$ plots!  How can we use statistical models to guide us towards an appropriate choice?
-
-% Connection to models: \citep{theus:1999,hofmann:2001}
-
 
 \section{Variations and extensions}
 \label{sec:variations}
@@ -380,11 +386,29 @@ To make this work more generally, the y-variable (mapped to radius) should be sq
 
 A number of non-rectangular treemaps have been proposed, such as the circular treemaps of \citet{wetzel:2008}, the space-filling curves of \citet{wattenberg:2005} and the voronoi treemaps of \citet{balzer:2005}.  However, because it is so much more difficult to compare the areas of arbitrary polygons, these approaches tend to be attractive rather than useful.
 
+\section{Interaction}
+\label{sec:interaction}
+
+
 
 \section{Conclusions}
 
+This framework leads to a combinatorial explosion of possibilities. A 4d pmf, f(a, b, c, d) can be factorised in five different ways:
 
+\begin{itemize}
+  \item $f(a, b, c, d) = f(a | b, c, d) f(b | c, d) f(c, d)$
+  \item $f(a, b, c, d) = f(a | b, c, d) f(b | c, d) f(c | d) f(d)$
+  \item $f(a, b, c, d) = f(a | b, c, d) f(b, c | d) f(d)$
+  \item $f(a, b, c, d) = f(a, b | c, d) f(c, d)$
+  \item $f(a, b, c, d) = f(a, b | c, d) f(c | d) f(d)$
+\end{itemize}
 
-% bibtool -x product-graphics -o references.bib
+\noindent There are 24 possible ways of ordering the variables in the pdf, and each 1d pmf can be displayed in five different ways. For a 4d problem this gives $5 * 24 * (5^3 + 5^4 + 5^2 + 1 + 5^2) = 96120$ plots!  In future work, we hope to connect product plots to statistical models to help guide the choice of appropriate graphic.
+
+% \acknowledgments{ The authors wish to thank Robert Kosara for helpful discussion. This work was partly supported by the National Science Foundation grant DMS0706949. Graphics produced with ggplot2 \citep{me:ggplot2}.}
+
+% bibtool -x graphical-inference -x coordination -o references.bib
+\bibliographystyle{ieeetr}
 \bibliography{references}
+
 \end{document}
