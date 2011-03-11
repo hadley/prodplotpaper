@@ -43,9 +43,8 @@
 }
 \shortauthortitle{Wickham \MakeLowercase{\textit{et al.}}: Product plots}
 
-\abstract{
+\abstract{We propose a new framework for visualising counts or proportions, including existing graphics such as bar charts, mosaic plots, treemaps, equal area plots and fluctuation diagrams. We call our framework product plots, alluding to the computation of area as a product of height and width, and the statistical concept of generating a joint distribution from the product of conditional and marginal distributions.}
 
-}
 \keywords{Statistics, joint distribution, conditional distribution, treemap, bar chart, mosaic plot}
 \CCScatlist{ % not used in journal version
   \category{H.5.2}{Information Interfaces and Presentation}{ User Interfaces --- Graphical user interfaces (GUI), Interaction styles, Screen design, Evaluation/methodology}
@@ -68,11 +67,16 @@ For information on obtaining reprints of this article, please send email to: tvc
 \begin{document}
 \firstsection{Introduction}
 \maketitle
-Area plots, like bar charts, mosaic plots and treemaps, are the graphical equivalent of contingency tables, visualising a discrete distribution by mapping proportion to area. This paper presents a unifying framework for area plots, showing how many existing plots are interrelated, and developing a set of tools for creating new plots. In particular, we create a graphical factorisation of area plots by analogy to the mathematical factorisation of joint distributions into products of marginals and conditionals.
 
-The paper proceeds as follows. Section~\ref{sec:primitives} described the simple one- and two-d graphical primitives that define all area plots. Section~\ref{sec:combination} provides a mathematical framework that shows how these simple primitives can be combined to display higher-d distributions. Section~\ref{sec:variations} extends these techniques for other types of data, and shows variations based on different low-d graphical primitives.
+Tables of counts or proportions are an extremely common form of data. Correspondingly, there are many visualisations to display them. In this paper, we develop a framework that encompasses many existing visualisations, from bar charts to treemaps to pie charts, showing how graphics that previously seemed unrelated in fact share a deep underlying connection, and providing a systematic foundation for the developing new types of count visualisations \citep{cox:1978}.
 
-To illustrate these ideas, we use the same data for all examples. It's a small sample of variables related to happiness from the general social survey ({\sc gss}). The {\sc gss} is a yearly cross-sectional survey of Americans, run from 1976. We combine data for 25 years to to give gives 51\,020 observations, and of the over 5\,000 variables, we select eight related to happiness, as described in Table~\ref{tbl:happy}. The data is included in the supplemental materials.
+Our framework focusses on area charts, where the area of a graphical element is proportional to the underlying count. We call our framework product plots in allusion to two products: the product of width and height to compute area, and the product of conditional and marginal distributions to produce joint distributions. A key development of our framework is the inverse operation: the factorisation of area plots. This allows easy extension from low-dimensional graphical primitives to high-dimensional data sets.
+
+Section~\ref{sec:primitives} we motivate the three constraints that give rise to the fundamental graphical component of productplots: the rectangle. The rectangle gives rises to three fundamental 1d atoms (bar, spine, tile) and one fundamental 2d atom (the fluct). These constraints will later be relaxed in Section~\ref{sec:variations} to extend our framework to include even more visualisations including histograms, pie charts, cascaded treemaps and weighted plots.
+
+Section~\ref{sec:combination} provides the mathematical framework that extends the simple 1d and 2d atoms to display data of any dimensionality, by showing just as any high dimensional joint distribution can be represented as a product of low-dimensional conditional and marginal distributions, any area plot can be decomposed into products of simple low-d primitives. Using this framework, Section~\ref{sec:existing} shows how 13 existing named graphics are just special cases of this general pattern.
+
+To illustrate these ideas, we will use the same data for all examples. The data is a small sample of variables related to happiness from the general social survey ({\sc gss}) \citep{davis:2008}. The {\sc gss} is a yearly cross-sectional survey of Americans, run from 1976. We combine data for 25 years to gives 51\,020 observations, and of the over 5\,000 variables, we select eight related to happiness, as described in Table~\ref{tbl:happy}.
 
 \begin{table*}[htb]
   \begin{center}
@@ -98,59 +102,61 @@ To illustrate these ideas, we use the same data for all examples. It's a small s
 \section{Graphical primitives}
 \label{sec:primitives}
 
-% See "Hierarchical Pixel Bar Charts" for constraints
+It is useful to consider the constraints on our visualisation to determine the best solution to the problem \citep{keim:2002}. All area plots correspond to tilings of the plane. We could consider partitions of higher-d spaces (e.g. 3d or 4d), but given that we have to project these down to 2d for viewing on paper or screen, there is little disadvantage to working directly in 2d. 
 
-All area plots correspond to tilings of the plane. We could also consider partitions of higher-d spaces (e.g. 3d or 4d), but given that we have to project these down to 2d for viewing, there is little disadvantage to working directly in 2d.
-
-To derive the graphical primitives we start with three constraints:
+To derive our graphical primitives we start with three constraints:
 
 \begin{itemize}
-  \item Area must be {\bf proportional} to value. Because the total area for a graphic is usually constrained, an area plot partitions this total, displaying proportions rather than counts.
 
-  \item Partitions must be {\bf rectangular}. It is easier to compare the areas of simple shape (i.e. rectangle vs polygon), and even easier when the length of one border is fixed, so we only need compare the length of the other \citep{cleveland:1984}. Rectangular partitions are also recursive in the sense that we can always tile a rectangle with smaller rectangles. This is not true for most shapes.
+  \item Area must be {\bf proportional} to value. Because the total area for a graphic is usually constrained, an area plot partitions the total, displaying proportions rather than counts.
 
-  \item Partitions must be {\bf disjoint}. To be able to see the complete area of each rectangle they must be non-overlapping. This does not imply that the tiling be space-filling: generally, space filling methods use space more efficiently, but make areas harder to compare.
+  \item Partitions must be {\bf rectangular}, because rectangles are easier to compare than arbitrary polygons \citep{cleveland:1984,cleveland:1986,heer:2010}, and are recursive in the sense that we can always tile a rectangle with smaller rectangles. This is not true for most shapes.
+
+  \item Partitions must be {\bf disjoint}. To be able to see the complete area, each rectangle must be non-overlapping. This does not imply that the tiling must be space-filling.
 
 \end{itemize}
 
-\noindent Each of these three constraints can be profitably relaxed, as detailed in Section~\ref{sec:variations}.
+\noindent Each of three constraints can be profitably relaxed, as detailed in Section~\ref{sec:variations}.
 
-The following sections describe the partitions generated by these constraints. Section~\ref{sub:part-1d} discusses 1d partitions, bars, spines and tiles, and  Section~\ref{sub:part-2d} discusses the 2d partition, the fluct.
+These constraints give rise to four graphical primitives. Section~\ref{sub:part-1d} describes the partitions of 1d data, bars, spines and tiles, and Section~\ref{sub:part-2d} describes the one partition of 2d data, the fluct.
 
 % Let $a(i)$ give the area assigned to category $i$, which has proportion $f(i)$. Since we are using rectangles, $a(i) = k \dot a(i) = k \dot w(i) \times h(i)$ where $w$ and $h$ represent width and height respectively. Certain partitions also satisfy the constraint that $h(i) = \sqrt{k} f(i)^x$ and $w(i) = \sqrt{k} f(i)^y$ where $x + y = 1$. This is useful because it is only necessary to inspect one border to compare magnitudes.
 
 \subsection{1d primitives}
 \label{sub:part-1d}
 
-There are three 1d primitives, as shown in Figure~\ref{fig:part-1d}:
+1d primitives display one dimensional proportion data, i.e.\ proportions broken down by a single variable. There are three 1d primitives, as shown in Figure~\ref{fig:part-1d}. 
 
 \begin{itemize}
 
   \item {\bf bar}s: height is proportional to value, width equally divides space. Bars are not space filling, occupying $\mbox{mean}(x - \max(x))$ of the total area. Bars can be arranged horizontally (``hbar'') or vertically (``vbar'').
 
-  \item {\bf spine}s: width is proportional to value, height occupies full range. Splines are space filling. Splines can be arranged horizontally (``hspine''), vertically (``vspine''), or can automatically pick their orientation (``spine'') by splitting the largest dimension. The appearance of bars and splines is identical for uniformly distributed data.
+  \item {\bf spine}s: width is proportional to value, height occupies full range. Spines are space filling and can be arranged horizontally (``hspine''), vertically (``vspine''), or can automatically pick their orientation (``spine'') by splitting the largest dimension. The name spine is evocative of books sitting on a library shelf \citep{hummel:1996}. Bars and spines are identical when visualising uniformly distributed data.
 
   \item {\bf tile}s: no restrictions on height or width, just tile the plane with rectangles, trying to keep the aspect ratio of each rectangle close to 1. This is partitioning used by the squarified treemap \citep{bruls:1999}.
 
 \end{itemize}
 
-Each of these three displays has different strengths and weaknesses.  The perceptual task associated with bar charts is the simplest, but they do not occupy all the area. Spines and tiles are harder to read \citep{heer:2010}, but occupy the complete space and work better recursively.
+Each of these three displays has different strengths and weaknesses. The perceptual task associated with bar charts is the simplest, but they do not occupy all the area. Spines and tiles are harder to read \citep{heer:2010}, but occupy the complete space and so work better recursively.
 
 \begin{figure}[htbp]
   \centering
-    \includegraphics[width=0.33\linewidth]{part-hbar}%
-    \includegraphics[width=0.33\linewidth]{part-hspine}%
-    \includegraphics[width=0.33\linewidth]{part-treemap}
+  \includegraphics[width=0.33\linewidth]{part-hbar}%
+  \includegraphics[width=0.33\linewidth]{part-hspine}%
+  \includegraphics[width=0.33\linewidth]{part-treemap}
 
   \caption{1d partitions showing the distribution of happiness.  From left to right: bars, spines and tiles.}
   \label{fig:part-1d}
 \end{figure}
 
+We can create two primitives by combining these one primitives, as shown in Section~\ref{sec:combination}, but there is one 2d primitive that does not arise in this way.
 
 \subsection{2d primitives}
 \label{sub:part-2d}
 
-We are currently aware of one 2d primitive, the {\bf fluct}, which has both height and width proportional to the square root of the proportion \citep{hofmann:2000}. Each rectangle is arranged on a regular grid formed by the levels of the two variables, allowing comparisons in two directions. A special case of the fluct is the equal bin size plot which occurs when the two variables are jointly uniformly distributed, usually as a result of the conditioning described in the next section. The equal bin size plot is useful to visualise missings.
+2d primitives display two dimensional proportion data, i.e.\ proportions broken down by two variables. We are currently aware of one primitive for 2d data, the {\bf fluct}, derived from the fluctuation diagram \citep{hofmann:2000}. The fluct has height and width proportional to the square root of the proportion. Each rectangle is arranged on a regular grid formed by the levels of the two variables, allowing comparisons in two directions. 
+
+A special case of the fluct is the equal bin size plot \citep{hofmann:2000} which occurs when the two variables are jointly uniformly distributed, usually as a result of the conditioning described in the following section. The equal bin size plot is particularly useful as a way visualise missing combinations.
 
 \begin{figure}[htbp]
   \centering
@@ -163,13 +169,67 @@ We are currently aware of one 2d primitive, the {\bf fluct}, which has both heig
 \section{Factorising area plots}
 \label{sec:combination}
 
-To construct plots of higher-dimensional tables, we need a way to decompose them into 1d and 2d components. To do so we use some very basic properties of probability. For example, let $f(x, y, z)$ be a 3d pmf. We can write this pmf as product of 1d and 2d marginals and conditionals:
+To construct plots of higher-dimensional data sets, we need a way to decompose them into 1d and 2d components. Some statistical vocabulary is useful. For example, let $f(x, y, z)$ be a 3d probability mass function. A probability mass function is just a way of describing the table of counts or proportions as a function: the three parameters are three indices, saying where to look up the number. We can write this pmf as product of 1d and 2d marginals and conditionals.
+
+\begin{itemize}
+
+  \item Joint distribution:
+
+  \item Marginal distribution is just a name for a lower dimensional projection of a distribution - in a different context, these could be joint distributions. For example, in the three d case, there are three 2d marginal distributions: $f(x, y)$, $f(x, z)$ and $f(y, z)$, and three 1d marginal distributions, $f(x)$, $f(y)$ and $f(z)$.
+
+  \item A conditional distribution is a slice of a higher dimension distribution, fixing one or more variables at a particular value.
+
+\end{itemize}
+
+\begin{figure*}[ht]
+\centering
+\begin{tabular}{rrr}
+  \toprule
+  & male & female \\ 
+  \midrule
+  not too happy & 0.05 & 0.07 \\ 
+  pretty happy & 0.25 & 0.31 \\ 
+  very happy & 0.14 & 0.18 \\ 
+  \bottomrule
+\end{tabular}\hspace{2em}%
+\begin{tabular}{rrrr}
+  \toprule
+  & male & female & {\bf margin} \\ 
+  \midrule
+  not too happy & 0.43 & 0.57 & \hspace{2em} 0.12 \\ 
+  pretty happy & 0.45 & 0.55 & 0.56 \\ 
+  very happy & 0.43 & 0.57 & 0.32 \\ 
+  \bottomrule
+\end{tabular}\hspace{1em}%
+\begin{tabular}{rrr}
+  \toprule
+  & male & female \\ 
+  \midrule
+  not too happy & 0.12 & 0.12 \\ 
+  pretty happy & 0.57 & 0.55 \\ 
+  very happy & 0.31 & 0.32 \\[1em] 
+  {\bf margin} & 0.44 & 0.56 \\ 
+  \bottomrule
+\end{tabular}
+  \caption{The distribution of happiness and sex, displayed in three equivalent ways.  (Left) Joint distribution. Overall table sums to one. (Middle) Conditional distribution of sex given happiness and marginal distribution of happiness. (Right) Conditional distribution of happiness given sex and marginal distribution of sex.}
+\label{fig:fluct}
+
+\end{figure*}
+
+
+This is easy to see in two dimensions.  Figure XXX shows three representations of the 
+
+
+An important property of the definition of conditional probability is that it means you can write a joint distribution as a product of conditional and marginals:
 
 \begin{itemize}
   \item $f(x, y, z) = f(z) f(x, y | z)$
   \item $f(x, y, z) = f(y, z) f(x | y, z) $
   \item $f(x, y, z) = f(z) f(y | z) f(x | y, z)$
 \end{itemize}
+
+This means that if we can translate this multiplication into some kind of graphical product, we can display any nD data set using low-D primitives.
+
 
 \noindent Since each component of the product is only 1 or 2d, we can use one of the primitives described above. For example, Figure \ref{fig:recursive} shows two ways to display the joint distribution of sex and happiness as broken down into the marginal distribution of happiness, and the condition distribution of sex, given happiness.
 
@@ -232,13 +292,14 @@ Conditioning is also an important tool by itself, because it allows one to remov
 \end{figure}
 
 \section{Existing plot types}
+\label{sec:existing}
 
 You may have noticed that the previous plots resemble area plots that have previously be named. The one-d primitives already have their own names:
 
 \begin{itemize}
   \item {\bf Bar chart} (1d). 1 hbar.
   \item {\bf Column chart} (1d). 1 vbar.
-  \item {\bf Spineplot} (1d). 1 spine.
+  \item {\bf Spineplot} (1d). 1 spine \citep{hummel:1996}.
   \item {\bf Fluctuation} diagram (2d): 1 fluct.
 \end{itemize}
 
@@ -302,7 +363,7 @@ These techniques can also be used with continuous data, if the data is binned to
   \item Intervals containing equal numbers of points.
 \end{itemize}
 
-This gives rise to the histogram and spinogram, continuous analogues of the bar chart and spine chart. A long standing tradition is that no gaps are displayed between adjacent rectangles when used for continuous data. Two examples are shown in Figure \ref{fig:cont-examples}.
+This gives rise to the histogram and spinogram \citep{hummel:1996}, continuous analogues of the bar chart and spine chart. A long standing tradition is that no gaps are displayed between adjacent rectangles when used for continuous data. Two examples are shown in Figure \ref{fig:cont-examples}.
 
 \begin{figure}[htbp]
   \centering
@@ -323,6 +384,8 @@ It can be useful to violate the constraint that area should be proportional to w
 
 On the other end of the spectrum, it can be useful to constrain put a cap on the largest possible values \citetext{Antony Unwin, priv. comm.}. By controlling this cap it is possible to zoom in on the smallest values. - called censored zooming by Antony and Martin.
 
+Approach is also taken by \citep{keim:2002}, where a minimum bar width of 10 pixels is used.
+
 Other non-linear transformations may also be useful. For example, we could display the square root of the weights, to stabilise the variance of the areas. Tukey applied this technique to histograms to create rootograms.
 
 If values span multiple orders of magnitude it may be useful to map log value to area.
@@ -342,25 +405,26 @@ This makes it easier to see all the levels of the hierarchy, not just the lowest
 
 \subsection{Non-rectangular partitions}
 
-A pie chart is a popular method of displaying proportions, but is not a rectangular partition. However, it turns out that there is a simple relationship between product plots and pie charts: an pie chart is an hspine drawn in polar coordinates with the x coordinate mapped to angle and the y coordinate to radius. Many other displays that use circular arcs turn out to be special cases of product plots, drawn in polar coordinates:
+A pie chart is a popular method of displaying proportions, but it is not a rectangular partition and so does not seem to fall in the framework of this paper. However, there is a simple relationship between product plots and pie charts: an pie chart is an hspine drawn in polar coordinates with the x coordinate mapped to angle and the y coordinate to radius. 
+
+Many other circular displays turn out to be special cases of product plots drawn in polar coordinates. Generally, the y axis (mapped to radius) must be square-root transformed to ensure that that counts stay proportional to areas. Stasko's radial displays \citep{stasko:2000} and fan-lenses \citep{lou:2007} deliberately do not do this in order to emphasise the outer levels.
+
+We have identified the following radial plots as polar transformations of product plots:
 
 \begin{itemize}
-  \item Fourfold displays \citep{friendly:1995}, wind rose, sector graphic: hbar.
+  \item The wind rose \citep{lalanne:1843}, fourfold displays \citep{friendly:1995}, and sector graphic use the hbar. Nightingales's coxcomb \citep{nightingale:1857} is very similar, but the slices overlap and so violate the constraint of disjoint area.
 
-  \item Bullseye chart: hspine.
+  \item The bullseye chart uses a hspine.
 
-  \item Doughnut plot: vspine + hspine.
+  \item The doughnut plot, as popularised by Excel, uses a vspine and a hspine.
 
-  \item Circular bar chart or racetrack plot: vbar.
+  \item The circular bar chart or racetrack plot, uses a vbar.
 
-  \item Infoslices \citep{andrews:1998}, nested vbar. But they only use half of the disk, and are specialised for highly nested data.
+  \item Infoslices \citep{andrews:1998} use a nested vbar. But they only use half of the polar plane, and are specialised for highly nested data.
 
-  \item Nightingales's coxcomb, is very similar to vspine / hbar in polar coordinates, except that the pie slices are overlapping and so violates the constraint of disjoint area.
 \end{itemize}
 
-\noindent Eight variants are displayed in Figure~\ref{fig:polar}.
-
-To make this work more generally, the y-variable (mapped to radius) should be square-root transformed to ensure that that counts stay proportional to areas. The radial displays of \citet{stasko:2000} and fanlens of \citet{lou:2007} deliberately choose not to do this to highlight the outer levels.
+\noindent Eight polar variants are displayed in Figure~\ref{fig:polar}. Many of these are familiar and already have names. They are all of dubious utility because of the increased difficulty when comparing non-rectangular areas.
 
 \begin{figure}[htbp]
   \centering
@@ -384,7 +448,17 @@ To make this work more generally, the y-variable (mapped to radius) should be sq
   \label{fig:polar}
 \end{figure}
 
-A number of non-rectangular treemaps have been proposed, such as the circular treemaps of \citet{wetzel:2008}, the space-filling curves of \citet{wattenberg:2005} and the voronoi treemaps of \citet{balzer:2005}.  However, because it is so much more difficult to compare the areas of arbitrary polygons, these approaches tend to be attractive rather than useful.
+A number of non-rectangular treemaps have been proposed, such as circular treemaps \citep{wetzel:2008}, space-filling curves \citep{wattenberg:2005} and voronoi treemaps \citep{balzer:2005}. The perceptual task associated with these visualisations is the comparison of the area of arbitrary polygons, which is much more difficult than comparing the area of rectangles \citep{cleveland:1986}. This makes these approaches attractive rather than useful.
+
+\section{Aesthetics}
+\label{sec:aesthetics}
+
+\subsection{Labelling} 
+\label{sub:labelling}
+
+\subsection{Offsets}
+\label{sub:offsets}
+
 
 \section{Interaction}
 \label{sec:interaction}
@@ -407,7 +481,7 @@ This framework leads to a combinatorial explosion of possibilities. A 4d pmf, f(
 
 % \acknowledgments{ The authors wish to thank Robert Kosara for helpful discussion. This work was partly supported by the National Science Foundation grant DMS0706949. Graphics produced with ggplot2 \citep{me:ggplot2}.}
 
-% bibtool -x graphical-inference -x coordination -o references.bib
+% bibtool -x prodplots-infovis -o references.bib
 \bibliographystyle{ieeetr}
 \bibliography{references}
 
