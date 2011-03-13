@@ -26,11 +26,11 @@ ggsave("plots/part-treemap.pdf", width = 4, height = 4)
 # age & marital status
 happy$decade <- cut(happy$age, seq(10, 90, by = 10))
 prodplot(happy, ~  decade + marital, "fluct", na.rm = T) + fill_marital
-ggsave("plots/part-fluct.pdf", width = 6, height = 6)
+ggsave("plots/part-fluct.pdf", width = 12, height = 6)
 
 # year & health
 prodplot(happy, ~ . | year + health, "fluct", na.rm = TRUE) + fill_health
-ggsave("plots/part-fluct-cond.pdf", width = 6, height = 6)
+ggsave("plots/part-fluct-cond.pdf", width = 12, height = 6)
 
 
 # nd partitions --------------------------------------------------------------
@@ -64,10 +64,16 @@ prodplot(happy, ~ happy + marital, c("vspine", "hspine")) +
   aes(fill = marital)
 
 # fluctuation & equal bin size
-prodplot(happy, ~ happy + finrela + health, na.rm = TRUE,
-  set_offset(c("vspine", "fluct"), c(0, 0.05))) + fill_happy
+prodplot(happy, ~ happy + finrela + health, na.rm = TRUE, 
+  set_offset(c("vspine", "fluct"), c(0, 0.05)), subset = .(level == 2)) +
+  fill_happy
 ggsave("plots/part-fluctuation.pdf", width = 6, height = 6)
 
 prodplot(happy, ~ happy | finrela + health, na.rm = TRUE,
   set_offset(c("vspine", "fluct"), c(0, 0.05))) + fill_happy
 ggsave("plots/part-equal-area.pdf", width = 6, height = 6)
+
+prodplot(happy, ~ happy | finrela + health, na.rm = TRUE,
+  set_offset(c("hspine", "fluct"), c(0, 0.05)), subset = .(level == 2)) +
+  fill_happy
+ggsave("plots/part-equal-area-2.pdf", width = 6, height = 6)
