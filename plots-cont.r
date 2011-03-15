@@ -1,4 +1,4 @@
-source("../load.r")
+l(productplots)
 
 qplot(age, year, data = h)
 ggsave("plots/age-year.pdf", width = 4, height = 4)
