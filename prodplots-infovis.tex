@@ -26,6 +26,14 @@
 \definecolor{not-too-happy}{HTML}{FC8D59}
 \definecolor{pretty-happy}{HTML}{FFFFBF}
 \definecolor{very-happy}{HTML}{91CF60}
+\definecolor{not-too-happy}{HTML}{FC8D59}
+\definecolor{pretty-happy}{HTML}{FFFFBF}
+\definecolor{very-happy}{HTML}{91CF60}
+\definecolor{married}{HTML}{F1EEF6} 
+\definecolor{never-married}{HTML}{BDC9E1} 
+\definecolor{divorced}{HTML}{74A9CF} 
+\definecolor{widowed}{HTML}{2B8CBE} 
+\definecolor{separated}{HTML}{045A8D} 
 \definecolor{grey30}{HTML}{4D4D4D}
 \newcommand{\key}[1]
   {\protect \tikz{\fill[#1] rectangle (1ex,1ex);}}
@@ -79,7 +87,7 @@ Section~\ref{sec:combination} provides the mathematical framework that extends t
 To illustrate these ideas, we will use the same data for all examples. The data is a small sample of variables related to happiness from the general social survey ({\sc gss}) \citep{davis:2008}. The {\sc gss} is a yearly cross-sectional survey of Americans, run from 1976. We combine data for 25 years to gives 51\,020 observations, and of the over 5\,000 variables, we select eight related to happiness, as described in Table~\ref{tbl:happy}.
 
 \begin{table*}[htb]
-  \begin{center}
+  \centering
   \begin{tabular}{llp{9cm}}
     \toprule
     Variable & Description & Values \\
@@ -89,12 +97,12 @@ To illustrate these ideas, we will use the same data for all examples. The data 
     {\sf finrela} & relative financial status & far above, above average, average, below average, far below \\
     {\sf happy} & happiness & \key{very-happy} very happy, \key{pretty-happy} pretty happy, \key{not-too-happy} not too happy \\
     {\sf health} & health & excellent, good, fair, poor \\
+    {\sf marital} & marital status & \key{married} married, \key{never-married} never married, \key{divorced} divorced, \key{widowed} widowed, \key{separated} separated \\
     {\sf sex} & sex & \key{female} female, \key{male} male\\
     {\sf wtsall} & probability weight & 0.43--6.42 \\
     {\sf year} & year of survey & 1972--2006 \\
     \bottomrule
   \end{tabular}
-  \end{center}
   \caption{Description of sample data. Common plot colours are shown next to respective levels.}
   \label{tbl:happy}
 \end{table*}
@@ -368,23 +376,23 @@ The framework can be trivially extended to work with continuous data: just first
   \includegraphics[width=0.5\linewidth]{cont-hbar}%
   \includegraphics[width=0.5\linewidth]{cont-hspine}
   
-  \caption{The distribution of happyness with age. (Left) hbar + vspine: an extension of the histogram. (Right) hspine + vspine: an extesion of the spinogram.}
+  \caption{The distribution of happiness with age. (Left) hbar + vspine: an extension of the histogram. (Right) hspine + vspine: an extesion of the spinogram.}
   \label{fig:cont-examples}
 \end{figure}
 
-With one more extension, displaying the final probability with colour, not area, this allows us to describe {\bf dimensional stacking} \citep{leblanc:1990} as a plot of conditioned, binned continuous data, with proportion shown with colour. 
+With one more extension, displaying the innermost proportion with colour (instead of area), this allows us to describe {\bf dimensional stacking} \citep{leblanc:1990} as a plot of binned, conditioned continuous data, with proportion shown by colour. 
 
 \subsection{Area not proportional to weight}
 
-It can be useful to violate the constraint that area should be proportional to weight to distinguish between zeros and very small values. A zero weight should have zero area, but giving it positive area can be useful that so you can actually see it! In general, it's useful to constrain all areas to be above a certain minimal perceptible size. Areas which are constrained in such a way should have a visual flag (such as a difference colour) so ensure that the reader knows that the relationship between area and value has been violated. This type of non-linear mapping has been implemented in {\sc manet} \citep{unwin:1996} and hierarchical pixel bar charts \citep{keim:2002}.
+It can be useful to violate the constraint that area is proportional to value to distinguish between zeros and very small values. A zero weight should have zero area, but giving it positive area can be useful that so you can see it! In general, it's useful to constrain all areas to be above a certain minimal perceptible size. Areas which are constrained in such a way should have a visual flag (such as a different colour) to ensure that the reader knows that the relationship between area and value has been violated. This type of non-linear mapping has been implemented in {\sc manet} \citep{unwin:1996} and in hierarchical pixel bar charts \citep{keim:2002}.
 
-On the other end of the spectrum, it can be useful to constrain put a cap on the size of largest values to get censored zooming \citetext{Antony Unwin, priv. comm.}. Controlling this cap makes it possible to focus on the smallest values.
+On the other end of the spectrum, it can be useful to constrain the size of largest values to get {\bf censored zooming} \citetext{Antony Unwin, priv. comm.}. Controlling this cap makes it possible to focus on small values.
 
-Other non-linear transformations may also be useful. For example, we could display the square root of the weights, to stabilise the variance of the areas. Tukey applied this technique to histograms to create rootograms \citep{wainer:1974,tukey:1977}: histograms where the y-axis has a square root scale.
+Other non-linear transformations may also be useful. For example, we could take square roots to stabilise the variance of the areas. Tukey applied this technique to histograms to create rootograms \citep{wainer:1974,tukey:1971}: histograms where the y-axis has a square root scale.
 
 \subsection{Non-disjoint partitions}
 
-The cascaded treemaps of \citet{lu:2008} is an idea that illustrates how the violation of containment can be productive. In the {\bf cascaded treemap}, each level is slightly offset from the one above to create a pseudo-3d perspective. This makes it easier to see all the levels of the hierarchy, not just the lowest level. Figure~\ref{fig:cascade} shows an example of how cascading can help illuminate the structure of a complex mosaic plot.
+Cascaded treemaps \citep{lu:2008} illustrate how the violation of containment can be productive. In the {\bf cascaded treemap}, each level is slightly offset from the one above to create a pseudo-3d perspective. This makes it easier to see all the levels of the hierarchy, not just the lowest level. Figure~\ref{fig:cascade} shows an example of how cascading can help illuminate the structure of a complex mosaic plot. This technique is probably more effective when implemented interactively.
 
 \begin{figure}[htbp]
   \centering
@@ -396,9 +404,7 @@ The cascaded treemaps of \citet{lu:2008} is an idea that illustrates how the vio
 
 \subsection{Non-rectangular partitions}
 
-A pie chart is a popular method of displaying proportions, but it is not a rectangular partition and so does not seem to fall in the framework of this paper. However, there is a simple relationship between product plots and pie charts: an pie chart is an hspine drawn in polar coordinates with the x coordinate mapped to angle and the y coordinate to radius. 
-
-Many other circular displays turn out to be special cases of product plots drawn in polar coordinates \citep{draper:2009}. Generally, the y axis (mapped to radius) must be square-root transformed to ensure that that counts stay proportional to areas. Stasko's radial displays \citep{stasko:2000} and fan-lenses \citep{lou:2007} deliberately do not do this in order to emphasise the outer levels.
+A pie chart is a popular method of displaying proportions, but it is not a rectangular partition and so does not seem to fall in the framework of this paper. However, there is a simple relationship between product plots and pie charts: an pie chart is an hspine drawn in polar coordinates with the x coordinate mapped to angle and the y coordinate to radius. Many other circular displays turn out to be special cases of product plots drawn in polar coordinates \citep{draper:2009}. Generally, the y axis (mapped to radius) must be square-root transformed to ensure that that counts stay proportional to areas. Fan-lenses \citep{lou:2007} and Stasko's radial displays \citep{stasko:2000} deliberately do not do this in order to emphasise the outer levels.
 
 We have identified the following radial plots as polar transformations of product plots:
 
@@ -458,23 +464,25 @@ A number of non-rectangular treemaps have been proposed, such as circular treema
 
 \section{Conclusions}
 
-This framework leads to a combinatorial explosion of possibilities. A 4d pmf, f(a, b, c, d) can be factorised in five different ways:
+This framework leads to a combinatorial explosion of possibilities. A 4d {\sc pmf}, $f(a, b, c, d)$, can be factorised in five different ways:
 
 \begin{itemize}
-  \item $f(a, b, c, d) = f(a | b, c, d) f(b | c, d) f(c, d)$
+  \setlength{\itemsep}{0em}
+  
   \item $f(a, b, c, d) = f(a | b, c, d) f(b | c, d) f(c | d) f(d)$
+  \item $f(a, b, c, d) = f(a | b, c, d) f(b | c, d) f(c, d)$
   \item $f(a, b, c, d) = f(a | b, c, d) f(b, c | d) f(d)$
-  \item $f(a, b, c, d) = f(a, b | c, d) f(c, d)$
   \item $f(a, b, c, d) = f(a, b | c, d) f(c | d) f(d)$
+  \item $f(a, b, c, d) = f(a, b | c, d) f(c, d)$
 \end{itemize}
 
-\noindent There are 24 possible ways of ordering the variables in the pdf, and each 1d pmf can be displayed in five different ways. For a 4d problem this gives $5 * 24 * (5^3 + 5^4 + 5^2 + 1 + 5^2) = 96,120$ plots! In future work, we hope to connect product plots to statistical models to help guide the choice of appropriate graphic.
+\noindent There are 24 possible ways of ordering the variables in the {\sc pmf}, 5 ways of displaying a 1d {\sc pmf}, and 1 way of displaying a 2d {\sc pmf}, leading to a possible $24 * (5^4 + 5^2 + 5^2 + 5^2 + 1) = 16,824$ plots, before we even consider conditioning! Well thought out interaction can make it easy to navigate this space, but it In future work, we hope to connect product plots to statistical models to help guide the choice of appropriate graphic.
 
 We are also interested in exploring the automated construction of a graphic to answer specific questions, and for given a plot, suggesting which type of questions it is most suitable to answer.
 
 % \acknowledgments{ The authors wish to thank Robert Kosara for helpful discussion. This work was partly supported by the National Science Foundation grant DMS0706949. Graphics produced with ggplot2 \citep{me:ggplot2}.}
 
-% bibtool -x prodplots-infovis -o references.bib
+% bibtool -x prodplots-infovis > references.bib
 \bibliographystyle{ieeetr}
 \bibliography{references}
 
