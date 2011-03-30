@@ -1,3 +1,5 @@
+theme_set(theme_grey(16))
+
 fill_happy <- list(
   aes(fill = happy),
   opts(legend.position = "none"),

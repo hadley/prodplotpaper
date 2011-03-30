@@ -50,10 +50,10 @@ ggsave("plots/part-comb-3.pdf", width = 6, height = 6)
 
 
 # alternative displays of marital status & age
-prodplot(happy, ~ marital + decade, set_offset(c("vspine", "hspine"), c(0, 0.02)), na.rm = T) + fill_marital
+prodplot(happy, ~ marital + decade, set_offset(c("vspine", "hspine"), c(0, 0.02)), na.rm = T, levels = NA) + fill_marital
 ggsave("plots/part-marital-1.pdf", width = 6, height = 6)
 
-prodplot(happy, ~ decade + marital, set_offset(c("hbar", "vspine"), c(0, 0.02)), na.rm = T) + fill_marital
+prodplot(happy, ~ decade + marital, set_offset(c("hbar", "vspine"), c(0, 0.02)), na.rm = T, levels = NA) + fill_marital
 ggsave("plots/part-marital-2.pdf", width = 6, height = 6)
 
 prodplot(happy, ~ happy + finrela, c("vspine", "hspine")) + 
@@ -65,15 +65,15 @@ prodplot(happy, ~ happy + marital, c("vspine", "hspine")) +
 
 # fluctuation & equal bin size
 prodplot(happy, ~ happy + finrela + health, na.rm = TRUE, 
-  set_offset(c("vspine", "fluct"), c(0, 0.05)), subset = .(level == 2)) +
+  set_offset(c("vspine", "fluct"), c(0, 0.05)), levels = NA) +
   fill_happy
 ggsave("plots/part-fluctuation.pdf", width = 6, height = 6)
 
 prodplot(happy, ~ happy | finrela + health, na.rm = TRUE,
-  set_offset(c("vspine", "fluct"), c(0, 0.05))) + fill_happy
+  set_offset(c("vspine", "fluct"), c(0, 0.05)), levels = NA) + fill_happy
 ggsave("plots/part-equal-area.pdf", width = 6, height = 6)
 
 prodplot(happy, ~ happy | finrela + health, na.rm = TRUE,
-  set_offset(c("hspine", "fluct"), c(0, 0.05)), subset = .(level == 2)) +
+  set_offset(c("hspine", "fluct"), c(0, 0.05)), levels = NA) +
   fill_happy
 ggsave("plots/part-equal-area-2.pdf", width = 6, height = 6)
