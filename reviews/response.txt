@@ -1,0 +1,242 @@
+# Summary review
+
+The reviewers judge Product Plots to be a useful and parsimonious model
+for constructing a large variety of plots and potentially also an example
+that might spur further research in formal models of visualization
+construction. All reviewers agree that this work makes a substantive
+contribution to InfoVis research and argue for acceptance.
+
+That said, reviewers also raise a number of issues that the authors
+should address prior to publication. Most notable among these is the
+treatment of related work. R1 and R4 in particular list elements of prior
+work that should be considered and discussed. I recommend that the
+authors introduce a dedicated related work section in their next
+revision.
+
+In addition, the reviewers make a number of helpful suggestions that
+might inform future drafts. I strongly encourage the authors to revise
+the paper accordingly.
+
+# Major changes
+
+* Related work section & missing references
+* Improve justification of rectangles using references provided.
+
+# Review 2
+
+* First, related work is distributed throughout the paper. A consolidated
+related work section addressing similar work and clearly delineating the
+contributions of the present work is needed. Other visualization models
+of interest include Slingsby et al's HiVE, Wilkinson's Grammar of
+Graphics, Mackinlay's APT, and Stolte et al's Polaris. A detailed
+comparison with such prior work is a pre-requisite to publication. How do
+such models compare in terms of expressiveness and notational efficiency?
+
+* I'm curious how much effort is necessary to use product plots in
+practice. Some examples of statements in R and the corresponding plots
+should suffice (and potentially examples of an interactive UI for product
+plot construction).
+
+* Is anyone using the system to perform analyses? While not strictly
+necessary, example analysis case studies supported by product plots might
+help convey the value of the model.
+
+* "the areas of rectangles are easier to compare than areas of other shapes
+[5-7]" -> This is somewhat glibly stated. A quick review of the cited
+papers does not support the claim: [5] does not assess area empirically;
+[6] assesses circular and arbitrary polygonal areas, but not rectangles;
+[7] compares circles and rectangles, but the difference does not appear
+to be statistically significant. Later in the paper, there is a similar
+critique of non-rectangular polygons using the results of [6]. I don't
+think this is appropriate -- [6] uses irregular polygons, whereas
+techniques like voronoi treemaps generate convex polygons with average
+bounding box aspect ratios near unity. Thus the argument here is also
+unsubstantiated. It may well be that rectangles are better, but this has
+not been convincingly demonstrated. I recommend the authors consider
+dropping these perceptual arguments.
+
+# Review 4
+
+* A surprising omission is the work of Wilkinson (1999, 2005) on The
+ Grammar of Graphics. Wilkinson introduced the idea of combining graphical
+ elements through products of sets (called facets) and embedding these in
+ different coordinate systems. In fact, Figure 12 echoes several of the
+ figures in the Coordinates chapter of that book. Wilkinson was also the
+ first to draw a link between the recursive partitioning in treemaps and
+ mosaics and a set product operator. As he explains in Chapter 16 of the
+ second edition, the algebra for specifying visualizations of product
+ models maps one-to-one to the most common factorial experimental design
+ algebra for log-linear models or ANOVA. In any case, the framework in
+ this paper appears closer to that of Wilkinson's than to any of the other
+ papers cited.
+
+ Bottom of page:
+ Using the word "all" is a bit strong here. Better to delete the word and
+ confine the discussion to "area" plots. There are exceptions, as the
+ authors point out later, so avoid the inclusive term.
+
+ The claim for rectangles at the bottom of page 1 is not supported by
+ research. The authors, like many statisticians and visualization
+ researchers, tend to cite statisticians and computer scientists for
+ supportive psychological principles; however, the perceptual and
+ cognitive research by non-psychologists tends to have serious
+ methodological flaws. I've provided some relevant citations below. There
+ are significant biases in area judgments that are exacerbated by extreme
+ aspect ratios (something even Kong, Heer & Agrawala noticed in Treemaps).
+ The perceptual combining rule for rectangles appears to be more Attneave
+ (absolute metric) than product (multiplicative), although see Algom et
+ al. for support for the multiplicative rule. The authors need to rephrase
+ this statement, eliminating the word "must."
+
+ Also, Simken and Hastie, in one of the few perception articles published
+ by psychologists in a statistical journal, demonstrated conclusively that
+ pie charts outperform rectangular area charts for proportion of whole
+ data. There are some exceptions to their findings, but statisticians need
+ to understand that they are largely wrong in their scorn for pie charts.
+
+ We can tile triangles with triangles. And these are "simpler" than
+ rectangles. One can also tile the sphere with triangles, which cannot be
+ done with rectangles. You need to rethink this assertion. 
+
+
+ References:
+ Algom, D., Wolf, Y., & Bergman, B. (1985). Integration of stimulus
+ dimensions in perception and memory: Composition rules and psychophysical
+ relations. Journal of Experimental Psychology: General, 114, 451-471.
+
+ Anderson, N.H. and Weiss, D.J. (1971). Test of a multiplying model for
+ estimated are of rectangles. American Journal of Psychology, 84, 4,
+ 543-548.
+
+ Borg, I. and Leutner, D. (1983). Dimensional models for the perception of
+ rectangles. Perception & Psychophysics, 34, 257-267.
+
+ Kidman, G. (1997). Area integration rules. In F. Biddulph & K. Carr
+ (Eds.), People in mathematics (Proceedings of the 20th annual conference
+ of the Mathematics Education Research Group of Australasia (Vol. 1, pp.
+ 271 - 277).
+
+ Mates, J., Di Maio, V., and Lansky, P. (1992). A model of the perception
+ of area. Spatial Vision, 6, 101-116. 
+
+ Morgan M.J. (2005). The visual computation of 2-D area by human
+ observers. Vision Research, 45(19), 2564-70.
+
+# Review 1
+ Finally, I wonder if the authors considered any other graphical
+ composition method than nesting areas? While nesting areas allowed them
+ to encompass a number of existing plot types, other composition methods
+ might be more useful for extension to higher dimensions. For example,
+ what about simply showing a separate plot for each component?
+
+ -label all appropriate plots in the paper with the corresponding
+ distribution decomposition (directly label, not just mention in the text
+ or in the caption)
+ -flesh out section 3.1. Assuming that infovis readers will not know what
+ conditional and marginal distributions are, the authors should
+ demonstrate how they are computed from the joint distribution. Providing
+ the graphical analogs to the tables in Figure 4 would be extremely
+ helpful. (I realize that a marginal and a conditional distribution from
+ Figure 4 are represented in Figure 5, but the connection is never made
+ explicitly in the text. Some hand holding would be very helpful here.)
+ Hand hold better the analytic questions that each distribution helps
+ answer. E.g. "What proportion of males are very happy? The bottom left
+ entries tells us it's 31%."
+
+
+ Minor comments----
+
+ Why squarified treemaps? Heer work showing non-square treemaps are easier
+ to read.
+
+ Section 3.1 
+
+ Its not clear from the wording in the first paragraph that the marginal
+ and conditional distributions contain less information than the joint
+ distribution. If you're going to assume that your readers don't know what
+ the marginal and conditional distributions are (plausible for the InfoVis
+ crowd), then it would make sense to briefly describe how they are
+ computed from the joint distribution.
+
+ Fix the formatting of the tables in Figure 4.
+
+ Clarify in the last paragraph that in addition to the 3 factorings,
+ permutations of the variables leads to more variations.
+
+ "It remains to find an [sic] graphical analog of this multiplication."
+ seems unnecessarily dramatic. We already know you found one.
+
+ Section 3.2 
+
+ Label Figure 5 with the distribution forms, f(happy), f(happy|sex),
+ f(happy, sex), rather than just mention them in the text.
+
+ Figure 7 shows, f(marital | age) f(age) and f(age | marital) f(marital),
+ right? Say this in the text and label figures.
+
+ "the relationship between proportion and area is only constant within a
+ level" -- is there a better way to say this? I think you mean level as in
+ nesting level, not level as is a level of a factor, right? In Figure 7
+ (right), the nested bar charts are all sized proportionally with respect
+ to each other even though they occur in different levels of the marital
+ status factor.
+
+ Figure 8 middle would be better with a bar chart, right? Why show both
+ the middle and right plots; they're basically the same.
+
+ Section 6.2
+
+ Why limit yourself to a finite number of bins? Push the number of bins to
+ infinity and you can display line graphs (density plots) with hbar,
+ stacked line graphs (hbar+vspine), relative area (hspine+vspine),
+ overlaid line charts (hbar+hbar), or (hspine+hbar) (don't know the name
+ of this chart, basically overlaid line charts, but where the sum of
+ values at each vertical slice is 1).
+
+# Review 3
+
+ I had some problems, though, in classifying this paper - it falls
+ somewhere between theory/model (describes a theoretical framework that
+ encompasses a large number of existing visualisations) and technique
+ (code is provided to implement the framework). I'm not sure if it'd be
+ better to simplify the classification by omitting mention of the code
+ except as a note near the end - while it's interesting, it's not core to
+ the paper. 
+
+ Doing this would leave more space to address some other minor concerns
+ with the figures: in figures 2, 3, 5, 6 and 7 it's quite clear that the
+ labels on the plot have spacing issues that could be resolved with larger
+ figures. Additionally, figure 4 spills over the gutter into the text in
+ the right column. 
+
+ In terms of text, I noticed some typos (first page, "This framework is
+ based on the fundamental statistical idea that high any high dimensional
+ distribution" has too many "high"s), one slight miss in phrasing ('weed
+ down' sounds like a mixed metaphor between 'weed out' and 'cut down') and
+ perhaps the last column of the conclusion could benefit from editing
+ (repetition of 'generally' stands out).
+
+
+# Minor changes
+
+* There is a line break after "Abstract-". The abstract text should begin
+on the same line.
+
+* Figure 4 overruns its column.
+
+* Page 2. "Uniformly distributed" suggest to me a uniform random distribution. Is there another way to say this?
+
+* Figure 3. Left and Right are Top and Bottom. LaTeX refused to obey your
+orders, as usual ;o)
+
+* Please italicize n in the fourth line of Section 3. Check that other
+parameters are properly italicized in the text.
+
+* Page 1. "This framework is based on the fundamental statistical idea that
+ high any high dimensional" Delete the first "high."
+
+ "51 020 and 5 000" use comma delimiters.
+
+*  Figure 12. The bottom row is not produced by transforming after rotation.
+ It is produced by switching the assignment of x and y to r and theta.
+ This is a pivoting operation.
