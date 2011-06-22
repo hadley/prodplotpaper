@@ -52,8 +52,8 @@
 \title{Product plots}
 \author{Hadley Wickham, and Heike Hofmann}
 \authorfooter{
-  \item Hadley Wickham is an Assistant Professor of Statistics at Rice University, Email: hadley@rice.edu.
-  \item Heike Hofmann is an Associate Professor of Statistics at Iowa State University.
+  \item Hadley Wickham is Assistant Professor of Statistics at Rice University, Email: hadley@rice.edu.
+  \item Heike Hofmann is Associate Professor of Statistics at Iowa State University.
 }
 \shortauthortitle{Wickham \MakeLowercase{\textit{et al.}}: Product plots}
 
@@ -97,11 +97,11 @@ Our framework focusses on area charts, where the area of a graphical element is 
 
 We begin in Section~\ref{sec:primitives} by motivating the three constraints that give rise to the basic graphical component of product plots, the rectangle. We constrain the rectangle further to produce three 1d atoms (bar, spine, tile) and one 2d atom (the fluct). These constraints will later be relaxed in Section~\ref{sec:variations} to extend our framework to include more visualisations such as histograms, pie charts, cascaded treemaps and weighted plots.
 
-Section~\ref{sec:combination} provides the mathematical framework that allows us to combine the 1d and 2d atoms to display data of any dimensionality. This framework is based on the fundamental statistical idea that high any high dimensional distribution can be factorised into a product of low-dimensional conditional and marginal distributions. Section~\ref{sec:existing} shows how many existing named graphics are special cases of this general pattern.
+Section~\ref{sec:combination} provides the mathematical framework that allows us to combine the 1d and 2d atoms to display data of any dimensionality. This framework is based on the fundamental statistical idea that any high dimensional distribution can be factorised into a product of low-dimensional conditional and marginal distributions. Section~\ref{sec:existing} shows how many existing named graphics are special cases of this general pattern.
 
 Section~\ref{sec:display} discusses some considerations for the display of product plots, and Section~\ref{sec:package} introduces the R package {\tt prodplot}, our reference implementation of the product plots framework. Finally, Section~\ref{sec:conclusion} discusses our plans for the future.
 
-To illustrate these ideas, we will use the same data in all examples. The data is a small sample of variables related to happiness from the general social survey ({\sc gss}) \citep{davis:2008}. The {\sc gss} is a yearly cross-sectional survey of Americans, run from 1976. We combine data for 25 years to yield 51\,020 observations, and of the over 5\,000 variables, we select nine related to happiness, as described in Table~\ref{tbl:happy}.
+To illustrate these ideas, we will use the same data in all examples. The data is a small sample of variables related to happiness from the general social survey ({\sc gss}) \citep{davis:2008}. The {\sc gss} is a yearly cross-sectional survey of Americans, run from 1976. We combine data for 25 years to yield 51,020 observations, and of the over 5,000 variables, we select nine related to happiness, as described in Table~\ref{tbl:happy}.
 
 \begin{table*}[htb]
   \centering
@@ -257,11 +257,11 @@ Formally, a conditional distribution function is written $f(x | y)$ and is equal
 
 \footnotetext{Because the parameters of a {\sc pmf} identify it, statisticians often fail to explicitly label the different functions. To be precise, the above statement should be written: $f_{X, Y}(x, y) = f_{X|Y=y}(x | y)\,f_Y(y)$}
 
-This means that we can turn any high-dimensional {\sc pmf} into a product of low-dimensional conditional and marginal {\sc pmf}s, a computationally trivial operation. It remains to find an graphical analog of this multiplication. 
+This means that we can turn any high-dimensional {\sc pmf} into a product of low-dimensional conditional and marginal {\sc pmf}s, a computationally trivial operation. It remains to find a graphical analog of this multiplication. 
 
 \subsection{Area is the product of height and width}
 
-We connect probability products to our rectangular primitives by noting that areas are also products, products of height and width. It's easiest to show this with a picture: Figure~\ref{fig:fact-simple} shows how our simple 1d primitives combine to get two familiar plots: the mosaic plot and the stacked bar chart. From left to right, we have plots of $f(happy)$, $f(happy | sex)$ and the product $f(happy, sex)$. The heights and widths of the rectangles are multiplied in the same way as the components of the {\sc pmf}.
+We connect probability products to our rectangular primitives by noting that areas are also products: products of height and width. It's easiest to show this with a picture: Figure~\ref{fig:fact-simple} shows how our simple 1d primitives combine to get two familiar plots: the mosaic plot and the stacked bar chart. From left to right, we have plots of $f(happy)$, $f(sex | happy)$ and the product $f(happy, sex)$. The heights and widths of the rectangles are multiplied in the same way as the components of the {\sc pmf}.
 
 \begin{figure}[htbp]
   \centering
@@ -365,6 +365,7 @@ Labelling product plots is challenging. In this paper, we use a carefully select
 
 We have observed that some aspect ratios are more aesthetically pleasing than others. This is particularly obvious for the fluctuation diagram where, in our experience, the plots are most appealing when the flucts are square. In other plots there does not seem to be an easy rule of thumb, but we wonder if aspect ratios close to the golden ratio might be more appealing. We are not aware of any previous work on aesthetics of aspect ratio, although they do seem to affect perception \citep{kong:2010}. More research in this area is needed, particularly to explore the balance of aesthetics and usability.
 
+
 \section{Variations and extensions}
 \label{sec:variations}
 
@@ -387,6 +388,8 @@ We have assumed that the proportions represent counts, but without loss of gener
 \label{sub:continuous_data}
 
 The framework can be trivially extended to work with continuous data: just  bin continuous variables to make them discrete. There are many different to ways to create intervals for continuous data, but two are most important \citep{denby:2009}: intervals of equal width, and intervals containing equal numbers of points. This extension allows the product plot framework to also describe {\bf histograms} and {\bf spinograms} \citep{hummel:1996}, continuous analogues of the bar and charts, shown in Figure \ref{fig:cont-examples}. A long standing tradition is that no gaps are displayed between adjacent rectangles when used for continuous data. 
+
+A more theoretical approach in dealing with continuous variables  lies in increasing the number of bins infinitesimally -- this leads from a probability mass function to a density function, making the 1d primitives of hbar and vbar to density plots, and changing the spine-plot representation to a conditional density plot (citation needed - probably Martin's and Heike's paper). While the inclusion of one continuous variable is completely feasible that way, two variables need the use of an additional aesthetic, such a s colour,  to visualize a 2d joint density. Three or more continuous variables break the scope of the product plots framework.
 
 \begin{figure}[htbp]
   \centering
@@ -419,7 +422,7 @@ Cascaded treemaps \citep{lu:2008} illustrate how the violation of containment ca
 
 \subsection{Non-rectangular partitions}
 
-A pie chart is a popular method of displaying proportions, but it is not a rectangular partition and so does not seem to fall in the framework of this paper. However, there is a simple relationship between product plots and pie charts: an pie chart is an hspine drawn in polar coordinates with the x coordinate mapped to angle and the y coordinate to radius. Many other circular displays turn out to be special cases of product plots drawn in polar coordinates \citep{draper:2009}. We have identified the following radial plots as polar transformations of product plots:
+A pie chart is a popular method of displaying proportions, but it is not a rectangular partition and so does not seem to fall in the framework of this paper. However, there is a simple relationship between product plots and pie charts: a pie chart is an hspine drawn in polar coordinates with the $x$ coordinate mapped to angle and the $y$ coordinate to radius. Many other circular displays turn out to be special cases of product plots drawn in polar coordinates \citep{draper:2009}. We have identified the following radial plots as polar transformations of product plots:
 
 \begin{itemize}
   \setlength{\itemsep}{0em}
@@ -464,6 +467,20 @@ Generally, the y axis (mapped to radius) must be square-root transformed to ensu
 
 A number of non-rectangular treemaps have been proposed, such as circular treemaps \citep{wetzel:2008}, space-filling curves \citep{wattenberg:2005} and voronoi treemaps \citep{balzer:2005}. Reading these visualisations requires the comparison of the area of arbitrary polygons, which is much more difficult than comparing the area of rectangles \citep{cleveland:1986}. This makes these approaches attractive rather than useful.
 
+\section{Related Work}
+\label{sec:related}
+
+
+
+The product plots framework is heavily influenced by the work of WIlkinson \citep{wilkinson:1999, wilkinson:2005}, who introduced the set product operator to map hierarchical data to a two-dimensional framework.  Wilkinson restricts (??? not quite sure - need to lookit up) the use to standard mosaicplots as defined by \citet{hartigan:1981}, which could easily be extended, however the product plots framework additionally introduces the concept of conditioning on variables.
+
+ \citep{slingsby:2009}: the HiVE system provides a notation allowing to describe states of hierarchical layouts and operators for reconfiguration. HiVE allows both rectangular layouts and polygon layouts -- out of the rectangular layouts, all but the spatially ordered algorithm are covered by the  framework of product plots.
+ 
+The framework of  Polaris  \cite{stolte:2002} relies heavily on a tabular or cubic format in rendering hierarchical graphics, which makes these charts essentially a three dimensional extension of the trellis framework \citep{cleveland:1994, cleveland:1996}:  in the product plots framework, this approach is captured by conditioning on the variables used in rows and columns, and displaying the other variables unconditioned in each cell of the resulting tabular layout.
+
+ \cite{mackinlay:1986, mackinlay2007}: VisQL, a visual query language is designed to capture the flow of a graphical data exploration. 
+ 
+
 \section{R package}
 \label{sec:package}
 
@@ -486,9 +503,9 @@ The product plots framework is successful at describing many existing graphics f
   \item $f(a, b, c, d) = f(a, b | c, d) f(c, d)$
 \end{itemize}
 
-\noindent There are 24 possible ways of ordering the variables in the {\sc pmf}, 5 ways of displaying a 1d {\sc pmf}, and 1 way of displaying a 2d {\sc pmf}, leading to a possible $24 * (5^4 + 5^2 + 5^2 + 5^2 + 1) = 16,824$ plots, before we even consider conditioning! Well thought out interaction can make it easy to navigate this space. We have a prototype interaction model developed as part of the cranvas suite of interactive graphics in R, {\tt http://github.com/ggobi/cranvas}, but much work and user testing remains to be done.
+\noindent There are 24 possible ways of ordering the variables in the {\sc pmf}, 5 ways of displaying a 1d {\sc pmf}, and 1 way of displaying a 2d {\sc pmf}, leading to a possible $24 * (5^4 + 5^2 + 5^2 + 5^2 + 1) = 16,824$ plots, before we even consider conditioning! Well thought out interaction can make it easier to navigate this space. We have a prototype interaction model developed as part of the cranvas suite of interactive graphics in R, {\tt http://github.com/ggobi/cranvas}, but much work and user testing remains to be done.
 
-We also are hopeful that developing the connection between product plots and log-linear (aka Poisson) models will also help better understand this space of plots. Some special cases have already been worked out. For example, \citep{hofmann:2003} shows how looking for straight lines in a mosaic plot corresponds to a formal test of independence between two variables. Generally, what visual comparisons are equivalent to what formal statistical tests? And conversely, how can inspecting the significant coefficients in a model help us choose a set of useful plots for a given dataset? Generally, given a question, can we suggest appropriate plots? Or given a plot, can we suggest questions that it might answer?
+We also are hopeful that developing the connection between product plots and log-linear (aka Poisson) models will also help better understand this space of plots. Some special cases have already been worked out. For example, \citep{hofmann:2003} shows how looking for straight lines in a mosaic plot corresponds to a formal test of independence between two variables. Generally, what visual comparisons are equivalent to what formal statistical tests? And conversely, how can inspecting the significant coefficients in a model help us choose a set of useful plots for a given dataset? Can we, given a question,  suggest appropriate plots? Or given a plot, can we suggest questions that it might answer?
 
 Product plots need to be extended with systematic ways of displaying uncertainty, to help users identify whether differences in the plot represent real differences in the underlying population or are just the result of random variation. This is particularly important because area plots typically have fixed area, meaning that the total number of observations in a plot is not directly displayed. This is crucial for determining whether a difference is truly significant or not.
 
