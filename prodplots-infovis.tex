@@ -57,11 +57,7 @@
 }
 \shortauthortitle{Wickham \MakeLowercase{\textit{et al.}}: Product plots}
 
-\abstract{
-
-We propose a new framework for visualising tables of counts, proportions and probabilities. We call our framework product plots, alluding to the computation of area as a product of height and width, and the statistical concept of generating a joint distribution from the product of conditional and marginal distributions. The framework, with extensions, is sufficient to encompass over 20 visualisations previously described in fields of statistical graphics and infovis, including bar charts, mosaic plots, treemaps, equal area plots and fluctuation diagrams.
-
-}
+\abstract{We propose a new framework for visualising tables of counts, proportions and probabilities. We call our framework product plots, alluding to the computation of area as a product of height and width, and the statistical concept of generating a joint distribution from the product of conditional and marginal distributions. The framework, with extensions, is sufficient to encompass over 20 visualisations previously described in fields of statistical graphics and infovis, including bar charts, mosaic plots, treemaps, equal area plots and fluctuation diagrams.}
 
 \keywords{Statistics, joint distribution, conditional distribution, treemap, bar chart, mosaic plot}
 \CCScatlist{ % not used in journal version
@@ -166,7 +162,7 @@ These constraints give rise to four graphical primitives. Section~\ref{sub:part-
 
   \item {\bf bar}s: height is proportional to value, width equally divides space. Bars are not space filling, occupying $\mbox{mean}(x - \max(x))$ of the total area. Bars can be arranged horizontally (``hbar'') or vertically (``vbar'').
 
-  \item {\bf spine}s: width is proportional to value, height occupies full range. Spines are space filling and can be arranged horizontally (``hspine''), vertically (``vspine''), or can automatically pick their orientation (``spine'') by splitting the largest dimension. The name spine is evocative of books sitting on a library shelf \citep{hummel:1996}. Bars and spines are indistinguishable when the underlying data is uniformly distributed.
+  \item {\bf spine}s: width is proportional to value, height occupies full range. Spines are space filling and can be arranged horizontally (``hspine''), vertically (``vspine''), or can automatically pick their orientation (``spine'') by splitting the largest dimension. The name spine is evocative of books sitting on a library shelf \citep{hummel:1996}. Bars and spines are indistinguishable when the underlying data is evenly distributed across the categories.
 
   \item {\bf tile}s: no restrictions on height or width, just tile the plane with rectangles, trying to keep the aspect ratio of each rectangle close to 1. This is partitioning defined by the squarified treemap \citep{bruls:1999}.
 
@@ -187,14 +183,14 @@ A special case of the fluct is the equal bin size plot \citep{hofmann:2000} whic
   \centering
     \includegraphics[width=0.9 \linewidth]{part-fluct}
     \includegraphics[width=0.9 \linewidth]{part-fluct-cond}
-  \caption{(Left) A fluctuation diagram showing distribution of age (in decades) and marital status. (Right) Equal bin-size plot showing health status and survey year. Thee three empty columns show that health status was not recorded for three years.}
+  \caption{(Top) A fluctuation diagram showing distribution of age (in decades) and marital status. (Bottom) Equal bin-size plot showing health status and survey year. Thee three empty columns show that health status was not recorded for three years.}
   \label{fig:fluct}
 \end{figure}
 
 \section{Probability and plot products}
 \label{sec:combination}
 
-To construct plots of higher-dimensional data sets, we need a way to decompose them into 1d and 2d components. Some statistical vocabulary is useful: one way of describing the input data is as a {\bf probability mass function}, or {\sc pmf}. A {\sc pmf} is a function with n inputs, each indexing one dimension with an integer, and gives the probability of each combination of inputs. A {\sc pmf} has two restrictions: every value must be greater than or equal to zero, and all values must sum to one.  
+To construct plots of higher-dimensional data sets, we need a way to decompose them into 1d and 2d components. Some statistical vocabulary is useful: one way of describing the input data is as a {\bf probability mass function}, or {\sc pmf}. A {\sc pmf} is a function with $n$ inputs, each indexing one dimension with an integer, and gives the probability of each combination of inputs. A {\sc pmf} has two restrictions: every value must be greater than or equal to zero, and all values must sum to one.  
 
 \subsection{Joint distributions are the product of marginals and conditionals}
 
@@ -436,7 +432,7 @@ A pie chart is a popular method of displaying proportions, but it is not a recta
 
   \item {\bf Racetrack plot} (aka circular bar chart) (1d): 1 vbar.
 
-  \item {\bf Infoslices} \citep{andrews:1998} (nd): n vbars. But they only use half of the polar plane, and are specialised for highly nested data.
+  \item {\bf Infoslices} \citep{andrews:1998} (nd): $n$ vbars. But they only use half of the polar plane, and are specialised for highly nested data.
 
 \end{itemize}
 
@@ -461,7 +457,7 @@ Generally, the y axis (mapped to radius) must be square-root transformed to ensu
     \includegraphics[width=0.25\linewidth]{hs-hs-polar-2}%
     \includegraphics[width=0.25\linewidth]{hs-vs-polar-2}
 
-  \caption{(Top) Area graphics in Cartesian coordinates. (Mid) Area graphics in polar coordinates. From left to right: hbar + hbar, vspline + hbar, hspine + hspine, hspine + vspine. (Bottom) Product graphics rotated 90 degrees before being converted to polar coordinates: vbar + vbar, hspline + vbar, vspine + vspine, vspine + hspine. (\key{male} male, \key{female} female)}
+  \caption{(Top) Area graphics in Cartesian coordinates. (Mid) Area graphics in polar coordinates. (Bottom) Product graphics with alternate mapping of $x$ and $y$ to $r$ and $\theta$. From left to right: hbar + hbar, vspline + hbar, hspine + hspine, hspine + vspine. (\key{male} male, \key{female} female)}
 
   \label{fig:polar}
 \end{figure}
