@@ -181,7 +181,9 @@ A special case of the fluct is the equal bin size plot \citep{hofmann:2000} whic
 
 \begin{figure}[htbp]
   \centering
+  $f(age, marital)$
     \includegraphics[width=0.9 \linewidth]{part-fluct}
+  $f(1 | age, marital)$
     \includegraphics[width=0.9 \linewidth]{part-fluct-cond}
   \caption{(Top) A fluctuation diagram showing distribution of age (in decades) and marital status. (Bottom) Equal bin-size plot showing health status and survey year. Thee three empty columns show that health status was not recorded for three years.}
   \label{fig:fluct}
@@ -318,8 +320,17 @@ Different partitions reveal different features of the data. Take for example, th
 
 \begin{figure}[htbp]
   \centering
-    \includegraphics[width=0.5\linewidth]{part-marital-1}%
-    \includegraphics[width=0.5\linewidth]{part-marital-2}
+$f(marital, age) =$\\
+\begin{minipage}[t]{0.49\linewidth}
+\centering 
+$f(marital|age)f(age)$ 
+    \includegraphics[width=\linewidth]{part-marital-1}%
+ \end{minipage}
+\begin{minipage}[t]{0.49\linewidth}
+\centering
+ $f(age|marital)f(marital)$
+    \includegraphics[width=\linewidth]{part-marital-2}
+ \end{minipage}
   \caption{(Left) The joint distribution of marital status and age, $f(marital, age)$ as $f(marital|age) \cdot f(age)$, (in decades) partitioned by a vspine and hspine.  (Right) The joint distribution of age and marital status, $f(age, marital)$, partitioned by a vspine and hbar.}
   \label{fig:marital}
 \end{figure}
@@ -328,9 +339,27 @@ Conditioning is also an important tool by itself, because it allows one to remov
 
 \begin{figure*}[htbp]
   \centering
-    \includegraphics[width=0.33\linewidth]{part-fluctuation}%
-    \includegraphics[width=0.33\linewidth]{part-equal-area}%
-    \includegraphics[width=0.33\linewidth]{part-equal-area-2}
+\begin{minipage}[b]{0.32\linewidth}
+\centering
+$f(happy, health, finrela) =$
+$f(happy | health, finrela) \times f(health, finrela)  $
+     \includegraphics[width=\linewidth]{part-fluctuation}
+ \end{minipage}
+%
+\begin{minipage}[b]{0.32\linewidth}
+\centering
+$f(happy | health, finrela)$
+    \includegraphics[width=\linewidth]{part-equal-area}
+ \end{minipage}
+%
+\begin{minipage}[b]{0.32\linewidth}
+\centering
+$f(happy | health, finrela)$
+    \includegraphics[width=\linewidth]{part-equal-area-2}
+ \end{minipage}
+%
+    %
+    
   \caption{(Left) $f(happy, health, finrela) = f(happy | health, finrela) \times f(health, finrela)  $, partitioned with a vspine and fluct.  Health is on the $x$-axis, financial status on the $y$-axis. (Middle) $f(happy | health, finrela)$. We can no longer see the joint distribution of health and financial status, but it is much easier to see the conditional distribution of happiness. Healthier and richer people are happier: maybe money does buy happiness? (Right) $f(happy | health, finrela)$ partitioned with a fluct and {\bf h}spine. (\key{not-too-happy} Not too happy, \key{pretty-happy} pretty happy, \key{very-happy} very happy)}
   \label{fig:part-cond}
 \end{figure*}
