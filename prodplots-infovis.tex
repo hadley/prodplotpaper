@@ -127,7 +127,7 @@ To illustrate these ideas, we will use the same data in all examples. The data i
 \section{Related Work}
 \label{sec:related}
 
-The product plots framework is heavily influenced by the work of Wilkinson \citep{wilkinson:1999, wilkinson:2005}, who suggested that both mosaic plots and treemaps can be described as plots with coordinate systems based on recursive partitioning. Our work builds on this by adding conditioning, and defining a ``grammar of area plots'', a domain specific language for describing, in detail, this small family of plots. Other similar efforts to build domain specific languages for visualisation are APT \citep{mackinlay:1986} and VisQL \citep{mackinlay:2007}: our framework is driven by similar forces, but carves out a much smaller niche.
+The product plots framework is heavily influenced by the work of Wilkinson \citep{wilkinson:1999, wilkinson:2005}, who suggested that both mosaic plots and treemaps can be described as plots with coordinate systems based on recursive partitioning. Our work builds on this by adding conditioning, and defining a ``grammar of area plots'', a domain specific language for describing, in detail, this small family of plots. Other similar efforts to build domain specific languages for visualisation are APT \citep{mackinlay:1986} and VisQL \citep{mackinlay:2007}: our framework is driven by similar forces, but carves out a much smaller niche. This makes products plots less expressive, but more efficient, because the number of primitives required to describe the smaller domain is much smaller.
 
 The HiVE system \citep{slingsby:2009} introduces a notation for describing the states of hierarchical layouts and operators for reconfiguration. Our work extends HiVE by adding conditioning, and including non-space filling visualisation. HiVE supports both rectangular layouts and polygon layouts. Of the rectangular layouts, all but the spatially ordered algorithm are included within the product plots framework.
 
@@ -471,7 +471,20 @@ Other non-rectangular area graphics include non-rectangular treemaps, such as ci
 \section{R package}
 \label{sec:package}
 
-We have provided a reference implementation of these ideas in an R \citep{R} package called {\tt productplots}, available from {\tt http://github.com/hadley/productplots}. There are two main functions: {\tt prodcalc}, which computes the coordinates of each rectangle; and {\tt prodplot}, which displays the rectangles with the ggplot2 package \citep{me:ggplot2}. The code is well tested, and ensures that the constraints are always satisfied. The {\tt productplots} code to used to create the images in this paper is available from the authors.
+We have provided a reference implementation of these ideas in an R \citep{R} package called {\tt productplots}, available from {\tt http://github.com/hadley/productplots}. There are two main functions: {\tt prodcalc}, which computes the coordinates of each rectangle; and {\tt prodplot}, which displays the rectangles with the ggplot2 package \citep{me:ggplot2}. The code is well tested, and ensures that the constraints are always satisfied. 
+
+For example, the following code conveys the essence of the plots in Figure~\ref{fig:part-cond}. The function {\tt prodplot} creates plots of the {\tt happy} data, defined using the standard R formula notation (\verb|~|), with the convention that {\tt |} denotes conditioning. The final argument lists the graphical primitives to use for display. This can also be a template function like {\tt mosaic()} which produces a standard, named, graphic.
+
+\begin{verbatim}
+prodplot(happy, ~ happy + finrela + health, 
+  c("vspine", "fluct"))
+prodplot(happy, ~ happy | finrela + health, 
+  c("vspine", "fluct"))
+prodplot(happy, ~ happy | finrela + health, 
+  c("hspine", "fluct"))
+\end{verbatim}
+
+As for all presentation graphics, the actual code is somewhat more complicated, as we make a number of tweaks for optimal display. The complete {\tt productplots} code to used to create the images in this paper is available from the authors upon request. 
 
 The {\tt productplots} package has been designed to be flexible and extensive.  For example, each graphical primitive is represented by a function: {\tt hspine()}, {\tt vspine()}, {\tt spine()}, {\tt hbar()}, {\tt vbar()}, {\tt tile()} and {\tt fluct()}. Adding a new graphical primitive is easy: you just write a new function, and can use the existing calculation and display algorithms.
 
