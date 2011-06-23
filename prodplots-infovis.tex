@@ -127,23 +127,15 @@ To illustrate these ideas, we will use the same data in all examples. The data i
 \section{Graphical primitives}
 \label{sec:primitives}
 
-All area plots correspond to tilings of the (2d) plane. We could consider partitions of higher-d spaces (e.g. 3d or 4d), but given that we have to project these down to 2d for viewing on paper or screen, there is little disadvantage to working directly in 2d. 
+Area plots correspond to tilings of the (2d) plane. We could consider partitions of higher-d spaces (e.g. 3d or 4d), but given that we have to project these down to 2d for viewing on paper or screen, there is little disadvantage to working directly in 2d. There are many possible ways to tile the plane, so to weed these down to a manageable number, we identify  constraints, in the style of \citep{keim:2002}, that are important for visualising counts.
 
-There are many possible ways to tile the plane. To weed these down to a manageable number, we identify three constraints \citep{keim:2002} important for visualising counts:
+Firstly, area must be {\bf proportional} to count. This is the key constraint underlying all area plots. The total area for a graphic is usually constrained, which means that area plots display typically proportions or probabilities, rather than counts. With this proviso, we will use count, probability and proportion interchangeably throughout the paper.
 
-\begin{itemize}
+Secondly, partitions must be {\bf disjoint}. To be able to see the complete area, each rectangle must be non-overlapping. Note that this does not imply that the tiling must be space-filling, and two of the four primitives, described next, are not.
 
-  \item Area must be {\bf proportional} to count. This is the key constraint underlying all area plots. The total area for a graphic is usually constrained, which means that area plots display typically proportions or probabilities, rather than counts. With this proviso, we will use count, probability and proportion interchangeably throughout the paper.
+Finally, we require partitions to be {\bf rectangular}. If partitions are rectangular, many interesting perceptual tasks only require comparing lengths, or positions along a common scale, tasks which are generally easier than comparing areas \citep{cleveland:1984,cleveland:1986}. There is little evidence to suggest that rectangles are ``best'' shape for comparison \citep{hollands:1998,simkin:1987}, but they are computationally simple, recursive, in the sense that we can always tile a rectangle with smaller rectangles, and form the basis for many existing graphics.
 
-  \item Partitions must be {\bf rectangular}, because the areas of rectangles are easier to compare than areas of other shapes \citep{cleveland:1984,cleveland:1986,heer:2010}, and are recursive, in the sense that we can always tile a rectangle with smaller rectangles. This is not true for most shapes.
-
-  \item Partitions must be {\bf disjoint}. To be able to see the complete area, each rectangle must be non-overlapping. Note that this does not imply that the tiling must be space-filling, and two of the four primitives, described next, are not.
-
-\end{itemize}
-
-\noindent Each of the three constraints can be profitably relaxed, as detailed in Section~\ref{sec:variations}.
-
-These constraints give rise to four graphical primitives. Section~\ref{sub:part-1d} describes the three partitions of 1d data, bars, spines and tiles, and Section~\ref{sub:part-2d} describes the one partition of 2d data, the fluct.
+These constraints give rise to four graphical primitives. Section~\ref{sub:part-1d} describes the three partitions of 1d data, bars, spines and tiles, and Section~\ref{sub:part-2d} describes the one partition of 2d data, the fluct. Each of the three constraints can also be relaxed, yielding the additional types of partitions described in Section~\ref{sec:variations}.
 
 \subsection{1d primitives}
 \label{sub:part-1d}
@@ -465,7 +457,7 @@ Generally, the y axis (mapped to radius) must be square-root transformed to ensu
   \label{fig:polar}
 \end{figure}
 
-A number of non-rectangular treemaps have been proposed, such as circular treemaps \citep{wetzel:2008}, space-filling curves \citep{wattenberg:2005} and voronoi treemaps \citep{balzer:2005}. Reading these visualisations requires the comparison of the area of arbitrary polygons, which is much more difficult than comparing the area of rectangles \citep{cleveland:1986}. This makes these approaches attractive rather than useful.
+Other non-rectangular area graphics include non-rectangular treemaps, such as circular treemaps \citep{wetzel:2008}, space-filling curves \citep{wattenberg:2005} and voronoi treemaps \citep{balzer:2005}.
 
 \section{Related Work}
 \label{sec:related}
