@@ -274,7 +274,7 @@ We connect probability products to our rectangular primitives by noting that are
   \includegraphicsinline{0.3\linewidth}{fact-happy|sex-2} = %
   \includegraphicsinline{0.3\linewidth}{fact-happy-sex-2}
 
-  \caption{Plots of the distribution of happiness and sex (\key{male} male, \key{female} female).}
+  \caption{Plots of the distribution of happiness and sex (\key{male} male, \key{female} female) (Left) $f(happy)$, (Middle) $f(sex | happy)$, (Right) $f(happy, sex)$.}
   \label{fig:fact-simple}
 \end{figure}
 
@@ -306,7 +306,7 @@ Different partitions reveal different features of the data. Take for example, th
   \centering
     \includegraphics[width=0.5\linewidth]{part-marital-1}%
     \includegraphics[width=0.5\linewidth]{part-marital-2}
-  \caption{(Left) The joint distribution of marital status and age (in decades) partitioned by a vspine and hspine.  (Right) The joint distribution of age and marital status partitioned by a vspine and hbar.}
+  \caption{(Left) The joint distribution of marital status and age, $f(marital, age)$, (in decades) partitioned by a vspine and hspine.  (Right) The joint distribution of age and marital status, $f(age, marital)$, partitioned by a vspine and hbar.}
   \label{fig:marital}
 \end{figure}
 
@@ -381,7 +381,7 @@ We have assumed that the proportions represent counts, but without loss of gener
   \centering
     \includegraphics[width=0.5\linewidth]{wt-count}%
     \includegraphics[width=0.5\linewidth]{wt-wtssall}%
-  \caption{Joint distribution of age and sex (\key{male} male, \key{female} female). (Left) counts and (right) probability weights. In this case, there is very little difference between the plots.}
+  \caption{Joint distribution of age and sex (\key{male} male, \key{female} female), $f(age, sex)$. (Left) counts and (right) probability weights. In this case, there is very little difference between the plots.}
   \label{fig:weighting}
 \end{figure}
 
@@ -397,7 +397,7 @@ A more theoretical approach in dealing with continuous variables  lies in increa
   \includegraphics[width=0.5\linewidth]{cont-hbar}%
   \includegraphics[width=0.5\linewidth]{cont-hspine}
   
-  \caption{The distribution of happiness with age. (Left) hbar + vspine: an extension of the histogram. (Right) hspine + vspine: an extension of the spinogram.}
+  \caption{The distribution of happiness with age, $f(age, happy)$. (Left) hbar + vspine: an extension of the histogram. (Right) hspine + vspine: an extension of the spinogram.}
   \label{fig:cont-examples}
 \end{figure}
 
@@ -417,7 +417,7 @@ Cascaded treemaps \citep{lu:2008} illustrate how the violation of containment ca
   \centering
     \includegraphics[width=0.5\linewidth]{sex-marital-happy}%
     \includegraphics[width=0.5\linewidth]{cascade}
-  \caption{A mosaic plot of happiness by marital status and sex. (Left) Coloured by happiness (\key{not-too-happy} Not too happy, \key{pretty-happy} pretty happy, \key{very-happy} very happy).  (Right) A cascaded view helps show how the plot is built up.}
+  \caption{A mosaic plot of happiness by marital status and sex, $f(happy, marital, sex)$. (Left) Coloured by happiness (\key{not-too-happy} Not too happy, \key{pretty-happy} pretty happy, \key{very-happy} very happy).  (Right) A cascaded view helps show how the plot is built up.}
   \label{fig:cascade}
 \end{figure}
 
