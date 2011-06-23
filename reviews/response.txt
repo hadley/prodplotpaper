@@ -6,6 +6,8 @@ Other changes:
 
 * Where appropriate, figures labelled with distributional decomposition.
 
+* We wish we could make the figures larger and the labels easier to read, but the page limits are extremely tight this year.  We have done our best to ensure that all information is convey redundantly through colour or description in the captions.
+
 ------
 
 # Review 1
@@ -51,9 +53,6 @@ seems unnecessarily dramatic. We already know you found one.
 
 Section 3.2 
 
-Label Figure 5 with the distribution forms, f(happy), f(happy|sex),
-f(happy, sex), rather than just mention them in the text.
-
 Figure 7 shows, f(marital | age) f(age) and f(age | marital) f(marital),
 right? Say this in the text and label figures.
 
@@ -92,17 +91,6 @@ labels on the plot have spacing issues that could be resolved with larger
 figures. Additionally, figure 4 spills over the gutter into the text in
 the right column. 
 
-In terms of text, I noticed some typos (first page, "This framework is
-based on the fundamental statistical idea that high any high dimensional
-distribution" has too many "high"s), one slight miss in phrasing ('weed
-down' sounds like a mixed metaphor between 'weed out' and 'cut down') and
-perhaps the last column of the conclusion could benefit from editing
-(repetition of 'generally' stands out).
-
-
 # Minor changes
-
-* There is a line break after "Abstract-". The abstract text should begin
-on the same line.
 
 * Figure 4 overruns its column.
