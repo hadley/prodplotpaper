@@ -197,7 +197,8 @@ To construct plots of higher-dimensional data sets, we need a way to decompose t
 Figure~\ref{fig:2d-table} shows three ways to represent the the 2d table of proportions of sex and happiness. The top table displays the {\bf joint distribution}, and allows us to answer questions of the form ``what proportion of all people are male and very happy?'' The middle two tables displays two {\bf conditional distributions}: the distribution of sex given happiness, and happiness given sex. These correspond to restricting the row or column sums to one, and support questions such as ``what proportion of pretty happy people are female?'' or ``what proportion of males are not too happy?''. Finally, the last table displays the two {\bf marginal distributions} of sex and happiness. These allow us to answer questions like ``what proportion of respondents were male'' or ``what proportion of respondents were very happy?''.
 
 \begin{figure}[ht]
-  \begin{tabular}{rrr}
+  \begin{tabular*}{0.5\linewidth}{rrr}
+\multicolumn{3}{l}{$f(happiness, sex)$}\\
   \toprule
   & male & female \\ 
   \midrule
@@ -205,10 +206,12 @@ Figure~\ref{fig:2d-table} shows three ways to represent the the 2d table of prop
   pretty happy & 0.25 & 0.31 \\ 
   very happy & 0.14 & 0.18 \\ 
   \bottomrule
-  \end{tabular}
+  \end{tabular*}
   \\[1em]
 
-  \begin{tabular}{rrr}
+ 
+  \begin{tabular*}{0.48\linewidth}{rrr}
+\multicolumn{3}{l}{$f(happiness| sex)$}\\
   \toprule
   & male & female \\
   \midrule
@@ -216,8 +219,11 @@ Figure~\ref{fig:2d-table} shows three ways to represent the the 2d table of prop
   pretty happy & 0.45 & 0.55 \\ 
   very happy & 0.43 & 0.57 \\
   \bottomrule
-  \end{tabular}\hspace{1em}%
-  \begin{tabular}{rrr}
+  \end{tabular*}
+%
+\hspace{1em}
+  \begin{tabular*}{0.48\linewidth}{rrr}
+\multicolumn{3}{l}{ $f(sex|happiness)$}\\
   \toprule
   & male & female \\ 
   \midrule
@@ -225,10 +231,11 @@ Figure~\ref{fig:2d-table} shows three ways to represent the the 2d table of prop
   pretty happy & 0.57 & 0.55 \\ 
   very happy & 0.31 & 0.32 \\
   \bottomrule
-  \end{tabular}
+  \end{tabular*}
   \\[1em]
 
   \begin{tabular}{rrrr}
+\multicolumn{3}{l}{$f(happiness), f(sex)$}\\
   \toprule
   & male & female & \\ 
   \midrule
