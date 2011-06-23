@@ -124,6 +124,15 @@ To illustrate these ideas, we will use the same data in all examples. The data i
   \label{tbl:happy}
 \end{table*}
 
+\section{Related Work}
+\label{sec:related}
+
+The product plots framework is heavily influenced by the work of Wilkinson \citep{wilkinson:1999, wilkinson:2005}, who suggested that both mosaic plots and treemaps can be described as plots with coordinate systems based on recursive partitioning. Our work builds on this by adding conditioning, and defining a ``grammar of area plots'', a domain specific language for describing, in detail, this small family of plots. Other similar efforts to build domain specific languages for visualisation are APT \citep{mackinlay:1986} and VisQL \citep{mackinlay:2007}: our framework is driven by similar forces, but carves out a much smaller niche.
+
+The HiVE system \citep{slingsby:2009} introduces a notation for describing the states of hierarchical layouts and operators for reconfiguration. Our work extends HiVE by adding conditioning, and including non-space filling visualisation. HiVE supports both rectangular layouts and polygon layouts. Of the rectangular layouts, all but the spatially ordered algorithm are included within the product plots framework.
+
+Polaris \cite{stolte:2002} relies heavily on a tabular or cubic format in rendering hierarchical graphics, which makes these charts essentially a three dimensional extension of the trellis framework \citep{cleveland:1994,becker:1996}. In the product plots framework, this approach is captured by conditioning on the variables used in rows and columns, and displaying the other variables unconditioned in each cell of the resulting tabular layout.
+
 \section{Graphical primitives}
 \label{sec:primitives}
 
@@ -458,20 +467,6 @@ Generally, the y axis (mapped to radius) must be square-root transformed to ensu
 \end{figure}
 
 Other non-rectangular area graphics include non-rectangular treemaps, such as circular treemaps \citep{wetzel:2008}, space-filling curves \citep{wattenberg:2005} and voronoi treemaps \citep{balzer:2005}.
-
-\section{Related Work}
-\label{sec:related}
-
-
-
-The product plots framework is heavily influenced by the work of WIlkinson \citep{wilkinson:1999, wilkinson:2005}, who introduced the set product operator to map hierarchical data to a two-dimensional framework.  Wilkinson restricts (??? not quite sure - need to lookit up) the use to standard mosaicplots as defined by Hartigan \citep{hartigan:1981}, which could easily be extended, however the product plots framework additionally introduces the concept of conditioning on variables.
-
- \citep{slingsby:2009}: the HiVE system provides a notation allowing to describe states of hierarchical layouts and operators for reconfiguration. HiVE allows both rectangular layouts and polygon layouts -- out of the rectangular layouts, all but the spatially ordered algorithm are covered by the  framework of product plots.
- 
-The framework of  Polaris  \cite{stolte:2002} relies heavily on a tabular or cubic format in rendering hierarchical graphics, which makes these charts essentially a three dimensional extension of the trellis framework \citep{cleveland:1994,becker:1996}:  in the product plots framework, this approach is captured by conditioning on the variables used in rows and columns, and displaying the other variables unconditioned in each cell of the resulting tabular layout.
-
- \cite{mackinlay:1986,mackinlay:2007}: VisQL, a visual query language is designed to capture the flow of a graphical data exploration. 
- 
 
 \section{R package}
 \label{sec:package}
