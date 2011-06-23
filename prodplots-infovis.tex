@@ -277,14 +277,28 @@ We connect probability products to our rectangular primitives by noting that are
 Figure \ref{fig:recursive} shows a more complicated example: visualising a 3d distribution as a product of three low-dimensional distributions. We first display $f(marital)$, then $f(marital, sex) = f(sex | marital) f(marital)$, and finally $f(marital, sex, happy) = f(happy | sex, marital) f(sex | marital) f(marital)$. This plot uses two vspines and an hspine to produce a mosaic plot.
 
 \begin{figure}[htbp]
-  \centering
-    \includegraphics[width=0.33\linewidth]{part-comb-1}%
-    \includegraphics[width=0.33\linewidth]{part-comb-2}%
-    \includegraphics[width=0.33\linewidth]{part-comb-3}
+\begin{minipage}[b]{0.3\linewidth}
+  	$f(marital)$
+      \includegraphics[width=\linewidth]{part-comb-1}%
+\end{minipage} 
+\begin{minipage}[b]{0.3\linewidth}
+$f(marital, sex)$ 
+       \includegraphics[width=\linewidth]{part-comb-2}
+\end{minipage} 
+\begin{minipage}[b]{0.3\linewidth}
+$f(happy, sex, marital) =$
+$f(happy|marital, sex) \cdot $
+$f(marital, sex)$
+      \includegraphics[width=\linewidth]{part-comb-3}
+\end{minipage}
   \caption{Conditional on marital status, are men or women happier?  This figure shows the construction of $f(happy, sex, marital)$ with (from left to right) a vspine by marital status, a vspine by marital status and sex, and a hspine by marital status, sex and happiness.  For all levels of marital status, men are slightly less happy.}
   \label{fig:recursive}
 \end{figure}
 
+  \centering
+ \hspace \hspace \\\newline
+   %
+   
 More precisely, a product plot is constructed by the following recursive partitioning algorithm, which takes three parameters: {\sf data}, a multi-dimensional array, with dimensions ordered in the same way as the desired partitions; {\sf bounds}, a vector giving the top, left, right and bottom boundaries; and {\sf divider}, a list of the desired low-d drawing primitives. The following algorithm gives an rough idea of the computation:
 
 \begin{itemize}
@@ -302,7 +316,7 @@ Different partitions reveal different features of the data. Take for example, th
   \centering
     \includegraphics[width=0.5\linewidth]{part-marital-1}%
     \includegraphics[width=0.5\linewidth]{part-marital-2}
-  \caption{(Left) The joint distribution of marital status and age, $f(marital, age)$, (in decades) partitioned by a vspine and hspine.  (Right) The joint distribution of age and marital status, $f(age, marital)$, partitioned by a vspine and hbar.}
+  \caption{(Left) The joint distribution of marital status and age, $f(marital, age)$ as $f(marital|age) \cdot f(age)$, (in decades) partitioned by a vspine and hspine.  (Right) The joint distribution of age and marital status, $f(age, marital)$, partitioned by a vspine and hbar.}
   \label{fig:marital}
 \end{figure}
 
