@@ -91,7 +91,7 @@ Tables of counts, proportions and probabilities are an extremely common form of 
 
 Our framework focusses on area charts, where the area of a graphical element is proportional to the underlying count, proportion, or probability. We call our framework \emph{product plots} in allusion to two products: the product of width and height to generate area, and the product of conditional and marginal distributions to produce joint distributions. A key development of the products plot framework is the inverse operation: the factorisation of high-dimensional data to products of low-dimensional plots. This allows us to  combine simple, low-dimensional graphical primitives to display complex, high-dimensional data.
 
-We begin in Section~\ref{sec:primitives} by motivating the three constraints that give rise to the basic graphical component of product plots: the rectangle. We constrain the rectangle further to produce three 1d atoms (bar, spine, tile) and one 2d atom (the fluct). These constraints will later be relaxed in Section~\ref{sec:variations} to extend our framework to include more visualisations such as histograms, pie charts, cascaded treemaps and weighted plots.
+We begin in Section~\ref{sec:related} with a review of related work. Then Section~\ref{sec:primitives} motivates the three specific graphical constraints at the heart of product plots: the rectangle. We constrain the rectangle further to produce three 1d atoms (bar, spine, tile) and one 2d atom (the fluct). These constraints will later be relaxed in Section~\ref{sec:variations} to extend our framework to include more visualisations such as histograms, pie charts, cascaded treemaps and weighted plots.
 
 Section~\ref{sec:combination} provides the mathematical framework that allows us to combine the 1d and 2d atoms to display data of any dimensionality. This framework is based on the fundamental statistical idea that any high dimensional distribution can be factorised into a product of low-dimensional conditional and marginal distributions. Section~\ref{sec:existing} shows how many existing named graphics are special cases of this general pattern.
 
@@ -123,7 +123,7 @@ To illustrate these ideas, we will use the same data in all examples. The data i
 \section{Related Work}
 \label{sec:related}
 
-The product plots framework is heavily influenced by the work of Wilkinson \citep{wilkinson:1999, wilkinson:2005}, who suggested that both mosaic plots and treemaps can be described as plots with coordinate systems based on recursive partitioning. Our work builds on this by adding conditioning, and defining a ``grammar of area plots'', a domain specific language for describing, in detail, this small family of plots. Other similar efforts to build domain specific languages for visualisation are APT \citep{mackinlay:1986} and VisQL \citep{mackinlay:2007}: our framework is driven by similar forces, but carves out a much smaller niche. This makes products plots less expressive, but more efficient, because the number of primitives required to describe the smaller domain is much smaller.
+The product plots framework is heavily influenced by the work of Wilkinson \citep{wilkinson:1999, wilkinson:2005}, who suggested that both mosaic plots and treemaps can be described as plots with coordinate systems based on recursive partitioning. Our work builds on this by adding conditioning and defining a ``grammar of area plots'', a domain specific language that describes this small family of plots in more detail. Other similar efforts to build domain specific languages for visualisation are APT \citep{mackinlay:1986} and VisQL \citep{mackinlay:2007}: our framework is driven by similar forces, but carves out a much smaller niche. This makes products plots less expressive, but more efficient, because the number of primitives required to describe the smaller domain is much smaller.
 
 The HiVE system \citep{slingsby:2009} introduces a notation for describing the states of hierarchical layouts and operators for reconfiguration. Our work extends HiVE by adding conditioning, and including non-space filling visualisation. HiVE supports both rectangular layouts and polygon layouts. Of the rectangular layouts, all but the spatially ordered algorithm are included within the product plots framework.
 
@@ -192,15 +192,15 @@ A special case of the fluct is the equal bin size plot \citep{hofmann:2000} whic
 \section{Probability and plot products}
 \label{sec:combination}
 
-To construct plots of higher-dimensional data sets, we need a way to decompose them into 1d and 2d components. Some statistical vocabulary is useful: one way of describing the input data is as a {\bf probability mass function}, or {\sc pmf}. A {\sc pmf} is a function with $n$ inputs, each indexing one dimension with an integer, and gives the probability of each combination of inputs. A {\sc pmf} has two restrictions: every value must be greater than or equal to zero, and all values must sum to one.  
+To construct plots of higher-dimensional data sets, we need a way to decompose them into 1d and 2d components. Some statistical vocabulary is useful: one way of describing the input data is as a {\bf probability mass function}, or {\sc pmf}. A {\sc pmf} is a function with $n$ inputs, each indexing one dimension with an integer, which outputs the probability of each combination of inputs. A {\sc pmf} has two restrictions: every value must be greater than or equal to zero, and all values must sum to one.  
 
 \subsection{Joint distributions are the product of marginals and conditionals}
 
-Figure~\ref{fig:2d-table} shows three ways to represent the the 2d table of proportions of sex and happiness. The top table displays the {\bf joint distribution}, and allows us to answer questions of the form ``what proportion of all people are male and very happy?'' -- the bottom left number tells us that these are 0.14. The middle two tables displays two {\bf conditional distributions}: the distribution of sex given happiness, and happiness given sex. These correspond to restricting the row or column sums to one, and support questions such as ``what proportion of pretty happy people are female?'' --  the table tells us that it's 0.55, or ``what proportion of males are not too happy?'' -- the top left number in the table tells us that that's 0.12. Finally, the last table displays the two {\bf marginal distributions} of sex and happiness. These allow us to answer questions like ``what proportion of respondents were male'' (0.44) or ``what proportion of respondents were very happy?'' (0.30).
+Figure~\ref{fig:2d-table} shows three ways to represent the the 2d table of proportions of sex and happiness. The top table displays the {\bf joint distribution}, and allows us to answer questions of the form ``what proportion of all people are male and very happy?'' -- the bottom left number tells us that these are 0.14. The middle two tables displays two {\bf conditional distributions}: the distribution of sex given happiness, and happiness given sex. These correspond to restricting the row or column sums to one, and support questions such as ``what proportion of pretty happy people are female?'' (the table tells us 0.55), or ``what proportion of males are not too happy?'' (the top left number in the table tells us that it's 0.12). Finally, the last table displays the two {\bf marginal distributions} of sex and happiness. These allow us to answer questions like ``what proportion of respondents were male'' (0.44) or ``what proportion of respondents were very happy?'' (0.30).
 
 \begin{figure}[ht]
   \begin{tabular*}{0.5\linewidth}{rrr}
-\multicolumn{3}{l}{$f(happy, sex)$, see fig. \ref{fig:fact-simple} (right) }\\
+\multicolumn{3}{l}{$f(happy, sex)$}\\
   \toprule
   & male & female \\ 
   \midrule
@@ -212,8 +212,8 @@ Figure~\ref{fig:2d-table} shows three ways to represent the the 2d table of prop
   \\[1em]
 
  
-  \begin{tabular*}{0.49\linewidth}{rrr}
-\multicolumn{3}{l}{$f(sex|happy)$, see fig. \ref{fig:fact-simple} (middle) }\\
+  \begin{tabular*}{0.47\linewidth}{rp{1.5em}p{1.5em}}
+\multicolumn{3}{l}{$f(sex|happy)$}\\
   \toprule
   & male & female \\
   \midrule
@@ -223,8 +223,8 @@ Figure~\ref{fig:2d-table} shows three ways to represent the the 2d table of prop
   \bottomrule
   \end{tabular*}
 %
-\hspace{1em}
-  \begin{tabular*}{0.47\linewidth}{rrr}
+\hspace{0.5em}
+  \begin{tabular*}{0.47\linewidth}{rp{1.5em}p{1.5em}}
 \multicolumn{3}{l}{$f(happy| sex)$}\\
   \toprule
   & male & female \\ 
@@ -237,7 +237,7 @@ Figure~\ref{fig:2d-table} shows three ways to represent the the 2d table of prop
   \\[1em]
 
   \begin{tabular}{rrrr}
-\multicolumn{3}{l}{$f(happy)$, see fig. \ref{fig:fact-simple} (left) and $f(sex)$}\\
+\multicolumn{3}{l}{$f(happy)$ and $f(sex)$}\\
   \toprule
   & male & female & \\ 
   \midrule
@@ -333,7 +333,7 @@ $f(marital|age)f(age)$
  $f(age|marital)f(marital)$
     \includegraphics[width=\linewidth]{part-marital-2}
  \end{minipage}
-  \caption{(Left) The joint distribution of marital status and age, $f(marital, age)$ as $f(marital|age) \cdot f(age)$, (in decades) partitioned by a vspine and hspine.  (Right) The joint distribution of age and marital status, $f(age, marital)$, partitioned by a vspine and hbar.}
+  \caption{(Left) The joint distribution of marital status and age, $f(marital, age)$ as $f(marital|age) \cdot f(age)$, (in decades) partitioned by a vspine and hspine.  (Right) The joint distribution of age and marital status, $f(age, marital)$ as $f(age T|marital) \cdot f(marital)$, partitioned by a vspine and hbar.}
   \label{fig:marital}
 \end{figure}
 
@@ -435,7 +435,7 @@ We have assumed that the proportions represent counts, but without loss of gener
 
 The framework can be trivially extended to work with continuous data: just  bin continuous variables to make them discrete. There are many different to ways to create bins for continuous data, but two are most important \citep{denby:2009}: bins of equal width, and bins containing equal numbers of points. This extension allows the product plot framework to also describe {\bf histograms} and {\bf spinograms} \citep{hummel:1996}, continuous analogues of bar and spine charts, shown in Figure \ref{fig:cont-examples}. A long standing tradition is that no gaps are displayed between adjacent rectangles when displaying continuous data. 
 
-A more theoretical approach in dealing with continuous variables  lies in increasing the number of bins infinitesimally -- this leads from a probability mass function to a density function, making the 1d primitives of hbar and vbar to density plots, and changing the spine-plot representation to a conditional density plot (citation needed - probably Martin's and Heike's paper). While the inclusion of one continuous variable is completely feasible that way, two variables need the use of an additional aesthetic, such a s colour,  to visualize a 2d joint density. Three or more continuous variables break the scope of the product plots framework.
+A more theoretical approach in dealing with continuous variables lies in increasing the number of bins infinitesimally, which leads from a probability mass function to a probability density function, turning the 1d primitives bar primitives to density plots, and the 1d spine primitives to a conditional density plot \citep{hofmann:2005}. That approach lends itself to the inclusion of one continuous variable, but two variables need an additional aesthetic, such as colour, to visualize a 2d joint density. Three or more continuous variables break the current scope of the product plots framework.
 
 \begin{figure}[htbp]
   \centering

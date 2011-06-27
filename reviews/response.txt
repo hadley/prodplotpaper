@@ -1,96 +1,13 @@
-We are grateful for the helpful feedback provided by the reviewers. We have added a related work section, including many of the missing references we missed. We have also weakened our claims about the superiority of rectangles, instead providing a more pragmatic justification
+We are grateful for the helpful feedback provided by the reviewers. We have added a related work section, including all of the references we missed. We have also weakened our claims about the superiority of rectangles, instead providing a more pragmatic justification
 
 Other changes:
 
 * Rather than eliminating the section describing the R implementation altogether, we have expanded it slightly to give a taste of how it might be used.
 
-* Where appropriate, figures labelled with distributional decomposition.
+* Figures are labelled with distributional decomposition.
+
+* We have expanded the section that introduces joint, marginal and conditional densities to be more helpful for newcomers to the topic.
 
 * We wish we could make the figures larger and the labels easier to read, but the page limits are extremely tight this year.  We have done our best to ensure that all information is convey redundantly through colour or description in the captions.
 
-------
-
-# Review 1
-Finally, I wonder if the authors considered any other graphical
-composition method than nesting areas? While nesting areas allowed them
-to encompass a number of existing plot types, other composition methods
-might be more useful for extension to higher dimensions. For example,
-what about simply showing a separate plot for each component?
-
--flesh out section 3.1. Assuming that infovis readers will not know what
-conditional and marginal distributions are, the authors should
-demonstrate how they are computed from the joint distribution. Providing
-the graphical analogs to the tables in Figure 4 would be extremely
-helpful. (I realize that a marginal and a conditional distribution from
-Figure 4 are represented in Figure 5, but the connection is never made
-explicitly in the text. Some hand holding would be very helpful here.)
-Hand hold better the analytic questions that each distribution helps
-answer. E.g. "What proportion of males are very happy? The bottom left
-entries tells us it's 31%."
-
-
-Minor comments----
-
-Why squarified treemaps? Heer work showing non-square treemaps are easier
-to read.
-
-Section 3.1 
-
-Its not clear from the wording in the first paragraph that the marginal
-and conditional distributions contain less information than the joint
-distribution. If you're going to assume that your readers don't know what
-the marginal and conditional distributions are (plausible for the InfoVis
-crowd), then it would make sense to briefly describe how they are
-computed from the joint distribution.
-
-Fix the formatting of the tables in Figure 4.
-
-Clarify in the last paragraph that in addition to the 3 factorings,
-permutations of the variables leads to more variations.
-
-"It remains to find an [sic] graphical analog of this multiplication."
-seems unnecessarily dramatic. We already know you found one.
-
-Section 3.2 
-
-Figure 7 shows, f(marital | age) f(age) and f(age | marital) f(marital),
-right? Say this in the text and label figures.
-
-"the relationship between proportion and area is only constant within a
-level" -- is there a better way to say this? I think you mean level as in
-nesting level, not level as is a level of a factor, right? In Figure 7
-(right), the nested bar charts are all sized proportionally with respect
-to each other even though they occur in different levels of the marital
-status factor.
-
-Figure 8 middle would be better with a bar chart, right? Why show both
-the middle and right plots; they're basically the same.
-
-Section 6.2
-
-Why limit yourself to a finite number of bins? Push the number of bins to
-infinity and you can display line graphs (density plots) with hbar,
-stacked line graphs (hbar+vspine), relative area (hspine+vspine),
-overlaid line charts (hbar+hbar), or (hspine+hbar) (don't know the name
-of this chart, basically overlaid line charts, but where the sum of
-values at each vertical slice is 1).
-
-# Review 3
-
-I had some problems, though, in classifying this paper - it falls
-somewhere between theory/model (describes a theoretical framework that
-encompasses a large number of existing visualisations) and technique
-(code is provided to implement the framework). I'm not sure if it'd be
-better to simplify the classification by omitting mention of the code
-except as a note near the end - while it's interesting, it's not core to
-the paper. 
-
-Doing this would leave more space to address some other minor concerns
-with the figures: in figures 2, 3, 5, 6 and 7 it's quite clear that the
-labels on the plot have spacing issues that could be resolved with larger
-figures. Additionally, figure 4 spills over the gutter into the text in
-the right column. 
-
-# Minor changes
-
-* Figure 4 overruns its column.
+* We have endeavoured to make all of the other minor improvements to spelling and grammar that the reviewers suggested.  Thanks!
