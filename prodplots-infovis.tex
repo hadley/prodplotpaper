@@ -200,7 +200,7 @@ Figure~\ref{fig:2d-table} shows three ways to represent the the 2d table of prop
 
 \begin{figure}[ht]
   \begin{tabular*}{0.5\linewidth}{rrr}
-\multicolumn{3}{l}{$f(happiness, sex)$}\\
+\multicolumn{3}{l}{$f(happy, sex)$, see fig. \ref{fig:fact-simple} (right) }\\
   \toprule
   & male & female \\ 
   \midrule
@@ -213,7 +213,7 @@ Figure~\ref{fig:2d-table} shows three ways to represent the the 2d table of prop
 
  
   \begin{tabular*}{0.48\linewidth}{rrr}
-\multicolumn{3}{l}{$f(happiness| sex)$}\\
+\multicolumn{3}{l}{$f(happy| sex)$}\\
   \toprule
   & male & female \\
   \midrule
@@ -225,7 +225,7 @@ Figure~\ref{fig:2d-table} shows three ways to represent the the 2d table of prop
 %
 \hspace{1em}
   \begin{tabular*}{0.48\linewidth}{rrr}
-\multicolumn{3}{l}{ $f(sex|happiness)$}\\
+\multicolumn{3}{l}{ $f(sex|happy)$, see fig. \ref{fig:fact-simple} (middle) }\\
   \toprule
   & male & female \\ 
   \midrule
@@ -237,7 +237,7 @@ Figure~\ref{fig:2d-table} shows three ways to represent the the 2d table of prop
   \\[1em]
 
   \begin{tabular}{rrrr}
-\multicolumn{3}{l}{$f(happiness), f(sex)$}\\
+\multicolumn{3}{l}{$f(happy)$, see fig. \ref{fig:fact-simple} (left) and $f(sex)$}\\
   \toprule
   & male & female & \\ 
   \midrule
@@ -252,7 +252,9 @@ Figure~\ref{fig:2d-table} shows three ways to represent the the 2d table of prop
   \label{fig:2d-table}
 \end{figure}
 
-Formally, a conditional distribution function is written $f(x | y)$ and is equal to $f(x, y) / f(y)$. This definition illustrates that an important statistical fact: given a conditional distribution and a marginal distribution, we can always find the joint distribution: $f(x, y) = f(x | y)\,f(y)$ \footnotemark. This definition extends in a straightforward way to higher dimensions. For example, a 3d joint distribution can be written as the product of 2d and 1d conditional and marginal distributions in the following three ways:
+Formally, a conditional distribution function is written $f(x | y)$ and is equal to $f(x, y) / f(y)$. This definition illustrates that an important statistical fact: given a conditional distribution and a marginal distribution, we can always find the joint distribution: $f(x, y) = f(x | y)\,f(y)$\footnotemark. 
+Conversely, we also see that we need to know both the marginal and conditional distributions in order to re-construct the joint distribution, i.e. only the joint distribution contains the full information about the relationship between all variables involved. Given the joint distribution $f(x,y)$, we can get either marginal distribution  by integrating (or summing, in the case of a categorical variable)  the other variable out: $f(x) = \int_y f(x,y) dy$. The marginal distribution together with the joint then lead to the conditional distribution. 
+These definitions extend in a straightforward way to higher dimensions. For example, a 3d joint distribution can be written as the product of 2d and 1d conditional and marginal distributions in the following three ways:
 
 \begin{itemize}
   \setlength{\itemsep}{0em}
@@ -263,7 +265,7 @@ Formally, a conditional distribution function is written $f(x | y)$ and is equal
 
 \footnotetext{Because the parameters of a {\sc pmf} identify it, statisticians often fail to explicitly label the different functions. To be precise, the above statement should be written: $f_{X, Y}(x, y) = f_{X|Y=y}(x | y)\,f_Y(y)$}
 
-This means that we can turn any high-dimensional {\sc pmf} into a product of low-dimensional conditional and marginal {\sc pmf}s, a computationally trivial operation. It remains to find a graphical analog of this multiplication. 
+This means that we can build any high-dimensional {\sc pmf} as a product of low-dimensional conditional and marginal {\sc pmf}s, a computationally trivial operation. In the following, we are using the previously introduced low dimensional primitives  for a graphical analog of this multiplication. 
 
 \subsection{Area is the product of height and width}
 
