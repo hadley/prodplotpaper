@@ -196,7 +196,7 @@ To construct plots of higher-dimensional data sets, we need a way to decompose t
 
 \subsection{Joint distributions are the product of marginals and conditionals}
 
-Figure~\ref{fig:2d-table} shows three ways to represent the the 2d table of proportions of sex and happiness. The top table displays the {\bf joint distribution}, and allows us to answer questions of the form ``what proportion of all people are male and very happy?'' The middle two tables displays two {\bf conditional distributions}: the distribution of sex given happiness, and happiness given sex. These correspond to restricting the row or column sums to one, and support questions such as ``what proportion of pretty happy people are female?'' or ``what proportion of males are not too happy?''. Finally, the last table displays the two {\bf marginal distributions} of sex and happiness. These allow us to answer questions like ``what proportion of respondents were male'' or ``what proportion of respondents were very happy?''.
+Figure~\ref{fig:2d-table} shows three ways to represent the the 2d table of proportions of sex and happiness. The top table displays the {\bf joint distribution}, and allows us to answer questions of the form ``what proportion of all people are male and very happy?'' -- the bottom left number tells us that these are 0.14. The middle two tables displays two {\bf conditional distributions}: the distribution of sex given happiness, and happiness given sex. These correspond to restricting the row or column sums to one, and support questions such as ``what proportion of pretty happy people are female?'' --  the table tells us that it's 0.55, or ``what proportion of males are not too happy?'' -- the top left number in the table tells us that that's 0.12. Finally, the last table displays the two {\bf marginal distributions} of sex and happiness. These allow us to answer questions like ``what proportion of respondents were male'' (0.44) or ``what proportion of respondents were very happy?'' (0.30).
 
 \begin{figure}[ht]
   \begin{tabular*}{0.5\linewidth}{rrr}
@@ -212,8 +212,8 @@ Figure~\ref{fig:2d-table} shows three ways to represent the the 2d table of prop
   \\[1em]
 
  
-  \begin{tabular*}{0.48\linewidth}{rrr}
-\multicolumn{3}{l}{$f(happy| sex)$}\\
+  \begin{tabular*}{0.49\linewidth}{rrr}
+\multicolumn{3}{l}{$f(sex|happy)$, see fig. \ref{fig:fact-simple} (middle) }\\
   \toprule
   & male & female \\
   \midrule
@@ -224,8 +224,8 @@ Figure~\ref{fig:2d-table} shows three ways to represent the the 2d table of prop
   \end{tabular*}
 %
 \hspace{1em}
-  \begin{tabular*}{0.48\linewidth}{rrr}
-\multicolumn{3}{l}{ $f(sex|happy)$, see fig. \ref{fig:fact-simple} (middle) }\\
+  \begin{tabular*}{0.47\linewidth}{rrr}
+\multicolumn{3}{l}{$f(happy| sex)$}\\
   \toprule
   & male & female \\ 
   \midrule
